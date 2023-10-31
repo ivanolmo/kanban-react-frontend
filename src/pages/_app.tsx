@@ -1,5 +1,5 @@
 import { SessionProvider } from "next-auth/react";
-import { type AppType } from "next/dist/shared/lib/utils";
+import type { AppType } from "next/app";
 
 import "~/styles/globals.css";
 
