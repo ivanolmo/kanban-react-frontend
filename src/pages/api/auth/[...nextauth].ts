@@ -1,18 +1,19 @@
-import NextAuth from "next-auth/next";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-type User = {
-  id: number;
-  email: string;
-  access_token: string;
-};
-
-type ErrorResponse = {
+type AuthResponse = {
+  data: {
+    user_id: string;
+    email: string;
+    access_token: string;
+  };
+  success: boolean;
   message: string;
+  status: string;
 };
 
-type JWT = {
-  user: User;
+type ErrorResponse = AuthResponse & {
+  error: string;
 };
 
 export default NextAuth({
@@ -28,7 +29,7 @@ export default NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, _req) {
-        const res = await fetch("http://localhost:8080/api/auth/login", {
+        const res = await fetch(`${process.env.API_BASE_URL}/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -37,14 +38,17 @@ export default NextAuth({
           }),
         });
 
+        const response = (await res.json()) as AuthResponse;
+
         if (res.ok) {
-          const user = (await res.json()) as User;
-          console.log("success");
-          console.log(user);
+          const user = {
+            id: response.data.user_id,
+            email: response.data.email,
+            access_token: response.data.access_token,
+          };
           return user;
         } else {
-          console.log("failed");
-          const error = (await res.json()) as ErrorResponse;
+          const error = response as ErrorResponse;
           throw new Error(error?.message || "Authorization failed");
         }
       },
@@ -52,14 +56,10 @@ export default NextAuth({
   ],
   callbacks: {
     jwt({ token, user }) {
-      // return { ...token, ...user };
-      if (user) {
-        token.user = user;
-      }
-      return token;
+      return { ...token, ...user };
     },
-    session({ session, token, user }) {
-      session.user = token;
+    session({ session, token }) {
+      session.user.access_token = token.access_token as string;
       return session;
     },
   },
