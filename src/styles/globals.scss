@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: "Plus Jakarta Sans", sans-serif;
+  }
+
+  body {
+    @apply dark:bg-zinc relative h-full min-w-[375px] bg-violet-50 leading-tight text-black antialiased transition-colors duration-300 dark:text-white;
+  }
+
+  /* XL */
+  h1 {
+    @apply text-xl font-bold;
+  }
+
+  /* L */
+  h2 {
+    @apply text-lg font-bold;
+  }
+
+  /* M */
+  h3 {
+    @apply text-md font-bold;
+  }
+
+  /* S */
+  h4 {
+    @apply text-sm font-bold tracking-[2.4px];
+  }
+
+  textarea {
+    @apply h-28 resize-none;
+  }
+
+  input,
+  textarea {
+    @apply text-body-lg dark:bg-gunmetal-800 dark:disabled:bg-zinc w-full rounded-md border px-4 py-2 hover:border-violet-700 dark:disabled:text-white/25;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply cursor-pointer rounded-full px-[1.125rem] font-bold md:px-6;
+  }
+
+  /* sizes */
+  .rg {
+    @apply py-2.5;
+  }
+
+  .lg {
+    @apply py-2.5 md:py-4;
+  }
+
+  .wide {
+    @apply w-full;
+  }
+
+  /* variant/color */
+  .primary {
+    @apply bg-violet-700 text-white transition hover:bg-violet-400;
+  }
+
+  .secondary {
+    @apply dark:hover:bg-indigo bg-violet-700/10 text-violet-700 transition hover:bg-violet-700/25 dark:bg-white;
+  }
+
+  .delete {
+    @apply bg-red-600 text-white transition hover:bg-red-400;
+  }
+
+  .disabled {
+    @apply cursor-not-allowed opacity-25;
+  }
+
+  .no-bg {
+    @apply bg-transparent px-0 text-violet-700 transition hover:text-violet-400;
+  }
+}
+
+.text-body-md {
+  font-weight: bold;
+}
+
+/* theme switcher styling */
+.theme-label:before {
+  content: "";
+  animation-name: reverse;
+  animation-duration: 350ms;
+  animation-fill-mode: forwards;
+  transition: all 350ms ease-in;
+  @apply absolute left-0.5 top-0.5 h-3.5 w-3.5 rounded-full bg-white;
+}
+
+.checkbox {
+  @apply bg-violet-700;
+}
+
+.checkbox:checked {
+  & + .theme-label {
+    @apply border-violet-700 bg-violet-700 transition hover:bg-violet-400;
+
+    &:before {
+      animation-name: switch;
+      animation-duration: 350ms;
+      animation-fill-mode: forwards;
+      @apply bg-white;
+    }
+
+    &:after {
+      transition-delay: 350ms;
+      @apply opacity-100;
+    }
+  }
+}
+
+@keyframes reverse {
+  0% {
+    left: 22px;
+    width: 14px;
+  }
+  60% {
+    left: 16px;
+    width: 20px;
+  }
+  100% {
+    left: 2px;
+  }
+}
+
+@keyframes switch {
+  0% {
+    left: 2px;
+  }
+  60% {
+    left: 16px;
+    width: 20px;
+  }
+  100% {
+    left: 22px;
+    width: 14px;
+  }
+}
