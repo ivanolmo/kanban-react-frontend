@@ -57,7 +57,6 @@ export default function Home() {
     <>
       <h1>there is a session</h1>
       <button onClick={() => getBoards()}>get boards</button>
-      <button onClick={() => signOut()}>sign out</button>
     </>
   );
 }
