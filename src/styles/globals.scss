@@ -81,6 +81,15 @@
   }
 }
 
+@layer utilities {
+  .auth-input {
+    @apply placeholder-transparent focus:border-violet-700 focus:outline-none;
+    border: none;
+    border-bottom: 2px solid #d3d3d3;
+    border-radius: 0;
+  }
+}
+
 .text-body-md {
   font-weight: bold;
 }
@@ -114,6 +123,18 @@
       transition-delay: 350ms;
       @apply opacity-100;
     }
+  }
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+    z-index: 10;
+  }
+
+  100% {
+    opacity: 1;
+    z-index: 50;
   }
 }
 

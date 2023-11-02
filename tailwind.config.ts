@@ -26,7 +26,10 @@ export default {
       violet: {
         50: "#f4f7fd",
         400: "#a8a4ff",
+        600: "#726fcd",
         700: "#635fc7",
+        800: "#302e83",
+        900: "#201e57",
       },
       yellow: "#ffb81c",
       zinc: "#20212c",
@@ -43,6 +46,9 @@ export default {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
+      },
+      zIndex: {
+        "100": "100",
       },
     },
   },
