@@ -29,14 +29,17 @@ export default NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, _req) {
-        const res = await fetch(`${process.env.API_BASE_URL}/auth/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: credentials?.email,
-            password: credentials?.password,
-          }),
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: credentials?.email,
+              password: credentials?.password,
+            }),
+          },
+        );
 
         const response = (await res.json()) as AuthResponse;
 
@@ -62,5 +65,8 @@ export default NextAuth({
       session.user.access_token = token.access_token as string;
       return session;
     },
+  },
+  pages: {
+    signIn: "/auth",
   },
 });
