@@ -1,7 +1,7 @@
-import NextAuth from "next-auth/next";
+import type NextAuth from "next-auth/next";
 
 declare module "next-auth" {
-  interface Session {
+  interface Session extends NextAuth.Session {
     user: {
       id: string;
       email: string;
