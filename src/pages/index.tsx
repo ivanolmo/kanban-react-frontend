@@ -1,42 +1,14 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import ScrollContainer from "react-indiana-drag-scroll";
 import useSWR from "swr";
 
+import AddColumn from "~/components/column/AddColumn";
+import Column from "~/components/column/Column";
 import Button from "~/components/ui/Button";
 
-type BoardSubTask = {
-  id: string;
-  title: string;
-  completed: boolean;
-};
-
-type BoardTask = {
-  id: string;
-  title: string;
-  description: string;
-  subtasks: BoardSubTask[];
-};
-
-type BoardColumn = {
-  id: string;
-  name: string;
-  tasks: BoardTask[];
-};
-
-type Board = {
-  id: string;
-  name: string;
-  columns: BoardColumn[];
-};
-
-type ApiBoardResponse = {
-  data: Board[];
-  success: boolean;
-  message: string;
-  error: null | string;
-  status: string;
-};
+import { type ApiBoardResponse } from "~/types";
 
 const fetcher = async (url: string, accessToken?: string) => {
   const res = await fetch(url, {
@@ -102,16 +74,21 @@ export default function Home() {
 
   return (
     <>
-      <h1>there is a session</h1>
-      <button onClick={() => signOut()}>Sign out</button>
-      <ul>
-        {boards?.data.map((board) => (
-          <div key={board.id}>
-            <p>board id: {board.id}</p>
-            <p>board name: {board.name}</p>
-          </div>
-        ))}
-      </ul>
+      <main>
+        <h1>Board Title: {boards?.data[0]?.name}</h1>
+        <div className="flex h-screen">
+          <ScrollContainer
+            className="flex gap-6 px-4 py-6 duration-300 ease-in-out md:px-6"
+            buttons={[0, 1]}
+            vertical={true}
+          >
+            {boards?.data[0]?.columns.map((column) => (
+              <Column key={column.id} column={column} />
+            ))}
+            <AddColumn />
+          </ScrollContainer>
+        </div>
+      </main>
     </>
   );
 }
