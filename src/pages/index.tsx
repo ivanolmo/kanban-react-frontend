@@ -6,6 +6,7 @@ import useSWR from "swr";
 
 import AddColumn from "~/components/column/AddColumn";
 import Column from "~/components/column/Column";
+import Header from "~/components/header/Header";
 import Button from "~/components/ui/Button";
 
 import { type ApiBoardResponse } from "~/types";
@@ -74,8 +75,10 @@ export default function Home() {
 
   return (
     <>
+      <Header boards={boards?.data} />
       <main>
         <h1>Board Title: {boards?.data[0]?.name}</h1>
+        <button onClick={() => signOut()}>sign out</button>
         <div className="flex h-screen">
           <ScrollContainer
             className="flex gap-6 px-4 py-6 duration-300 ease-in-out md:px-6"
