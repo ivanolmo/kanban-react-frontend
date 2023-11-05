@@ -1,6 +1,7 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import type { DocumentType } from "next/dist/shared/lib/utils";
 
-export default function Document() {
+const Document: DocumentType = () => {
   return (
     <Html>
       <Head>
@@ -21,4 +22,6 @@ export default function Document() {
       </body>
     </Html>
   );
-}
+};
+
+export default Document;

@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 
-export function AddIcon(props: ComponentProps<"svg">) {
+const AddIcon: React.FC<ComponentProps<"svg">> = (props) => {
   return (
     <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path
@@ -9,4 +9,6 @@ export function AddIcon(props: ComponentProps<"svg">) {
       />
     </svg>
   );
-}
+};
+
+export default AddIcon;

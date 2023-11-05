@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 
-export function EditIcon(props: ComponentProps<"svg">) {
+const EditIcon: React.FC<ComponentProps<"svg">> = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,4 +17,6 @@ export function EditIcon(props: ComponentProps<"svg">) {
       />
     </svg>
   );
-}
+};
+
+export default EditIcon;

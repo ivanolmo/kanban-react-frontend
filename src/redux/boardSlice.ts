@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import { api } from "./api";
-import { type ApiErrorResponse, type Board, type Task } from "~/types";
+import type { ApiErrorResponse, Board, Task } from "~/types";
 
 type BoardState = {
   boards: Array<Board>;

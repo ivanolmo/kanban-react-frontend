@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 
-export function MenuIcon(props: ComponentProps<"svg">) {
+const MenuIcon: React.FC<ComponentProps<"svg">> = (props) => {
   return (
     <svg width="5" height="20" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g fill="#828FA3" fillRule="evenodd">
@@ -10,4 +10,6 @@ export function MenuIcon(props: ComponentProps<"svg">) {
       </g>
     </svg>
   );
-}
+};
+
+export default MenuIcon;

@@ -50,3 +50,26 @@ export type ApiErrorResponse = {
   message: string;
   status: string;
 };
+
+export type FormData = {
+  email: string;
+  password: string;
+};
+
+export type AuthSuccessResponse = {
+  data: {
+    user_id: string;
+    email: string;
+    access_token: string;
+  };
+  success: boolean;
+  message: string;
+  status: string;
+};
+
+export type AuthErrorResponse = {
+  error: string;
+  success: boolean;
+  message: string;
+  status: string;
+};

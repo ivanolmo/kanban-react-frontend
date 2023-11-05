@@ -1,18 +1,18 @@
 import { type useFormContext } from "react-hook-form";
 
-interface RightOverlayContentProps {
+type RightOverlayContentProps = {
   isAnimated: boolean;
   setIsAnimated: React.Dispatch<React.SetStateAction<boolean>>;
   signinFormMethods: ReturnType<typeof useFormContext>;
   resetError: () => void;
-}
+};
 
-export default function RightOverlayContent({
+const RightOverlayContent: React.FC<RightOverlayContentProps> = ({
   isAnimated,
   setIsAnimated,
   signinFormMethods,
   resetError,
-}: RightOverlayContentProps) {
+}) => {
   const handleSwitchToSignup = () => {
     resetError();
     signinFormMethods.reset();
@@ -35,4 +35,6 @@ export default function RightOverlayContent({
       </div>
     </div>
   );
-}
+};
+
+export default RightOverlayContent;

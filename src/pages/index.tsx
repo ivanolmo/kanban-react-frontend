@@ -2,15 +2,16 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { useSelector } from "react-redux";
+import type { NextPage } from "next/types";
 
 import AddColumn from "~/components/column/AddColumn";
 import Column from "~/components/column/Column";
 import Header from "~/components/header/Header";
 import Button from "~/components/ui/Button";
 import { useGetBoardsQuery } from "~/redux/api";
-import { type RootState } from "~/redux/store";
+import type { RootState } from "~/redux/store";
 
-export default function Home() {
+const Home: NextPage = () => {
   const { data: session, status: sessionStatus } = useSession();
 
   const {
@@ -79,4 +80,6 @@ export default function Home() {
       </main>
     </>
   );
-}
+};
+
+export default Home;

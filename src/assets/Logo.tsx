@@ -5,7 +5,7 @@ type LogoProps = ComponentProps<"svg"> & {
   dark?: boolean;
 };
 
-export function Logo({ dark, ...props }: LogoProps) {
+const Logo: React.FC<LogoProps> = ({ dark, ...props }) => {
   if (dark) {
     return (
       <svg
@@ -46,4 +46,6 @@ export function Logo({ dark, ...props }: LogoProps) {
       </g>
     </svg>
   );
-}
+};
+
+export default Logo;

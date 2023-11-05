@@ -1,9 +1,11 @@
-import { useRouter } from "next/router";
+import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
-import AuthPage from "~/components/auth/AuthPage";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-export default function AuthForm() {
+import AuthPage from "~/components/auth/AuthPage";
+
+const AuthForm: NextPage = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -14,8 +16,10 @@ export default function AuthForm() {
   }, [router, session]);
 
   return (
-    <div className="flex flex-col items-center justify-center w-screen h-screen">
+    <main className="flex flex-col items-center justify-center w-screen h-screen">
       <AuthPage />
-    </div>
+    </main>
   );
-}
+};
+
+export default AuthForm;

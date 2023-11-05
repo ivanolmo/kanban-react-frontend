@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 
-export function XIcon(props: ComponentProps<"svg">) {
+const XIcon: React.FC<ComponentProps<"svg">> = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,4 +18,6 @@ export function XIcon(props: ComponentProps<"svg">) {
       />
     </svg>
   );
-}
+};
+
+export default XIcon;

@@ -7,7 +7,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { getSession } from "next-auth/react";
 
-import { type ApiBoardResponse } from "~/types";
+import type { ApiBoardResponse } from "~/types";
 
 // base query function
 const baseQuery = fetchBaseQuery({

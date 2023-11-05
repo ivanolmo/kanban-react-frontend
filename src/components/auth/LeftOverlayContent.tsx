@@ -1,18 +1,18 @@
-import { type useFormContext } from "react-hook-form";
+import type { useFormContext } from "react-hook-form";
 
-interface LeftOverlayContentProps {
+type LeftOverlayContentProps = {
   isAnimated: boolean;
   setIsAnimated: React.Dispatch<React.SetStateAction<boolean>>;
   signupFormMethods: ReturnType<typeof useFormContext>;
   resetError: () => void;
-}
+};
 
-export default function LeftOverlayContent({
+const LeftOverlayContent: React.FC<LeftOverlayContentProps> = ({
   isAnimated,
   setIsAnimated,
   signupFormMethods,
   resetError,
-}: LeftOverlayContentProps) {
+}) => {
   const handleSwitchToSignin = () => {
     resetError();
     signupFormMethods.reset();
@@ -35,4 +35,6 @@ export default function LeftOverlayContent({
       </div>
     </div>
   );
-}
+};
+
+export default LeftOverlayContent;

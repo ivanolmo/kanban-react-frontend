@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 
-import { AddIcon } from "~/assets/AddIcon";
-import { Logo } from "~/assets/Logo";
+import AddIcon from "~/assets/AddIcon";
+import Logo from "~/assets/Logo";
 import Button from "~/components/ui/Button";
 import Submenu from "~/components/ui/Submenu";
 import { toggleShowSubmenu } from "~/redux/uiSlice";
-import { type RootState } from "~/redux/store";
+import type { RootState } from "~/redux/store";
 
-export default function Header(): JSX.Element {
+const Header: React.FC = () => {
   const dispatch = useDispatch();
 
   const showSidebar = useSelector((state: RootState) => state.ui.showSidebar);
@@ -21,7 +21,7 @@ export default function Header(): JSX.Element {
   return (
     <header className="flex items-center h-16 bg-white dark:bg-gunmetal-800 md:h-20 lg:h-24">
       <div
-        className={`border-indigo dark:border-gunmetal-700 hidden h-full items-center border-r px-4 md:flex md:px-6 ${
+        className={`hidden h-full items-center border-r border-indigo px-4 dark:border-gunmetal-700 md:flex md:px-6 ${
           showSidebar && "w-64"
         }`}
       >
@@ -63,4 +63,6 @@ export default function Header(): JSX.Element {
       </div>
     </header>
   );
-}
+};
+
+export default Header;

@@ -1,23 +1,22 @@
-import clsx from "clsx";
+import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import clsx from "clsx";
 
-type FormData = {
-  email: string;
-  password: string;
-};
+import type { FormData } from "~/types";
 
-export default function SigninForm({
-  error,
-  setError,
-  resetError,
-}: {
+type SigninFormProps = {
   error: string;
   setError: React.Dispatch<React.SetStateAction<string>>;
   resetError: () => void;
-}) {
+};
+
+const SigninForm: React.FC<SigninFormProps> = ({
+  error,
+  setError,
+  resetError,
+}) => {
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const router = useRouter();
 
@@ -50,7 +49,7 @@ export default function SigninForm({
     }
   };
 
-  // a useEffect was required to redirect and avoid a "abort fetchiing component" useRouter error
+  // a useEffect was required to redirect and avoid a "abort fetching component" useRouter error
   useEffect(() => {
     if (shouldRedirect) {
       void router.push("/");
@@ -86,7 +85,7 @@ export default function SigninForm({
                   />
                   <label
                     htmlFor="signin-email"
-                    className="peer-placeholder-shown:text-md text-slate peer-focus:text-slate absolute -top-3.5 left-0 text-sm transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm"
+                    className="peer-placeholder-shown:text-gray-400 absolute -top-3.5 left-0 text-sm text-slate transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-md peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-slate"
                   >
                     Email address
                   </label>
@@ -117,7 +116,7 @@ export default function SigninForm({
                   />
                   <label
                     htmlFor="signin-password"
-                    className="peer-placeholder-shown:text-md text-slate peer-focus:text-slate absolute -top-3.5 left-0 text-sm transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm"
+                    className="peer-placeholder-shown:text-gray-400 absolute -top-3.5 left-0 text-sm text-slate transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-md peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-slate"
                   >
                     Password
                   </label>
@@ -133,7 +132,7 @@ export default function SigninForm({
 
                 <button
                   type="submit"
-                  className="block w-full px-8 py-4 mt-10 font-semibold text-center text-white uppercase transition-colors duration-300 ease-in-out rounded-full cursor-pointer bg-violet-700 hover:bg-violet-800 focus:outline-none focus:ring focus:ring-indigo-500 focus:ring-opacity-80 focus:ring-offset-2"
+                  className="block w-full px-8 py-4 mt-10 font-semibold text-center text-white uppercase transition-colors duration-300 ease-in-out rounded-full cursor-pointer focus:ring-indigo-500 bg-violet-700 hover:bg-violet-800 focus:outline-none focus:ring focus:ring-opacity-80 focus:ring-offset-2"
                 >
                   Sign In
                 </button>
@@ -152,4 +151,6 @@ export default function SigninForm({
       </div>
     </div>
   );
-}
+};
+
+export default SigninForm;
