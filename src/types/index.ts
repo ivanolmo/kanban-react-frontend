@@ -41,6 +41,12 @@ export type ApiBoardResponse = {
   data: Board[];
   success: boolean;
   message: string;
-  error: null | string;
+  status: string;
+};
+
+export type ApiErrorResponse = {
+  error: string;
+  success: boolean;
+  message: string;
   status: string;
 };
