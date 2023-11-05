@@ -40,7 +40,7 @@ const boardSlice = createSlice({
       (state, action) => {
         state.boards = action.payload.data;
         // set the currentBoard to the first board in the array if any boards are present
-        const firstBoard = action.payload.data[1];
+        const firstBoard = action.payload.data[0];
         state.currentBoard = firstBoard ? firstBoard : null;
       },
     );
