@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
 import { signOut } from "next-auth/react";
 
-import type { Board } from "~/types";
 import { MenuIcon } from "~/assets/MenuIcon";
 import { XIcon } from "~/assets/XIcon";
 import { EditIcon } from "~/assets/EditIcon";
 import { SignoutIcon } from "~/assets/SignoutIcon";
+import { useSelector } from "react-redux";
+import { type RootState } from "~/redux/store";
 
 type SubmenuProps = {
-  boards?: Board[] | undefined;
   showMenu: boolean;
   handleDelete?: () => void;
   handleEdit?: () => void;
@@ -19,6 +19,8 @@ type SubmenuProps = {
 const Submenu = (props: SubmenuProps) => {
   const submenuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLDivElement | null>(null);
+
+  const boards = useSelector((state: RootState) => state.board.boards);
 
   const { toggleMenu } = props;
 
@@ -53,20 +55,20 @@ const Submenu = (props: SubmenuProps) => {
         >
           <span
             className={`text-slate hover:text-gunmetal-700 group flex cursor-pointer items-center justify-between transition dark:hover:text-white ${
-              props.boards ? !props.boards?.length && "hidden" : null
+              boards ? !boards?.length && "hidden" : null
             }`}
             // onClick={() => props.handleEdit()}
           >
-            {`Edit ${props.boards ? "Board" : "Task"}`}
+            {`Edit ${boards ? "Board" : "Task"}`}
             <EditIcon className="w-6 h-6 transition stroke-slate group-hover:stroke-gunmetal-700 fill-white dark:fill-transparent dark:group-hover:stroke-white" />
           </span>
           <span
             className={`group flex cursor-pointer items-center justify-between text-red-600 transition hover:text-red-900 dark:hover:text-red-400 ${
-              props.boards ? !props.boards?.length && "hidden" : null
+              boards ? !boards?.length && "hidden" : null
             }`}
             // onClick={() => props.handleDelete()}
           >
-            {`Delete ${props.boards ? "Board" : "Task"}`}
+            {`Delete ${boards ? "Board" : "Task"}`}
             <XIcon className="w-6 h-6 transition stroke-red-600 group-hover:stroke-red-900 dark:group-hover:stroke-red-400" />
           </span>
           {props.withSignOut && (

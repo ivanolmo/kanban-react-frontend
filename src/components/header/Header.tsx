@@ -1,28 +1,28 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { AddIcon } from "~/assets/AddIcon";
 import { Logo } from "~/assets/Logo";
 import Button from "~/components/ui/Button";
 import Submenu from "~/components/ui/Submenu";
-import { type Board } from "~/types";
+import { toggleShowSubmenu } from "~/redux/uiSlice";
+import { type RootState } from "~/redux/store";
 
-type HeaderProps = {
-  boards: Board[] | undefined;
-  sidebarVisible?: boolean;
-};
+export default function Header(): JSX.Element {
+  const dispatch = useDispatch();
 
-export default function Header(props: HeaderProps): JSX.Element {
-  const [showMenu, setShowMenu] = useState(false);
+  const showSidebar = useSelector((state: RootState) => state.ui.showSidebar);
+  const showSubmenu = useSelector((state: RootState) => state.ui.showSubmenu);
+  const currentBoard = useSelector(
+    (state: RootState) => state.board.currentBoard,
+  );
 
-  const toggleMenu = () => {
-    setShowMenu((prev) => !prev);
-  };
+  const toggleMenu = () => dispatch(toggleShowSubmenu());
 
   return (
     <header className="flex items-center h-16 bg-white dark:bg-gunmetal-800 md:h-20 lg:h-24">
       <div
         className={`border-indigo dark:border-gunmetal-700 hidden h-full items-center border-r px-4 md:flex md:px-6 ${
-          props.sidebarVisible && "w-64"
+          showSidebar && "w-64"
         }`}
       >
         <span className="dark:hidden">
@@ -38,14 +38,14 @@ export default function Header(props: HeaderProps): JSX.Element {
           boards={props.boards}
         /> */}
         <h1 className="hidden capitalize md:block">
-          {/* {store.selectedBoard?.name ?? 'No Boards'} */}
+          {currentBoard?.name ?? "No Boards"}
         </h1>
         <div className="flex items-center gap-1 md:gap-2.5">
           <div>
             <Button
               variant="primary"
               size="lg"
-              // disabled={!store.selectedBoard?.columns.length}
+              disabled={!currentBoard?.columns.length}
               // onClick={() => store.toggleAddTaskModal()}
             >
               <AddIcon className="fill-white" />
@@ -53,8 +53,7 @@ export default function Header(props: HeaderProps): JSX.Element {
             </Button>
           </div>
           <Submenu
-            boards={props.boards}
-            showMenu={showMenu}
+            showMenu={showSubmenu}
             // handleDelete={handleDelete}
             // handleEdit={handleEdit}
             toggleMenu={toggleMenu}
