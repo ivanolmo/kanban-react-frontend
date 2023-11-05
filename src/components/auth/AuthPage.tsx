@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
-import LeftOverlayContent from "./LeftOverlayContent";
-import RightOverlayContent from "./RightOverlayContent";
-import SigninForm from "./SigninForm";
-import SignupForm from "./SignupForm";
+import LeftOverlayContent from "~/components/auth/LeftOverlayContent";
+import RightOverlayContent from "~/components/auth/RightOverlayContent";
+import SigninForm from "~/components/auth/SigninForm";
+import SignupForm from "~/components/auth/SignupForm";
 
-export default function AuthPage() {
+const AuthPage: React.FC = () => {
   const [isAnimated, setIsAnimated] = useState(false);
   const [error, setError] = useState("");
 
@@ -56,7 +56,7 @@ export default function AuthPage() {
 
       <div
         id="overlay-container"
-        className={`z-100 absolute left-1/2 top-0 h-full w-1/2 overflow-hidden transition-transform duration-700 ease-in-out ${
+        className={`absolute left-1/2 top-0 z-100 h-full w-1/2 overflow-hidden transition-transform duration-700 ease-in-out ${
           isAnimated ? "-translate-x-full" : ""
         }`}
       >
@@ -96,4 +96,6 @@ export default function AuthPage() {
       </div>
     </div>
   );
-}
+};
+
+export default AuthPage;

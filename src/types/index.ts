@@ -41,6 +41,35 @@ export type ApiBoardResponse = {
   data: Board[];
   success: boolean;
   message: string;
-  error: null | string;
+  status: string;
+};
+
+export type ApiErrorResponse = {
+  error: string;
+  success: boolean;
+  message: string;
+  status: string;
+};
+
+export type FormData = {
+  email: string;
+  password: string;
+};
+
+export type AuthSuccessResponse = {
+  data: {
+    user_id: string;
+    email: string;
+    access_token: string;
+  };
+  success: boolean;
+  message: string;
+  status: string;
+};
+
+export type AuthErrorResponse = {
+  error: string;
+  success: boolean;
+  message: string;
   status: string;
 };

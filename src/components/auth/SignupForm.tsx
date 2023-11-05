@@ -1,41 +1,22 @@
-import clsx from "clsx";
+import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import clsx from "clsx";
 
-type FormData = {
-  email: string;
-  password: string;
-};
+import type { AuthSuccessResponse, AuthErrorResponse, FormData } from "~/types";
 
-type AuthResponse = {
-  data: {
-    user_id: string;
-    email: string;
-    access_token: string;
-  };
-  success: boolean;
-  message: string;
-  status: string;
-};
-
-type ErrorResponse = {
-  error: string;
-  success: boolean;
-  message: string;
-  status: string;
-};
-
-export default function SignupForm({
-  error,
-  setError,
-  resetError,
-}: {
+type SignupFormProps = {
   error: string;
   setError: React.Dispatch<React.SetStateAction<string>>;
   resetError: () => void;
-}) {
+};
+
+const SignupForm: React.FC<SignupFormProps> = ({
+  error,
+  setError,
+  resetError,
+}) => {
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const router = useRouter();
 
@@ -56,7 +37,9 @@ export default function SignupForm({
         },
       );
 
-      const response = (await res.json()) as AuthResponse | ErrorResponse;
+      const response = (await res.json()) as
+        | AuthSuccessResponse
+        | AuthErrorResponse;
 
       if (!response.success) {
         setError(response.message);
@@ -121,7 +104,7 @@ export default function SignupForm({
                   />
                   <label
                     htmlFor="signup-email"
-                    className="peer-placeholder-shown:text-md text-slate peer-focus:text-slate absolute -top-3.5 left-0 text-sm transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm"
+                    className="peer-placeholder-shown:text-gray-400 absolute -top-3.5 left-0 text-sm text-slate transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-md peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-slate"
                   >
                     Email address
                   </label>
@@ -153,7 +136,7 @@ export default function SignupForm({
                   />
                   <label
                     htmlFor="signup-password"
-                    className="peer-placeholder-shown:text-md text-slate peer-focus:text-slate absolute -top-3.5 left-0 text-sm transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm"
+                    className="peer-placeholder-shown:text-gray-400 absolute -top-3.5 left-0 text-sm text-slate transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-md peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-slate"
                   >
                     Password
                   </label>
@@ -169,7 +152,7 @@ export default function SignupForm({
 
                 <button
                   type="submit"
-                  className="block w-full px-8 py-4 mt-10 font-semibold text-center text-white uppercase transition-colors duration-300 ease-in-out rounded-full cursor-pointer bg-violet-700 hover:bg-violet-800 focus:outline-none focus:ring focus:ring-indigo-500 focus:ring-opacity-80 focus:ring-offset-2"
+                  className="block w-full px-8 py-4 mt-10 font-semibold text-center text-white uppercase transition-colors duration-300 ease-in-out rounded-full cursor-pointer focus:ring-indigo-500 bg-violet-700 hover:bg-violet-800 focus:outline-none focus:ring focus:ring-opacity-80 focus:ring-offset-2"
                 >
                   Sign Up
                 </button>
@@ -188,4 +171,6 @@ export default function SignupForm({
       </div>
     </div>
   );
-}
+};
+
+export default SignupForm;

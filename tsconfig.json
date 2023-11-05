@@ -18,9 +18,7 @@
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"],
-      "~/assets/*": ["./src/assets/*"],
-      "~/components/*": ["src/components/*"]
+      "~/*": ["./src/*"]
     },
     "plugins": [{ "name": "next" }]
   },

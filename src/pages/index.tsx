@@ -1,46 +1,27 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import ScrollContainer from "react-indiana-drag-scroll";
-import useSWR from "swr";
+import { useSelector } from "react-redux";
+import type { NextPage } from "next/types";
 
 import AddColumn from "~/components/column/AddColumn";
 import Column from "~/components/column/Column";
+import Header from "~/components/header/Header";
 import Button from "~/components/ui/Button";
+import { useGetBoardsQuery } from "~/store/api";
+import type { RootState } from "~/store/store";
 
-import { type ApiBoardResponse } from "~/types";
-
-const fetcher = async (url: string, accessToken?: string) => {
-  const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  const response = (await res.json()) as ApiBoardResponse;
-
-  if (!res.ok) {
-    throw new Error(response.error ?? "An error occurred");
-  }
-
-  return response;
-};
-
-export default function Home() {
-  const router = useRouter();
+const Home: NextPage = () => {
   const { data: session, status: sessionStatus } = useSession();
-  const { data: boards, isLoading: boardsLoading } = useSWR(
-    session?.user.access_token
-      ? [
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/boards`,
-          session?.user.access_token,
-        ]
-      : null,
-    ([url, accessToken]) => fetcher(url, accessToken),
+  console.log("session -> ", session);
+
+  const queryResult = useGetBoardsQuery();
+
+  const currentBoard = useSelector(
+    (state: RootState) => state.board.currentBoard,
   );
 
-  console.log("index session -> ", session);
-  console.log("boards -> ", boards);
+  // console.log("boards -> ", boards);
 
   if (sessionStatus === "loading") {
     return <div>Loading session...</div>;
@@ -68,21 +49,26 @@ export default function Home() {
     );
   }
 
-  if (boardsLoading) {
-    return <div>Loading swr...</div>;
+  if (queryResult.isLoading) {
+    return <div>Loading boards...</div>;
+  }
+
+  if (queryResult.isError) {
+    return <div>Error loading boards</div>;
   }
 
   return (
     <>
+      <Header />
       <main>
-        <h1>Board Title: {boards?.data[0]?.name}</h1>
+        <button onClick={() => signOut()}>sign out</button>
         <div className="flex h-screen">
           <ScrollContainer
             className="flex gap-6 px-4 py-6 duration-300 ease-in-out md:px-6"
             buttons={[0, 1]}
             vertical={true}
           >
-            {boards?.data[0]?.columns.map((column) => (
+            {currentBoard?.columns.map((column) => (
               <Column key={column.id} column={column} />
             ))}
             <AddColumn />
@@ -91,4 +77,6 @@ export default function Home() {
       </main>
     </>
   );
-}
+};
+
+export default Home;

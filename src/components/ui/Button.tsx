@@ -9,7 +9,7 @@ type ButtonProps = {
   wide?: boolean;
 };
 
-export default function Button({
+const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
   type = "button",
@@ -19,7 +19,7 @@ export default function Button({
   hidden,
   wide,
   ...rest
-}: ButtonProps): JSX.Element {
+}) => {
   return (
     <button
       type={type}
@@ -33,4 +33,6 @@ export default function Button({
       {children}
     </button>
   );
-}
+};
+
+export default Button;

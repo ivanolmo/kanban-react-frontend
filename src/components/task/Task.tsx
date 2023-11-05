@@ -1,11 +1,12 @@
-import { type Task } from "~/types";
+import React from "react";
+import { Task } from "~/types";
 
 type TaskProps = {
   task: Task;
 };
 
-export default function Task(props: TaskProps): JSX.Element {
-  const completedSubtasks = props.task.subtasks.filter(
+const Task: React.FC<TaskProps> = ({ task }) => {
+  const completedSubtasks = task.subtasks.filter(
     (subtask) => subtask.completed === true,
   ).length;
 
@@ -15,15 +16,17 @@ export default function Task(props: TaskProps): JSX.Element {
 
   return (
     <li
-      className="flex flex-col gap-2 px-6 py-4 transition-all duration-300 bg-white rounded-lg shadow-md cursor-pointer dark:bg-gunmetal-800 hover:scale-105 dark:shadow-xl"
+      className="flex flex-col gap-2 px-6 py-4 transition-all duration-300 bg-white rounded-lg shadow-md cursor-pointer hover:scale-105 dark:bg-gunmetal-800 dark:shadow-xl"
       onClick={() => handleSelect()}
     >
-      <h3>{props.task?.title}</h3>
-      <span className="text-slate text-body-md">
-        {props.task?.subtasks?.length > 0
-          ? `${completedSubtasks} of ${props.task?.subtasks?.length} subtasks`
+      <h3>{task?.title}</h3>
+      <span className="text-body-md text-slate">
+        {task?.subtasks?.length > 0
+          ? `${completedSubtasks} of ${task?.subtasks?.length} subtasks`
           : "No subtasks"}
       </span>
     </li>
   );
-}
+};
+
+export default Task;
