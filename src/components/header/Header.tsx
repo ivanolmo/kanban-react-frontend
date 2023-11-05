@@ -1,22 +1,17 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import AddIcon from "~/assets/AddIcon";
-import Logo from "~/assets/Logo";
+import AddIcon from "~/components/svg/AddIcon";
+import Logo from "~/components/svg/Logo";
 import Button from "~/components/ui/Button";
 import Submenu from "~/components/ui/Submenu";
-import { toggleShowSubmenu } from "~/store/uiSlice";
 import type { RootState } from "~/store/store";
 
 const Header: React.FC = () => {
-  const dispatch = useDispatch();
-
   const showSidebar = useSelector((state: RootState) => state.ui.showSidebar);
   const showSubmenu = useSelector((state: RootState) => state.ui.showSubmenu);
   const currentBoard = useSelector(
     (state: RootState) => state.board.currentBoard,
   );
-
-  const toggleMenu = () => dispatch(toggleShowSubmenu());
 
   return (
     <header className="flex h-16 items-center bg-white dark:bg-gunmetal-800 md:h-20 lg:h-24">
@@ -56,7 +51,6 @@ const Header: React.FC = () => {
             showMenu={showSubmenu}
             // handleDelete={handleDelete}
             // handleEdit={handleEdit}
-            toggleMenu={toggleMenu}
             withSignOut
           />
         </div>

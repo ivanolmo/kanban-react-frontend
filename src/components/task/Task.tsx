@@ -16,7 +16,7 @@ const Task: React.FC<TaskProps> = ({ task }) => {
 
   return (
     <li
-      className="flex flex-col gap-2 px-6 py-4 transition-all duration-300 bg-white rounded-lg shadow-md cursor-pointer hover:scale-105 dark:bg-gunmetal-800 dark:shadow-xl"
+      className="flex flex-col gap-2 px-6 py-4 transition-all bg-white rounded-lg shadow-md cursor-pointer duration-0 hover:scale-105 dark:bg-gunmetal-800 dark:shadow-xl"
       onClick={() => handleSelect()}
     >
       <h3>{task?.title}</h3>

@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply dark:bg-zinc relative h-full min-w-[375px] bg-violet-50 leading-tight text-black antialiased transition-colors duration-300 dark:text-white;
+    @apply relative h-full min-w-[375px] bg-violet-50 leading-tight text-black antialiased transition-colors duration-150 dark:bg-zinc dark:text-white;
   }
 
   /* XL */
@@ -37,7 +37,7 @@
 
   input,
   textarea {
-    @apply text-body-lg dark:bg-gunmetal-800 dark:disabled:bg-zinc w-full rounded-md border px-4 py-2 hover:border-violet-700 dark:disabled:text-white/25;
+    @apply w-full rounded-md border px-4 py-2 text-body-lg hover:border-violet-700 dark:bg-gunmetal-800 dark:disabled:bg-zinc dark:disabled:text-white/25;
   }
 }
 
@@ -65,7 +65,7 @@
   }
 
   .secondary {
-    @apply dark:hover:bg-indigo bg-violet-700/10 text-violet-700 transition hover:bg-violet-700/25 dark:bg-white;
+    @apply bg-violet-700/10 text-violet-700 transition hover:bg-violet-700/25 dark:bg-white dark:hover:bg-indigo;
   }
 
   .delete {

@@ -1,18 +1,18 @@
-import { useEffect, useRef } from "react";
 import { signOut } from "next-auth/react";
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import MenuIcon from "~/assets/MenuIcon";
-import XIcon from "~/assets/XIcon";
-import EditIcon from "~/assets/EditIcon";
-import SignoutIcon from "~/assets/SignoutIcon";
-import { useSelector } from "react-redux";
+import EditIcon from "~/components/svg/EditIcon";
+import MenuIcon from "~/components/svg/MenuIcon";
+import SignoutIcon from "~/components/svg/SignoutIcon";
+import XIcon from "~/components/svg/XIcon";
+import { toggleSubmenu } from "~/store/uiSlice";
 import type { RootState } from "~/store/store";
 
 type SubmenuProps = {
   showMenu: boolean;
   handleDelete?: () => void;
   handleEdit?: () => void;
-  toggleMenu: () => void;
   withSignOut?: boolean;
 };
 
@@ -20,9 +20,9 @@ const Submenu: React.FC<SubmenuProps> = (props) => {
   const submenuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLDivElement | null>(null);
 
-  const boards = useSelector((state: RootState) => state.board.boards);
+  const dispatch = useDispatch();
 
-  const { toggleMenu } = props;
+  const boards = useSelector((state: RootState) => state.board.boards);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -32,7 +32,7 @@ const Submenu: React.FC<SubmenuProps> = (props) => {
         !submenuRef.current.contains(e.target as Node) &&
         !buttonRef?.current?.contains(e.target as Node)
       ) {
-        toggleMenu();
+        dispatch(toggleSubmenu());
       }
     };
 
@@ -41,10 +41,13 @@ const Submenu: React.FC<SubmenuProps> = (props) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [toggleMenu]);
+  }, [dispatch]);
 
   return (
-    <div className="relative cursor-pointer px-4" onClick={() => toggleMenu()}>
+    <div
+      className="relative cursor-pointer px-4"
+      onClick={() => dispatch(toggleSubmenu())}
+    >
       <div ref={buttonRef}>
         <MenuIcon className={`transition ${props.showMenu && "rotate-90"}`} />
       </div>

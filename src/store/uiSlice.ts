@@ -36,7 +36,7 @@ const uiSlice = createSlice({
     toggleMobileSidebar(state) {
       state.showMobileSidebar = !state.showMobileSidebar;
     },
-    toggleShowSubmenu(state) {
+    toggleSubmenu(state) {
       state.showSubmenu = !state.showSubmenu;
     },
     toggleAddBoardModal(state) {
@@ -64,8 +64,9 @@ const uiSlice = createSlice({
 });
 
 export const {
+  toggleSidebar,
   toggleMobileSidebar,
-  toggleShowSubmenu,
+  toggleSubmenu,
   toggleAddBoardModal,
   toggleEditBoardModal,
   toggleDeleteBoardModal,
