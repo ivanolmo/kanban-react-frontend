@@ -2,7 +2,7 @@ import { SessionProvider } from "next-auth/react";
 import type { AppType } from "next/app";
 import { Provider } from "react-redux";
 
-import { store } from "~/redux/store";
+import { store } from "~/store/store";
 import "~/styles/globals.scss";
 
 const MyApp: AppType = ({ Component, pageProps }) => {

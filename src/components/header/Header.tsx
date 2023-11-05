@@ -4,8 +4,8 @@ import AddIcon from "~/assets/AddIcon";
 import Logo from "~/assets/Logo";
 import Button from "~/components/ui/Button";
 import Submenu from "~/components/ui/Submenu";
-import { toggleShowSubmenu } from "~/redux/uiSlice";
-import type { RootState } from "~/redux/store";
+import { toggleShowSubmenu } from "~/store/uiSlice";
+import type { RootState } from "~/store/store";
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const Header: React.FC = () => {
   const toggleMenu = () => dispatch(toggleShowSubmenu());
 
   return (
-    <header className="flex items-center h-16 bg-white dark:bg-gunmetal-800 md:h-20 lg:h-24">
+    <header className="flex h-16 items-center bg-white dark:bg-gunmetal-800 md:h-20 lg:h-24">
       <div
         className={`hidden h-full items-center border-r border-indigo px-4 dark:border-gunmetal-700 md:flex md:px-6 ${
           showSidebar && "w-64"
@@ -32,7 +32,7 @@ const Header: React.FC = () => {
           <Logo className="hidden md:block" dark />
         </span>
       </div>
-      <div className="flex items-center justify-between flex-1 w-full pl-4 md:pl-6 md:pr-2">
+      <div className="flex w-full flex-1 items-center justify-between pl-4 md:pl-6 md:pr-2">
         {/* <SidebarMobile
           // TODO only needs names not all board data?
           boards={props.boards}

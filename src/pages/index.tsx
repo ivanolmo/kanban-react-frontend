@@ -8,17 +8,14 @@ import AddColumn from "~/components/column/AddColumn";
 import Column from "~/components/column/Column";
 import Header from "~/components/header/Header";
 import Button from "~/components/ui/Button";
-import { useGetBoardsQuery } from "~/redux/api";
-import type { RootState } from "~/redux/store";
+import { useGetBoardsQuery } from "~/store/api";
+import type { RootState } from "~/store/store";
 
 const Home: NextPage = () => {
   const { data: session, status: sessionStatus } = useSession();
+  console.log("session -> ", session);
 
-  const {
-    data: boards,
-    isLoading: boardsLoading,
-    isError: boardsError,
-  } = useGetBoardsQuery();
+  const queryResult = useGetBoardsQuery();
 
   const currentBoard = useSelector(
     (state: RootState) => state.board.currentBoard,
@@ -52,11 +49,11 @@ const Home: NextPage = () => {
     );
   }
 
-  if (boardsLoading) {
+  if (queryResult.isLoading) {
     return <div>Loading boards...</div>;
   }
 
-  if (boardsError) {
+  if (queryResult.isError) {
     return <div>Error loading boards</div>;
   }
 

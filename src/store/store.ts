@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { api } from "~/redux/api";
-import boardReducer from "~/redux/boardSlice";
-import uiReducer from "~/redux/uiSlice";
+import { api } from "~/store/api";
+import boardReducer from "~/store/boardSlice";
+import uiReducer from "~/store/uiSlice";
 
 export const store = configureStore({
   reducer: {
