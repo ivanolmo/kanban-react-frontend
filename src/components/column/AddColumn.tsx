@@ -1,4 +1,4 @@
-import AddIcon from "~/assets/AddIcon";
+import AddIcon from "~/components/svg/AddIcon";
 
 const AddColumn: React.FC = () => {
   return (
@@ -7,8 +7,8 @@ const AddColumn: React.FC = () => {
       onClick={() => console.log("add column")}
     >
       <div className="flex items-center gap-2">
-        <AddIcon className="transition-all fill-slate group-hover:rotate-180 group-hover:scale-125" />
-        <span className="text-xl font-bold transition-all text-slate group-hover:scale-105">
+        <AddIcon className="fill-slate transition-all group-hover:rotate-180 group-hover:scale-125" />
+        <span className="text-xl font-bold text-slate transition-all group-hover:scale-105">
           New Column
         </span>
       </div>

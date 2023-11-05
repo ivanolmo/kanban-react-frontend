@@ -1,4 +1,4 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import type { NextPage } from "next/types";
 import ScrollContainer from "react-indiana-drag-scroll";
@@ -12,7 +12,7 @@ import Button from "~/components/ui/Button";
 import { useGetBoardsQuery } from "~/store/api";
 import { toggleSidebar } from "~/store/uiSlice";
 import type { RootState } from "~/store/store";
-import OpenSidebarIcon from "~/assets/OpenSidebarIcon";
+import OpenSidebarIcon from "~/components/svg/OpenSidebarIcon";
 import clsx from "clsx";
 
 const Home: NextPage = () => {

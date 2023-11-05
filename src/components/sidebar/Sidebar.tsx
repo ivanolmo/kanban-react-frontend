@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 
-import AddIcon from "~/assets/AddIcon";
-import BoardIcon from "~/assets/BoardIcon";
-import CloseSidebarIcon from "~/assets/CloseSidebarIcon";
+import AddIcon from "~/components/svg/AddIcon";
+import BoardIcon from "~/components/svg/BoardIcon";
+import CloseSidebarIcon from "~/components/svg/CloseSidebarIcon";
 import SidebarItem from "~/components/sidebar/SidebarItem";
 import type { RootState } from "~/store/store";
 import { toggleSidebar } from "~/store/uiSlice";
@@ -17,16 +17,16 @@ const Sidebar: React.FC = () => {
       className="z-10 hidden !w-64 flex-shrink-0 md:block"
       aria-label="Sidebar"
     >
-      <div className="flex flex-col justify-between h-screen py-8 bg-white border-r border-indigo text-slate dark:border-gunmetal-700 dark:bg-gunmetal-800">
+      <div className="flex h-screen flex-col justify-between border-r border-indigo bg-white py-8 text-slate dark:border-gunmetal-700 dark:bg-gunmetal-800">
         <div>
           <h4 className="ml-6 uppercase">All Boards ({boards?.length || 0})</h4>
           <ul className="mt-5">
             {boards?.map((board) => (
               <SidebarItem key={board.id} board={board} />
             ))}
-            <li className="px-6 py-4 mr-4 transition rounded-r-full cursor-pointer hover:bg-violet-700/10 dark:hover:bg-white">
+            <li className="mr-4 cursor-pointer rounded-r-full px-6 py-4 transition hover:bg-violet-700/10 dark:hover:bg-white">
               <div
-                className="flex items-center gap-3 font-bold text-md"
+                className="flex items-center gap-3 text-md font-bold"
                 // onClick={() => store.toggleAddBoardModal()}
               >
                 <BoardIcon className="fill-violet-700" />

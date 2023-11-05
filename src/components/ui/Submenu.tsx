@@ -2,10 +2,10 @@ import { signOut } from "next-auth/react";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import EditIcon from "~/assets/EditIcon";
-import MenuIcon from "~/assets/MenuIcon";
-import SignoutIcon from "~/assets/SignoutIcon";
-import XIcon from "~/assets/XIcon";
+import EditIcon from "~/components/svg/EditIcon";
+import MenuIcon from "~/components/svg/MenuIcon";
+import SignoutIcon from "~/components/svg/SignoutIcon";
+import XIcon from "~/components/svg/XIcon";
 import { toggleSubmenu } from "~/store/uiSlice";
 import type { RootState } from "~/store/store";
 
@@ -45,7 +45,7 @@ const Submenu: React.FC<SubmenuProps> = (props) => {
 
   return (
     <div
-      className="relative px-4 cursor-pointer"
+      className="relative cursor-pointer px-4"
       onClick={() => dispatch(toggleSubmenu())}
     >
       <div ref={buttonRef}>
@@ -53,7 +53,7 @@ const Submenu: React.FC<SubmenuProps> = (props) => {
       </div>
       {props.showMenu && (
         <div
-          className="absolute right-0 flex flex-col w-48 gap-6 p-4 bg-white shadow-x top-12 rounded-xl dark:bg-zinc lg:right-1"
+          className="shadow-x absolute right-0 top-12 flex w-48 flex-col gap-6 rounded-xl bg-white p-4 dark:bg-zinc lg:right-1"
           ref={submenuRef}
         >
           <span
@@ -63,7 +63,7 @@ const Submenu: React.FC<SubmenuProps> = (props) => {
             // onClick={() => props.handleEdit()}
           >
             {`Edit ${boards ? "Board" : "Task"}`}
-            <EditIcon className="w-6 h-6 transition fill-white stroke-slate group-hover:stroke-gunmetal-700 dark:fill-transparent dark:group-hover:stroke-white" />
+            <EditIcon className="h-6 w-6 fill-white stroke-slate transition group-hover:stroke-gunmetal-700 dark:fill-transparent dark:group-hover:stroke-white" />
           </span>
           <span
             className={`group flex cursor-pointer items-center justify-between text-red-600 transition hover:text-red-900 dark:hover:text-red-400 ${
@@ -72,11 +72,11 @@ const Submenu: React.FC<SubmenuProps> = (props) => {
             // onClick={() => props.handleDelete()}
           >
             {`Delete ${boards ? "Board" : "Task"}`}
-            <XIcon className="w-6 h-6 transition stroke-red-600 group-hover:stroke-red-900 dark:group-hover:stroke-red-400" />
+            <XIcon className="h-6 w-6 stroke-red-600 transition group-hover:stroke-red-900 dark:group-hover:stroke-red-400" />
           </span>
           {props.withSignOut && (
             <span
-              className="flex items-center justify-between text-red-600 transition cursor-pointer group hover:text-red-900 dark:hover:text-red-400"
+              className="group flex cursor-pointer items-center justify-between text-red-600 transition hover:text-red-900 dark:hover:text-red-400"
               onClick={() =>
                 signOut({
                   callbackUrl: `${window.location.origin}`,
@@ -84,7 +84,7 @@ const Submenu: React.FC<SubmenuProps> = (props) => {
               }
             >
               Sign Out
-              <SignoutIcon className="w-6 h-6 transition fill-transparent stroke-red-600 group-hover:stroke-red-900 dark:group-hover:stroke-red-400" />
+              <SignoutIcon className="h-6 w-6 fill-transparent stroke-red-600 transition group-hover:stroke-red-900 dark:group-hover:stroke-red-400" />
             </span>
           )}
         </div>

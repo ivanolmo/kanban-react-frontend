@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 
-import BoardIcon from "~/assets/BoardIcon";
+import BoardIcon from "~/components/svg/BoardIcon";
 import { setCurrentBoard } from "~/store/boardSlice";
 import { toggleMobileSidebar } from "~/store/uiSlice";
 import type { RootState } from "~/store/store";
@@ -36,7 +36,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ board }) => {
       )}
       onClick={handleSelect}
     >
-      <div className="flex items-center gap-3 font-bold text-md">
+      <div className="flex items-center gap-3 text-md font-bold">
         <BoardIcon className="fill-current" />
         <span className="capitalize">{board.name}</span>
       </div>
