@@ -62,7 +62,18 @@ export const api = createApi({
       transformResponse: (response: ApiBoardResponse) => response.data as Board,
       invalidatesTags: ["Boards"],
     }),
+    deleteBoard: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `boards/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Boards"],
+    }),
   }),
 });
 
-export const { useGetBoardsQuery, useCreateBoardMutation } = api;
+export const {
+  useGetBoardsQuery,
+  useCreateBoardMutation,
+  useDeleteBoardMutation,
+} = api;

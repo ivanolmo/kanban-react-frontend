@@ -47,6 +47,27 @@ const boardSlice = createSlice({
         state.currentBoard = action.payload;
       },
     );
+    builder.addMatcher(api.endpoints.deleteBoard.matchFulfilled, (state, _) => {
+      // if no boards are left, set currentBoard to null
+      if (state.boards.length === 0) {
+        state.currentBoard = null;
+        return;
+      }
+
+      // if boards remain, get the current board index
+      const nextBoardIndex = state.boards.findIndex(
+        (board) => board.id === state.currentBoard?.id,
+      );
+
+      // set the current board to the next board in the array, or the first if at the end of the list
+      const nextBoard =
+        nextBoardIndex >= 0
+          ? state.boards[nextBoardIndex + 1] ?? state.boards[0]
+          : state.boards[state.boards.length - 1];
+
+      // make sure the current board is not undefined
+      state.currentBoard = nextBoard ?? null;
+    });
   },
 });
 
