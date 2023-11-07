@@ -38,20 +38,15 @@ const boardSlice = createSlice({
     builder.addMatcher(
       api.endpoints.getBoards.matchFulfilled,
       (state, action) => {
-        state.boards = action.payload.data;
-        // set the currentBoard to the first board in the array if any boards are present
-        const firstBoard = action.payload.data[0];
-        state.currentBoard = firstBoard ? firstBoard : null;
+        state.boards = action.payload;
       },
     );
-    // builder.addMatcher(
-    //   api.endpoints.createBoard.matchFulfilled,
-    //   (state, action) => {
-    //     if (action.payload.data) {
-    //       state.boards.push(action.payload.data);
-    //     }
-    //   },
-    // );
+    builder.addMatcher(
+      api.endpoints.createBoard.matchFulfilled,
+      (state, action) => {
+        state.currentBoard = action.payload;
+      },
+    );
   },
 });
 
