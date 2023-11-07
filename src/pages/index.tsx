@@ -3,11 +3,9 @@ import Image from "next/image";
 import type { NextPage } from "next/types";
 import { signIn, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
-import ScrollContainer from "react-indiana-drag-scroll";
 import clsx from "clsx";
 
-import AddColumn from "~/components/column/AddColumn";
-import Column from "~/components/column/Column";
+import ColumnScrollContainer from "~/components/column/ColumnScrollContainer";
 import Header from "~/components/header/Header";
 import CurrentModal from "~/components/modal/CurrentModal";
 import Sidebar from "~/components/sidebar/Sidebar";
@@ -87,20 +85,9 @@ const Home: NextPage = () => {
           >
             <Sidebar />
           </div>
-          <ScrollContainer
-            className={clsx(
-              "flex gap-6 px-4 py-6 duration-300 ease-in-out md:px-6",
-              showSidebar ? "ml-64" : "ml-0",
-            )}
-            buttons={[0, 1]}
-            vertical={true}
-          >
-            {currentBoard?.columns.map((column) => (
-              <Column key={column.id} column={column} />
-            ))}
-            <AddColumn />
-          </ScrollContainer>
+          <ColumnScrollContainer />
         </div>
+
         <div
           className={clsx(
             "absolute bottom-8 left-0 hidden cursor-pointer items-center justify-center rounded-r-full bg-violet-700 p-5 transition hover:bg-violet-400 md:flex",
@@ -110,6 +97,7 @@ const Home: NextPage = () => {
         >
           <OpenSidebarIcon />
         </div>
+
         <CurrentModal />
       </main>
     </>
