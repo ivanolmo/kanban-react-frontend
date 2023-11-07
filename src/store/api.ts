@@ -7,7 +7,9 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { getSession } from "next-auth/react";
 
-import type { ApiBoardResponse } from "~/types";
+import type { CreateBoardInput } from "~/components/modal/AddBoard";
+import type { ApiBoardResponse, Board } from "~/types";
+import { transformApiResponse } from "~/utils/transformers";
 
 // base query function
 const baseQuery = fetchBaseQuery({
@@ -43,12 +45,24 @@ const baseQueryWithAuth: BaseQueryFn<
 // create the API slice
 export const api = createApi({
   baseQuery: baseQueryWithAuth,
-  tagTypes: ["Board"],
+  tagTypes: ["Boards"],
   endpoints: (builder) => ({
-    getBoards: builder.query<ApiBoardResponse, void>({
+    getBoards: builder.query<Board[], void>({
       query: () => "boards",
+      transformResponse: (response: ApiBoardResponse) =>
+        transformApiResponse(response),
+      providesTags: ["Boards"],
+    }),
+    createBoard: builder.mutation<Board, CreateBoardInput>({
+      query: (body) => ({
+        url: "boards",
+        method: "POST",
+        body,
+      }),
+      transformResponse: (response: ApiBoardResponse) => response.data as Board,
+      invalidatesTags: ["Boards"],
     }),
   }),
 });
 
-export const { useGetBoardsQuery } = api;
+export const { useGetBoardsQuery, useCreateBoardMutation } = api;
