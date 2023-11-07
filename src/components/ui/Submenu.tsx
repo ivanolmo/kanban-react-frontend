@@ -6,7 +6,7 @@ import EditIcon from "~/components/svg/EditIcon";
 import MenuIcon from "~/components/svg/MenuIcon";
 import SignoutIcon from "~/components/svg/SignoutIcon";
 import XIcon from "~/components/svg/XIcon";
-import { toggleSubmenu } from "~/store/uiSlice";
+import { toggleDeleteBoardModal, toggleSubmenu } from "~/store/uiSlice";
 import { selectBoards } from "~/store/selectors";
 
 type SubmenuProps = {
@@ -17,12 +17,11 @@ type SubmenuProps = {
 };
 
 const Submenu: React.FC<SubmenuProps> = (props) => {
+  const dispatch = useDispatch();
+  const boards = useSelector(selectBoards);
+
   const submenuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLDivElement | null>(null);
-
-  const dispatch = useDispatch();
-
-  const boards = useSelector(selectBoards);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -69,7 +68,7 @@ const Submenu: React.FC<SubmenuProps> = (props) => {
             className={`group flex cursor-pointer items-center justify-between text-red-600 transition hover:text-red-900 dark:hover:text-red-400 ${
               boards ? !boards?.length && "hidden" : null
             }`}
-            // onClick={() => props.handleDelete()}
+            onClick={() => dispatch(toggleDeleteBoardModal())}
           >
             {`Delete ${boards ? "Board" : "Task"}`}
             <XIcon className="h-6 w-6 stroke-red-600 transition group-hover:stroke-red-900 dark:group-hover:stroke-red-400" />
