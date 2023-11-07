@@ -1,33 +1,45 @@
-import { signIn, useSession } from "next-auth/react";
+import { useEffect } from "react";
 import Image from "next/image";
 import type { NextPage } from "next/types";
-import ScrollContainer from "react-indiana-drag-scroll";
+import { signIn, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
+import ScrollContainer from "react-indiana-drag-scroll";
+import clsx from "clsx";
 
 import AddColumn from "~/components/column/AddColumn";
 import Column from "~/components/column/Column";
 import Header from "~/components/header/Header";
+import CurrentModal from "~/components/modal/CurrentModal";
 import Sidebar from "~/components/sidebar/Sidebar";
+import OpenSidebarIcon from "~/components/svg/OpenSidebarIcon";
 import Button from "~/components/ui/Button";
 import { useGetBoardsQuery } from "~/store/api";
+import { setCurrentBoard } from "~/store/boardSlice";
 import { toggleSidebar } from "~/store/uiSlice";
-import type { RootState } from "~/store/store";
-import OpenSidebarIcon from "~/components/svg/OpenSidebarIcon";
-import clsx from "clsx";
+import { selectCurrentBoard, selectShowSidebar } from "~/store/selectors";
 
 const Home: NextPage = () => {
   const { data: session, status: sessionStatus } = useSession();
-  console.log("session -> ", session);
-
+  const { data: boards, isLoading, isError } = useGetBoardsQuery();
   const dispatch = useDispatch();
-  const queryResult = useGetBoardsQuery();
 
-  const currentBoard = useSelector(
-    (state: RootState) => state.board.currentBoard,
-  );
-  const showSidebar = useSelector((state: RootState) => state.ui.showSidebar);
+  const currentBoard = useSelector(selectCurrentBoard);
+  const showSidebar = useSelector(selectShowSidebar);
 
-  // console.log("boards -> ", boards);
+  // sets the first board as the current board when the app loads
+  useEffect(() => {
+    // check if 'boards' is an array and has at least one element
+    if (Array.isArray(boards) && boards.length > 0) {
+      // if 'currentBoard' is not set, dispatch the first board
+      if (!currentBoard) {
+        const firstBoard = boards[0];
+        // make sure that 'firstBoard' is not undefined before dispatching.
+        if (firstBoard) {
+          dispatch(setCurrentBoard(firstBoard));
+        }
+      }
+    }
+  }, [boards, currentBoard, dispatch]);
 
   if (sessionStatus === "loading") {
     return <div>Loading session...</div>;
@@ -55,11 +67,11 @@ const Home: NextPage = () => {
     );
   }
 
-  if (queryResult.isLoading) {
+  if (isLoading) {
     return <div>Loading boards...</div>;
   }
 
-  if (queryResult.isError) {
+  if (isError) {
     return <div>Error loading boards</div>;
   }
 
@@ -98,6 +110,7 @@ const Home: NextPage = () => {
         >
           <OpenSidebarIcon />
         </div>
+        <CurrentModal />
       </main>
     </>
   );
