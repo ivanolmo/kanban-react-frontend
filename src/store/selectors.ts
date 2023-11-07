@@ -1,11 +1,12 @@
 import type { RootState } from "~/store/store";
-import { ModalType } from "~/types/constants";
+import { ModalType } from "~/utils/constants";
 
 export const selectShowSidebar = (state: RootState) => state.ui.showSidebar;
 export const selectShowSubmenu = (state: RootState) => state.ui.showSubmenu;
 export const selectCurrentModal = (state: RootState): ModalType | null => {
   const uiState = state.ui;
   if (uiState.showAddBoardModal) return ModalType.AddBoard;
+  if (uiState.showDeleteBoardModal) return ModalType.DeleteBoard;
   return null;
 };
 
