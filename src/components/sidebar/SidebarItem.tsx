@@ -4,7 +4,7 @@ import clsx from "clsx";
 import BoardIcon from "~/components/svg/BoardIcon";
 import { setCurrentBoard } from "~/store/boardSlice";
 import { toggleMobileSidebar } from "~/store/uiSlice";
-import type { RootState } from "~/store/store";
+import { selectCurrentBoard } from "~/store/selectors";
 import type { Board } from "~/types";
 
 type SidebarItemProps = {
@@ -15,9 +15,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ board }) => {
   const dispatch = useDispatch();
 
   // Get the currentBoard from the redux store
-  const currentBoard = useSelector(
-    (state: RootState) => state.board.currentBoard,
-  );
+  const currentBoard = useSelector(selectCurrentBoard);
 
   const handleSelect = () => {
     // dispatch(toggleMobileSidebar());

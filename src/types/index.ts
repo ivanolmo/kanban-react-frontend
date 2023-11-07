@@ -38,7 +38,7 @@ export type Subtask = {
 };
 
 export type ApiBoardResponse = {
-  data: Board[];
+  data: Board | Board[];
   success: boolean;
   message: string;
   status: string;

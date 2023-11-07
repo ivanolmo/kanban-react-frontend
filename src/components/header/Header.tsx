@@ -4,14 +4,16 @@ import AddIcon from "~/components/svg/AddIcon";
 import Logo from "~/components/svg/Logo";
 import Button from "~/components/ui/Button";
 import Submenu from "~/components/ui/Submenu";
-import type { RootState } from "~/store/store";
+import {
+  selectCurrentBoard,
+  selectShowSidebar,
+  selectShowSubmenu,
+} from "~/store/selectors";
 
 const Header: React.FC = () => {
-  const showSidebar = useSelector((state: RootState) => state.ui.showSidebar);
-  const showSubmenu = useSelector((state: RootState) => state.ui.showSubmenu);
-  const currentBoard = useSelector(
-    (state: RootState) => state.board.currentBoard,
-  );
+  const showSidebar = useSelector(selectShowSidebar);
+  const showSubmenu = useSelector(selectShowSubmenu);
+  const currentBoard = useSelector(selectCurrentBoard);
 
   return (
     <header className="flex h-16 items-center bg-white dark:bg-gunmetal-800 md:h-20 lg:h-24">

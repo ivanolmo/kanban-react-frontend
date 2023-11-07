@@ -7,7 +7,7 @@ import MenuIcon from "~/components/svg/MenuIcon";
 import SignoutIcon from "~/components/svg/SignoutIcon";
 import XIcon from "~/components/svg/XIcon";
 import { toggleSubmenu } from "~/store/uiSlice";
-import type { RootState } from "~/store/store";
+import { selectBoards } from "~/store/selectors";
 
 type SubmenuProps = {
   showMenu: boolean;
@@ -22,7 +22,7 @@ const Submenu: React.FC<SubmenuProps> = (props) => {
 
   const dispatch = useDispatch();
 
-  const boards = useSelector((state: RootState) => state.board.boards);
+  const boards = useSelector(selectBoards);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
