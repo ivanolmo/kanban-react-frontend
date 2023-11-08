@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Subtask from "~/components/subtask/Subtask";
 import XIcon from "~/components/svg/XIcon";
-import ViewTaskMenu from "~/components/task/ViewTaskMenu";
+import ViewTaskSubmenu from "~/components/task/ViewTaskSubmenu";
 import Select from "~/components/ui/Select";
 import { clearCurrentTask } from "~/store/boardSlice";
 import { selectCurrentTask } from "~/store/selectors";
@@ -67,7 +67,7 @@ const ViewTask: React.FC = () => {
       <div className="flex w-full items-center justify-between gap-4">
         <h2 className="">{currentTask?.title}</h2>
         <div className="flex items-center gap-2">
-          <ViewTaskMenu />
+          <ViewTaskSubmenu />
           <button onClick={() => handleClose()}>
             <XIcon className="h-6 w-6 stroke-red-600" />
           </button>

@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import EditIcon from "~/components/svg/EditIcon";
 import MenuIcon from "~/components/svg/MenuIcon";
 import XIcon from "~/components/svg/XIcon";
-import { toggleViewTaskMenu } from "~/store/uiSlice";
-import { selectBoards, selectShowViewTaskMenu } from "~/store/selectors";
+import { toggleViewTaskSubmenu } from "~/store/uiSlice";
+import { selectBoards, selectShowViewTaskSubmenu } from "~/store/selectors";
 
-const ViewTaskMenu: React.FC = () => {
+const ViewTaskSubmenu: React.FC = () => {
   const dispatch = useDispatch();
   const boards = useSelector(selectBoards);
-  const showViewTaskMenu = useSelector(selectShowViewTaskMenu);
+  const showViewTaskSubmenu = useSelector(selectShowViewTaskSubmenu);
 
   const submenuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLDivElement | null>(null);
@@ -23,7 +23,7 @@ const ViewTaskMenu: React.FC = () => {
         !submenuRef.current.contains(e.target as Node) &&
         !buttonRef?.current?.contains(e.target as Node)
       ) {
-        dispatch(toggleViewTaskMenu());
+        dispatch(toggleViewTaskSubmenu());
       }
     };
 
@@ -37,12 +37,14 @@ const ViewTaskMenu: React.FC = () => {
   return (
     <div
       className="relative cursor-pointer px-4"
-      onClick={() => dispatch(toggleViewTaskMenu())}
+      onClick={() => dispatch(toggleViewTaskSubmenu())}
     >
       <div ref={buttonRef}>
-        <MenuIcon className={`transition ${showViewTaskMenu && "rotate-90"}`} />
+        <MenuIcon
+          className={`transition ${showViewTaskSubmenu && "rotate-90"}`}
+        />
       </div>
-      {showViewTaskMenu && (
+      {showViewTaskSubmenu && (
         <div
           className="shadow-x absolute right-0 top-6 flex w-48 flex-col gap-6 rounded-xl bg-white p-4 dark:bg-zinc"
           ref={submenuRef}
@@ -71,4 +73,4 @@ const ViewTaskMenu: React.FC = () => {
   );
 };
 
-export default ViewTaskMenu;
+export default ViewTaskSubmenu;

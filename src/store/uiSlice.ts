@@ -4,7 +4,7 @@ type UIState = {
   showSidebar: boolean;
   showMobileSidebar: boolean;
   showHeaderMenu: boolean;
-  showViewTaskMenu: boolean;
+  showViewTaskSubmenu: boolean;
   showAddBoardModal: boolean;
   showEditBoardModal: boolean;
   showDeleteBoardModal: boolean;
@@ -18,7 +18,7 @@ const initialState: UIState = {
   showSidebar: false,
   showMobileSidebar: false,
   showHeaderMenu: false,
-  showViewTaskMenu: false,
+  showViewTaskSubmenu: false,
   showAddBoardModal: false,
   showEditBoardModal: false,
   showDeleteBoardModal: false,
@@ -41,8 +41,8 @@ const uiSlice = createSlice({
     toggleHeaderMenu(state) {
       state.showHeaderMenu = !state.showHeaderMenu;
     },
-    toggleViewTaskMenu(state) {
-      state.showViewTaskMenu = !state.showViewTaskMenu;
+    toggleViewTaskSubmenu(state) {
+      state.showViewTaskSubmenu = !state.showViewTaskSubmenu;
     },
     toggleAddBoardModal(state) {
       state.showAddBoardModal = !state.showAddBoardModal;
@@ -72,7 +72,7 @@ export const {
   toggleSidebar,
   toggleMobileSidebar,
   toggleHeaderMenu,
-  toggleViewTaskMenu,
+  toggleViewTaskSubmenu,
   toggleAddBoardModal,
   toggleEditBoardModal,
   toggleDeleteBoardModal,
