@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import type { NextPage } from "next/types";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 
@@ -12,12 +12,15 @@ import Sidebar from "~/components/sidebar/Sidebar";
 import OpenSidebarIcon from "~/components/svg/OpenSidebarIcon";
 import Button from "~/components/ui/Button";
 import { useGetBoardsQuery } from "~/store/api";
-import { setCurrentBoard } from "~/store/boardSlice";
+import { clearCurrentBoard, setCurrentBoard } from "~/store/boardSlice";
 import { toggleSidebar } from "~/store/uiSlice";
 import { selectCurrentBoard, selectShowSidebar } from "~/store/selectors";
+import NoBoardOrEmptyBoard from "~/components/board/NoBoardOrEmptyBoard";
+import SidebarToggle from "~/components/sidebar/SidebarToggle";
 
 const Home: NextPage = () => {
   const { data: session, status: sessionStatus } = useSession();
+  console.log(session);
   const { data: boards, isLoading, isError } = useGetBoardsQuery();
   const dispatch = useDispatch();
 
@@ -36,6 +39,9 @@ const Home: NextPage = () => {
           dispatch(setCurrentBoard(firstBoard));
         }
       }
+    } else {
+      // if 'boards' is not an array or has no elements, clear the current board
+      dispatch(clearCurrentBoard());
     }
   }, [boards, currentBoard, dispatch]);
 
@@ -70,7 +76,12 @@ const Home: NextPage = () => {
   }
 
   if (isError) {
-    return <div>Error loading boards</div>;
+    return (
+      <div>
+        <span>Error</span>
+        <button onClick={() => signOut()}>Sign Out</button>
+      </div>
+    );
   }
 
   return (
@@ -85,19 +96,13 @@ const Home: NextPage = () => {
           >
             <Sidebar />
           </div>
-          <ColumnScrollContainer />
-        </div>
-
-        <div
-          className={clsx(
-            "absolute bottom-8 left-0 hidden cursor-pointer items-center justify-center rounded-r-full bg-violet-700 p-5 transition hover:bg-violet-400 md:flex",
-            showSidebar ? "-translate-x-full" : "translate-x-0",
+          {boards?.length === 0 || currentBoard?.columns.length === 0 ? (
+            <NoBoardOrEmptyBoard />
+          ) : (
+            <ColumnScrollContainer />
           )}
-          onClick={() => dispatch(toggleSidebar())}
-        >
-          <OpenSidebarIcon />
         </div>
-
+        <SidebarToggle />
         <CurrentModal />
       </main>
     </>
