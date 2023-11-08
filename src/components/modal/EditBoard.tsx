@@ -8,11 +8,12 @@ import Button from "~/components/ui/Button";
 import { selectCurrentBoard } from "~/store/selectors";
 import { toggleEditBoardModal } from "~/store/uiSlice";
 import { useEditBoardMutation } from "~/store/api";
+import { getRandColor } from "~/utils/getRandColor";
 
 export type EditBoardInput = {
   id: string;
   name: string;
-  columns: { name: string }[];
+  columns: { name: string; color: string }[];
 };
 
 const EditBoard = () => {
@@ -42,8 +43,17 @@ const EditBoard = () => {
   });
 
   const onSubmit = async (data: EditBoardInput) => {
+    // adds random color to each column for ui accent next to column name
+    const dataWithColumnColors = {
+      ...data,
+      columns: data.columns.map((column) => ({
+        ...column,
+        color: column.color ?? getRandColor(),
+      })),
+    };
+
     try {
-      await editBoard(data).unwrap();
+      await editBoard(dataWithColumnColors).unwrap();
       dispatch(toggleEditBoardModal());
     } catch (err) {
       console.log("err -> ", err);
@@ -142,7 +152,11 @@ const EditBoard = () => {
             );
           })}
         </div>
-        <Button variant="secondary" wide onClick={() => append({ name: "" })}>
+        <Button
+          variant="secondary"
+          wide
+          onClick={() => append({ name: "", color: getRandColor() })}
+        >
           <AddIcon className="fill-violet-700" />
           <span>Add New Column</span>
         </Button>
