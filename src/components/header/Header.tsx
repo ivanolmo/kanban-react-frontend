@@ -1,18 +1,13 @@
 import { useSelector } from "react-redux";
 
+import HeaderMenu from "~/components/header/HeaderMenu";
 import AddIcon from "~/components/svg/AddIcon";
 import Logo from "~/components/svg/Logo";
 import Button from "~/components/ui/Button";
-import Submenu from "~/components/ui/Submenu";
-import {
-  selectCurrentBoard,
-  selectShowSidebar,
-  selectShowSubmenu,
-} from "~/store/selectors";
+import { selectCurrentBoard, selectShowSidebar } from "~/store/selectors";
 
 const Header: React.FC = () => {
   const showSidebar = useSelector(selectShowSidebar);
-  const showSubmenu = useSelector(selectShowSubmenu);
   const currentBoard = useSelector(selectCurrentBoard);
 
   return (
@@ -49,12 +44,7 @@ const Header: React.FC = () => {
               <span className="hidden md:inline">Add New Task</span>
             </Button>
           </div>
-          <Submenu
-            showMenu={showSubmenu}
-            // handleDelete={handleDelete}
-            // handleEdit={handleEdit}
-            withSignOut
-          />
+          <HeaderMenu />
         </div>
       </div>
     </header>
