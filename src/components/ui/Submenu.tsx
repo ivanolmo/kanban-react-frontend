@@ -6,7 +6,11 @@ import EditIcon from "~/components/svg/EditIcon";
 import MenuIcon from "~/components/svg/MenuIcon";
 import SignoutIcon from "~/components/svg/SignoutIcon";
 import XIcon from "~/components/svg/XIcon";
-import { toggleDeleteBoardModal, toggleSubmenu } from "~/store/uiSlice";
+import {
+  toggleDeleteBoardModal,
+  toggleEditBoardModal,
+  toggleSubmenu,
+} from "~/store/uiSlice";
 import { selectBoards } from "~/store/selectors";
 
 type SubmenuProps = {
@@ -59,7 +63,7 @@ const Submenu: React.FC<SubmenuProps> = (props) => {
             className={`group flex cursor-pointer items-center justify-between text-slate transition hover:text-gunmetal-700 dark:hover:text-white ${
               boards ? !boards?.length && "hidden" : null
             }`}
-            // onClick={() => props.handleEdit()}
+            onClick={() => dispatch(toggleEditBoardModal())}
           >
             {`Edit ${boards ? "Board" : "Task"}`}
             <EditIcon className="h-6 w-6 fill-white stroke-slate transition group-hover:stroke-gunmetal-700 dark:fill-transparent dark:group-hover:stroke-white" />

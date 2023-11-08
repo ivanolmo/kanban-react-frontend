@@ -1,31 +1,37 @@
-import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm, useFieldArray } from "react-hook-form";
 
-import { useCreateBoardMutation } from "~/store/api";
+import AddIcon from "~/components/svg/AddIcon";
 import XIcon from "~/components/svg/XIcon";
 import Button from "~/components/ui/Button";
-import AddIcon from "~/components/svg/AddIcon";
-import { setCurrentBoard } from "~/store/boardSlice";
-import { toggleAddBoardModal } from "~/store/uiSlice";
+import { selectCurrentBoard } from "~/store/selectors";
+import { toggleEditBoardModal } from "~/store/uiSlice";
+import { useEditBoardMutation } from "~/store/api";
 
-export type CreateBoardInput = {
+export type EditBoardInput = {
+  id: string;
   name: string;
   columns: { name: string }[];
 };
 
-const AddBoard = () => {
-  const [createBoard, { isLoading, error, data }] = useCreateBoardMutation();
+const EditBoard = () => {
+  const [columnsToDelete, setColumnsToDelete] = useState<string[]>([]);
+  const [editBoard, { isLoading, error, data }] = useEditBoardMutation();
   const dispatch = useDispatch();
+
+  const currentBoard = useSelector(selectCurrentBoard);
 
   const {
     handleSubmit,
     register,
     control,
     formState: { errors },
-  } = useForm<CreateBoardInput>({
+  } = useForm<EditBoardInput>({
     defaultValues: {
-      name: "",
-      columns: [{ name: "Todo" }, { name: "Doing" }],
+      id: currentBoard?.id,
+      name: currentBoard?.name,
+      columns: currentBoard?.columns,
     },
     mode: "onBlur",
   });
@@ -35,37 +41,41 @@ const AddBoard = () => {
     name: "columns",
   });
 
-  const onSubmit = async (data: CreateBoardInput) => {
-    // removes columns with no name
-    data = {
-      ...data,
-      columns: data.columns.filter((column) => column.name !== ""),
-    };
-
+  const onSubmit = async (data: EditBoardInput) => {
     try {
-      const newBoard = await createBoard(data).unwrap();
-      dispatch(toggleAddBoardModal());
-      dispatch(setCurrentBoard(newBoard));
+      await editBoard(data).unwrap();
+      dispatch(toggleEditBoardModal());
     } catch (err) {
       console.log("err -> ", err);
     }
   };
 
-  if (error) return <p>error</p>;
+  if (error) return <div>Error</div>;
 
   if (isLoading) return <p>Loading...</p>;
 
   return (
     <div className="w-full space-y-6">
       <div className="flex w-full items-center justify-between">
-        <h2 className="">Add New Board</h2>
-        <span
-          className="cursor-pointer"
-          onClick={() => dispatch({ type: "ui/toggleAddBoardModal" })}
-        >
+        <h2 className="">Edit Board</h2>
+        <button onClick={() => dispatch(toggleEditBoardModal())}>
           <XIcon className="h-6 w-6 stroke-red-600" />
-        </span>
+        </button>
       </div>
+      {columnsToDelete.length > 0 && (
+        <div className="space-y-4 text-body-lg text-red-600">
+          <span>
+            <span className="uppercase">Warning!</span> This action will delete
+            the following column{columnsToDelete.length > 1 && "s"} and all
+            associated tasks:
+          </span>
+          <ul>
+            {columnsToDelete.map((column) => (
+              <li key={column}>{column}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6">
         <div className="relative flex flex-col gap-2">
           <label
@@ -103,26 +113,28 @@ const AddBoard = () => {
                 key={field.id}
                 className="relative flex w-full items-center gap-2"
               >
-                <Controller
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      placeholder="e.g. Todo, Doing, Done"
-                      className={`border-slate/25 ${
-                        errors?.columns?.[index] && "border-red-600"
-                      }`}
-                    />
-                  )}
-                  name={`columns.${index}.name`}
-                  control={control}
-                  // rules={{ required: true }}
-                  defaultValue={field.id}
+                <input
+                  key={field.id}
+                  {...register(`columns.${index}.name`, {
+                    required: true,
+                  })}
+                  disabled={field.name !== ""}
+                  placeholder="e.g. Todo, Doing, Done"
+                  className={`border-slate/25 ${
+                    errors?.columns?.[index] && "border-red-600"
+                  }`}
                 />
-                <button type="button" onClick={() => remove(index)}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    remove(index);
+                    setColumnsToDelete((columns) => [...columns, field.name]);
+                  }}
+                >
                   <XIcon className="h-6 w-6 stroke-red-600" />
                 </button>
                 {errors?.columns?.[index] && (
-                  <span className="text-body-sm absolute right-10 top-4 text-red-600">
+                  <span className="absolute right-10 top-3.5 text-sm text-red-600">
                     Can&apos;t be empty
                   </span>
                 )}
@@ -135,11 +147,11 @@ const AddBoard = () => {
           <span>Add New Column</span>
         </Button>
         <Button type="submit" wide>
-          <span>Create New Board</span>
+          <span>Save Changes</span>
         </Button>
       </form>
     </div>
   );
 };
 
-export default AddBoard;
+export default EditBoard;
