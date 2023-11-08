@@ -42,7 +42,7 @@ const HeaderMenu: React.FC = () => {
 
   return (
     <div
-      className="relative cursor-pointer px-4"
+      className="relative z-50 cursor-pointer px-4"
       onClick={() => dispatch(toggleHeaderMenu())}
     >
       <div ref={buttonRef}>

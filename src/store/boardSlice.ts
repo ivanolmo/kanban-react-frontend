@@ -27,6 +27,9 @@ const boardSlice = createSlice({
     setCurrentBoard(state, action: PayloadAction<Board>) {
       state.currentBoard = action.payload;
     },
+    clearCurrentBoard(state) {
+      state.currentBoard = null;
+    },
     setCurrentTask(state, action: PayloadAction<Task>) {
       state.currentTask = action.payload;
     },
@@ -77,7 +80,12 @@ const boardSlice = createSlice({
   },
 });
 
-export const { setBoards, setCurrentBoard, setCurrentTask, clearCurrentTask } =
-  boardSlice.actions;
+export const {
+  setBoards,
+  setCurrentBoard,
+  clearCurrentBoard,
+  setCurrentTask,
+  clearCurrentTask,
+} = boardSlice.actions;
 
 export default boardSlice.reducer;
