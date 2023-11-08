@@ -7,10 +7,11 @@ import Button from "~/components/ui/Button";
 import AddIcon from "~/components/svg/AddIcon";
 import { setCurrentBoard } from "~/store/boardSlice";
 import { toggleAddBoardModal } from "~/store/uiSlice";
+import { getRandColor } from "~/utils/getRandColor";
 
 export type CreateBoardInput = {
   name: string;
-  columns: { name: string }[];
+  columns: { name: string; color: string }[];
 };
 
 const AddBoard = () => {
@@ -42,8 +43,17 @@ const AddBoard = () => {
       columns: data.columns.filter((column) => column.name !== ""),
     };
 
+    // adds random color to each column for ui accent next to column name
+    const dataWithColumnColors = {
+      ...data,
+      columns: data.columns.map((column) => ({
+        ...column,
+        color: column.color ?? getRandColor(),
+      })),
+    };
+
     try {
-      const newBoard = await createBoard(data).unwrap();
+      const newBoard = await createBoard(dataWithColumnColors).unwrap();
       dispatch(toggleAddBoardModal());
       dispatch(setCurrentBoard(newBoard));
     } catch (err) {
@@ -115,7 +125,7 @@ const AddBoard = () => {
                   )}
                   name={`columns.${index}.name`}
                   control={control}
-                  // rules={{ required: true }}
+                  rules={{ required: true }}
                   defaultValue={field.id}
                 />
                 <button type="button" onClick={() => remove(index)}>
@@ -130,7 +140,11 @@ const AddBoard = () => {
             );
           })}
         </div>
-        <Button variant="secondary" wide onClick={() => append({ name: "" })}>
+        <Button
+          variant="secondary"
+          wide
+          onClick={() => append({ name: "", color: getRandColor() })}
+        >
           <AddIcon className="fill-violet-700" />
           <span>Add New Column</span>
         </Button>

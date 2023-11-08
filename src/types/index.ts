@@ -10,7 +10,7 @@ export type Board = {
 export type Column = {
   id: string;
   boardId: string;
-  accentColor: string;
+  color: string;
   name: string;
   tasks: Task[];
   createdAt: Date;
