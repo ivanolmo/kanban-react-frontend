@@ -77,7 +77,7 @@ const boardSlice = createSlice({
   },
 });
 
-export const { setBoards, setCurrentBoard, setCurrentTask } =
+export const { setBoards, setCurrentBoard, setCurrentTask, clearCurrentTask } =
   boardSlice.actions;
 
 export default boardSlice.reducer;
