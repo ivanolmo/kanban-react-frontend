@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import XIcon from "../svg/XIcon";
-import Select from "../ui/Select";
-import { selectCurrentTask } from "~/store/selectors";
-import { toggleEditTaskModal, toggleViewTaskModal } from "~/store/uiSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+import Subtask from "~/components/subtask/Subtask";
+import XIcon from "~/components/svg/XIcon";
+import ViewTaskMenu from "~/components/task/ViewTaskMenu";
+import Select from "~/components/ui/Select";
 import { clearCurrentTask } from "~/store/boardSlice";
-import ViewTaskMenu from "../task/ViewTaskMenu";
-import Subtask from "../subtask/Subtask";
+import { selectCurrentTask } from "~/store/selectors";
+import { toggleViewTaskModal } from "~/store/uiSlice";
 
 const ViewTask: React.FC = () => {
   const [completedSubtaskCount, setCompletedSubtaskCount] = useState<
