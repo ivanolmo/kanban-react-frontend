@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-import { api } from "./api";
+import { api } from "~/store/api";
 import type { ApiErrorResponse, Board, Task } from "~/types";
 
 type BoardState = {
@@ -43,6 +43,12 @@ const boardSlice = createSlice({
     );
     builder.addMatcher(
       api.endpoints.createBoard.matchFulfilled,
+      (state, action) => {
+        state.currentBoard = action.payload;
+      },
+    );
+    builder.addMatcher(
+      api.endpoints.editBoard.matchFulfilled,
       (state, action) => {
         state.currentBoard = action.payload;
       },

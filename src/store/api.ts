@@ -8,6 +8,7 @@ import {
 import { getSession } from "next-auth/react";
 
 import type { CreateBoardInput } from "~/components/modal/AddBoard";
+import type { EditBoardInput } from "~/components/modal/EditBoard";
 import type { ApiBoardResponse, Board } from "~/types";
 import { transformApiResponse } from "~/utils/transformers";
 
@@ -62,6 +63,15 @@ export const api = createApi({
       transformResponse: (response: ApiBoardResponse) => response.data as Board,
       invalidatesTags: ["Boards"],
     }),
+    editBoard: builder.mutation<Board, EditBoardInput>({
+      query: ({ id, ...body }) => ({
+        url: `boards/${id}`,
+        method: "PUT",
+        body,
+      }),
+      transformResponse: (response: ApiBoardResponse) => response.data as Board,
+      invalidatesTags: ["Boards"],
+    }),
     deleteBoard: builder.mutation<void, string>({
       query: (id) => ({
         url: `boards/${id}`,
@@ -75,5 +85,6 @@ export const api = createApi({
 export const {
   useGetBoardsQuery,
   useCreateBoardMutation,
+  useEditBoardMutation,
   useDeleteBoardMutation,
 } = api;

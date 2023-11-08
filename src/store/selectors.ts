@@ -7,6 +7,7 @@ export const selectCurrentModal = (state: RootState): ModalType | null => {
   const uiState = state.ui;
   if (uiState.showAddBoardModal) return ModalType.AddBoard;
   if (uiState.showDeleteBoardModal) return ModalType.DeleteBoard;
+  if (uiState.showEditBoardModal) return ModalType.EditBoard;
   return null;
 };
 
