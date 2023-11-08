@@ -77,6 +77,32 @@ const boardSlice = createSlice({
       // make sure the current board is not undefined
       state.currentBoard = nextBoard ?? null;
     });
+    builder.addMatcher(
+      api.endpoints.deleteTask.matchFulfilled,
+      (state, action) => {
+        const taskId = action.meta.arg.originalArgs;
+
+        // update boards array
+        state.boards = state.boards.map((board) => ({
+          ...board,
+          columns: board.columns.map((column) => ({
+            ...column,
+            tasks: column.tasks.filter((task) => task.id !== taskId),
+          })),
+        }));
+
+        // update currentBoard
+        if (state.currentBoard) {
+          state.currentBoard = {
+            ...state.currentBoard,
+            columns: state.currentBoard.columns.map((column) => ({
+              ...column,
+              tasks: column.tasks.filter((task) => task.id !== taskId),
+            })),
+          };
+        }
+      },
+    );
   },
 });
 

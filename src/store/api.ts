@@ -79,6 +79,13 @@ export const api = createApi({
       }),
       invalidatesTags: ["Boards"],
     }),
+    deleteTask: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `tasks/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Boards"],
+    }),
   }),
 });
 
@@ -87,4 +94,5 @@ export const {
   useCreateBoardMutation,
   useEditBoardMutation,
   useDeleteBoardMutation,
+  useDeleteTaskMutation,
 } = api;

@@ -3,6 +3,7 @@ export enum ModalType {
   DeleteBoard = "showDeleteBoardModal",
   EditBoard = "showEditBoardModal",
   ViewTask = "showViewTaskModal",
+  DeleteTask = "showDeleteTaskModal",
 }
 
 export const COLUMN_COLORS = [
