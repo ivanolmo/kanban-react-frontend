@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import EditIcon from "~/components/svg/EditIcon";
 import MenuIcon from "~/components/svg/MenuIcon";
 import XIcon from "~/components/svg/XIcon";
-import { toggleViewTaskSubmenu } from "~/store/uiSlice";
+import {
+  toggleDeleteTaskModal,
+  toggleViewTaskModal,
+  toggleViewTaskSubmenu,
+} from "~/store/uiSlice";
 import { selectBoards, selectShowViewTaskSubmenu } from "~/store/selectors";
 
 const ViewTaskSubmenu: React.FC = () => {
@@ -14,6 +18,11 @@ const ViewTaskSubmenu: React.FC = () => {
 
   const submenuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLDivElement | null>(null);
+
+  const handleDelete = () => {
+    dispatch(toggleViewTaskModal());
+    dispatch(toggleDeleteTaskModal());
+  };
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -55,16 +64,16 @@ const ViewTaskSubmenu: React.FC = () => {
             }`}
             // onClick={() => dispatch(toggleEditBoardModal())}
           >
-            {`Edit ${boards ? "Board" : "Task"}`}
+            Edit Task
             <EditIcon className="h-6 w-6 fill-white stroke-slate transition group-hover:stroke-gunmetal-700 dark:fill-transparent dark:group-hover:stroke-white" />
           </span>
           <span
             className={`group flex cursor-pointer items-center justify-between text-red-600 transition hover:text-red-900 dark:hover:text-red-400 ${
               boards ? !boards?.length && "hidden" : null
             }`}
-            // onClick={() => dispatch(toggleDeleteBoardModal())}
+            onClick={() => handleDelete()}
           >
-            {`Delete ${boards ? "Board" : "Task"}`}
+            Delete Task
             <XIcon className="h-6 w-6 stroke-red-600 transition group-hover:stroke-red-900 dark:group-hover:stroke-red-400" />
           </span>
         </div>
