@@ -1,8 +1,9 @@
 export enum ModalType {
   AddBoard = "showAddBoardModal",
-  DeleteBoard = "showDeleteBoardModal",
   EditBoard = "showEditBoardModal",
+  DeleteBoard = "showDeleteBoardModal",
   ViewTask = "showViewTaskModal",
+  AddTask = "showAddTaskModal",
   DeleteTask = "showDeleteTaskModal",
 }
 

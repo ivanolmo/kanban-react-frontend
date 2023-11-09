@@ -78,6 +78,55 @@ const boardSlice = createSlice({
       state.currentBoard = nextBoard ?? null;
     });
     builder.addMatcher(
+      api.endpoints.addTask.matchFulfilled,
+      (state, action) => {
+        const task = action.payload;
+
+        // update boards array
+        state.boards = state.boards.map((board) => {
+          // if the task's column is in the board, add the task to the column
+          if (board.columns.some((column) => column.id === task.columnId)) {
+            return {
+              ...board,
+              columns: board.columns.map((column) => {
+                if (column.id === task.columnId) {
+                  return {
+                    ...column,
+                    tasks: [...column.tasks, task],
+                  };
+                }
+                return column;
+              }),
+            };
+          }
+          return board;
+        });
+
+        // update currentBoard
+        if (state.currentBoard) {
+          // if the task's column is in the currentBoard, add the task to the column
+          if (
+            state.currentBoard.columns.some(
+              (column) => column.id === task.columnId,
+            )
+          ) {
+            state.currentBoard = {
+              ...state.currentBoard,
+              columns: state.currentBoard.columns.map((column) => {
+                if (column.id === task.columnId) {
+                  return {
+                    ...column,
+                    tasks: [...column.tasks, task],
+                  };
+                }
+                return column;
+              }),
+            };
+          }
+        }
+      },
+    );
+    builder.addMatcher(
       api.endpoints.deleteTask.matchFulfilled,
       (state, action) => {
         const taskId = action.meta.arg.originalArgs;
