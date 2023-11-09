@@ -1,3 +1,4 @@
+// Entity types
 export type Board = {
   id: string;
   userId: string;
@@ -37,18 +38,23 @@ export type Subtask = {
   updatedAt: Date;
 };
 
-export type ApiBoardResponse = {
-  data: Board | Board[];
-  success: boolean;
-  message: string;
-  status: string;
+// Form data types
+export type CreateBoardInput = {
+  name: string;
+  columns: { name: string; color: string }[];
 };
 
-export type ApiErrorResponse = {
-  error: string;
-  success: boolean;
-  message: string;
-  status: string;
+export type EditBoardInput = {
+  id: string;
+  name: string;
+  columns: { name: string; color: string }[];
+};
+
+export type CreateTaskInput = {
+  columnId: { id: string };
+  title: string;
+  description: string;
+  subtasks: { title: string }[];
 };
 
 export type FormData = {
@@ -56,20 +62,37 @@ export type FormData = {
   password: string;
 };
 
-export type AuthSuccessResponse = {
-  data: {
-    user_id: string;
-    email: string;
-    access_token: string;
-  };
+// API response types
+type ApiBaseResponse = {
   success: boolean;
   message: string;
   status: string;
 };
 
-export type AuthErrorResponse = {
+export type ApiBoardResponse = ApiBaseResponse & {
+  data: Board;
+};
+
+export type ApiBoardsResponse = ApiBaseResponse & {
+  data: Board[];
+};
+
+export type ApiTaskResponse = ApiBaseResponse & {
+  data: Task;
+};
+
+export type ApiErrorResponse = ApiBaseResponse & {
   error: string;
-  success: boolean;
-  message: string;
-  status: string;
+};
+
+export type AuthSuccessResponse = ApiBaseResponse & {
+  data: {
+    user_id: string;
+    email: string;
+    access_token: string;
+  };
+};
+
+export type AuthErrorResponse = ApiBaseResponse & {
+  error: string;
 };
