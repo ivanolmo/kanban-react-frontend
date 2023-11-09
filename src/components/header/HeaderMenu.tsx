@@ -59,7 +59,7 @@ const HeaderMenu: React.FC = () => {
             }`}
             onClick={() => dispatch(toggleEditBoardModal())}
           >
-            {`Edit ${boards ? "Board" : "Task"}`}
+            Edit Board
             <EditIcon className="h-6 w-6 fill-white stroke-slate transition group-hover:stroke-gunmetal-700 dark:fill-transparent dark:group-hover:stroke-white" />
           </span>
           <span
@@ -68,7 +68,7 @@ const HeaderMenu: React.FC = () => {
             }`}
             onClick={() => dispatch(toggleDeleteBoardModal())}
           >
-            {`Delete ${boards ? "Board" : "Task"}`}
+            Delete Board
             <XIcon className="h-6 w-6 stroke-red-600 transition group-hover:stroke-red-900 dark:group-hover:stroke-red-400" />
           </span>
           <span
