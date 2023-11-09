@@ -1,26 +1,22 @@
 import { useEffect } from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import type { NextPage } from "next/types";
-import { signIn, signOut, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
-import clsx from "clsx";
 
+import NoBoardOrEmptyBoard from "~/components/board/NoBoardOrEmptyBoard";
 import ColumnScrollContainer from "~/components/column/ColumnScrollContainer";
 import Header from "~/components/header/Header";
 import CurrentModal from "~/components/modal/CurrentModal";
 import Sidebar from "~/components/sidebar/Sidebar";
-import OpenSidebarIcon from "~/components/svg/OpenSidebarIcon";
+import SidebarToggle from "~/components/sidebar/SidebarToggle";
 import Button from "~/components/ui/Button";
 import { useGetBoardsQuery } from "~/store/api";
 import { clearCurrentBoard, setCurrentBoard } from "~/store/boardSlice";
-import { toggleSidebar } from "~/store/uiSlice";
 import { selectCurrentBoard, selectShowSidebar } from "~/store/selectors";
-import NoBoardOrEmptyBoard from "~/components/board/NoBoardOrEmptyBoard";
-import SidebarToggle from "~/components/sidebar/SidebarToggle";
 
 const Home: NextPage = () => {
   const { data: session, status: sessionStatus } = useSession();
-  console.log(session);
   const { data: boards, isLoading, isError } = useGetBoardsQuery();
   const dispatch = useDispatch();
 

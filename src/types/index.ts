@@ -51,10 +51,12 @@ export type EditBoardInput = {
 };
 
 export type CreateTaskInput = {
-  columnId: { id: string };
-  title: string;
-  description: string;
-  subtasks: { title: string }[];
+  columnId: string;
+  task: {
+    title: string;
+    description: string;
+    subtasks: { title: string }[];
+  };
 };
 
 export type FormData = {

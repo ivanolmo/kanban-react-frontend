@@ -1,17 +1,21 @@
-import { Fragment, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Listbox, Transition } from "@headlessui/react";
+import clsx from "clsx";
+import { Fragment, useEffect } from "react";
 import {
   useController,
   type Control,
   type FieldPath,
   type FieldValues,
 } from "react-hook-form";
-import clsx from "clsx";
-import { selectCurrentBoard, selectShowEditTaskModal } from "~/store/selectors";
-import { selectCurrentTask } from "~/store/selectors";
-import ChevronDownIcon from "../svg/ChevronDownIcon";
-import CheckIcon from "../svg/CheckIcon";
+import { useDispatch, useSelector } from "react-redux";
+
+import CheckIcon from "~/components/svg/CheckIcon";
+import ChevronDownIcon from "~/components/svg/ChevronDownIcon";
+import {
+  selectCurrentBoard,
+  selectCurrentTask,
+  selectShowEditTaskModal,
+} from "~/store/selectors";
 import { toggleEditTaskModal } from "~/store/uiSlice";
 
 type SelectProps<
@@ -64,7 +68,6 @@ const Select = <
     ) {
       handleColumnMove && handleColumnMove(value.id as string, currentTask?.id);
       dispatch(toggleEditTaskModal());
-      console.log("edit task modal toggle");
     }
   }, [currentTask, dispatch, handleColumnMove, showEditTaskModal, value]);
 
