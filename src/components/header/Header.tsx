@@ -1,12 +1,14 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import HeaderMenu from "~/components/header/HeaderMenu";
 import AddIcon from "~/components/svg/AddIcon";
 import Logo from "~/components/svg/Logo";
 import Button from "~/components/ui/Button";
 import { selectCurrentBoard, selectShowSidebar } from "~/store/selectors";
+import { toggleAddTaskModal } from "~/store/uiSlice";
 
 const Header: React.FC = () => {
+  const dispatch = useDispatch();
   const showSidebar = useSelector(selectShowSidebar);
   const currentBoard = useSelector(selectCurrentBoard);
 
@@ -38,7 +40,7 @@ const Header: React.FC = () => {
               variant="primary"
               size="lg"
               disabled={!currentBoard?.columns.length}
-              // onClick={() => store.toggleAddTaskModal()}
+              onClick={() => dispatch(toggleAddTaskModal())}
             >
               <AddIcon className="fill-white" />
               <span className="hidden md:inline">Add New Task</span>
