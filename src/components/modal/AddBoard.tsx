@@ -1,18 +1,14 @@
-import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
-import { useCreateBoardMutation } from "~/store/api";
+import AddIcon from "~/components/svg/AddIcon";
 import XIcon from "~/components/svg/XIcon";
 import Button from "~/components/ui/Button";
-import AddIcon from "~/components/svg/AddIcon";
+import { useCreateBoardMutation } from "~/store/api";
 import { setCurrentBoard } from "~/store/boardSlice";
 import { toggleAddBoardModal } from "~/store/uiSlice";
+import type { CreateBoardInput } from "~/types";
 import { getRandColor } from "~/utils/getRandColor";
-
-export type CreateBoardInput = {
-  name: string;
-  columns: { name: string; color: string }[];
-};
 
 const AddBoard = () => {
   const [createBoard, { isLoading, error, data }] = useCreateBoardMutation();

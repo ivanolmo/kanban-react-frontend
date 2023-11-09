@@ -1,20 +1,15 @@
 import { useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useForm, useFieldArray } from "react-hook-form";
 
 import AddIcon from "~/components/svg/AddIcon";
 import XIcon from "~/components/svg/XIcon";
 import Button from "~/components/ui/Button";
+import { useEditBoardMutation } from "~/store/api";
 import { selectCurrentBoard } from "~/store/selectors";
 import { toggleEditBoardModal } from "~/store/uiSlice";
-import { useEditBoardMutation } from "~/store/api";
+import type { EditBoardInput } from "~/types";
 import { getRandColor } from "~/utils/getRandColor";
-
-export type EditBoardInput = {
-  id: string;
-  name: string;
-  columns: { name: string; color: string }[];
-};
 
 const EditBoard = () => {
   const [columnsToDelete, setColumnsToDelete] = useState<string[]>([]);
