@@ -45,7 +45,7 @@ const ViewTaskSubmenu: React.FC = () => {
 
   return (
     <div
-      className="relative cursor-pointer px-4"
+      className="relative z-50 cursor-pointer px-4"
       onClick={() => dispatch(toggleViewTaskSubmenu())}
     >
       <div ref={buttonRef}>
