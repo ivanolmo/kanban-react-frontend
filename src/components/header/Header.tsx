@@ -1,6 +1,8 @@
+import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 
 import HeaderMenu from "~/components/header/HeaderMenu";
+import SidebarMobile from "~/components/sidebar/MobileSidebar";
 import AddIcon from "~/components/svg/AddIcon";
 import Logo from "~/components/svg/Logo";
 import Button from "~/components/ui/Button";
@@ -15,9 +17,10 @@ const Header: React.FC = () => {
   return (
     <header className="flex h-16 items-center bg-white dark:bg-gunmetal-800 md:h-20 lg:h-24">
       <div
-        className={`hidden h-full items-center border-r border-indigo px-4 dark:border-gunmetal-700 md:flex md:px-6 ${
-          showSidebar && "w-64"
-        }`}
+        className={clsx(
+          "hidden h-full items-center border-r border-indigo px-4 dark:border-gunmetal-700 md:flex md:px-6",
+          showSidebar && "w-64",
+        )}
       >
         <span className="dark:hidden">
           <Logo className="hidden md:block" />
@@ -27,10 +30,7 @@ const Header: React.FC = () => {
         </span>
       </div>
       <div className="flex w-full flex-1 items-center justify-between pl-4 md:pl-6 md:pr-2">
-        {/* <SidebarMobile
-          // TODO only needs names not all board data?
-          boards={props.boards}
-        /> */}
+        <SidebarMobile />
         <h1 className="hidden capitalize md:block">
           {currentBoard?.name ?? "No Boards"}
         </h1>
