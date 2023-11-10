@@ -1,47 +1,29 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
 import Subtask from "~/components/subtask/Subtask";
 import XIcon from "~/components/svg/XIcon";
 import ViewTaskSubmenu from "~/components/task/ViewTaskSubmenu";
-import Select from "~/components/ui/Select";
 import { clearCurrentTask } from "~/store/boardSlice";
-import { selectCurrentTask } from "~/store/selectors";
+import { selectCurrentBoard, selectCurrentTask } from "~/store/selectors";
 import { toggleViewTaskModal } from "~/store/uiSlice";
 
 const ViewTask: React.FC = () => {
-  const [completedSubtaskCount, setCompletedSubtaskCount] = useState<
-    number | undefined
-  >(0);
   const dispatch = useDispatch();
+  const currentBoard = useSelector(selectCurrentBoard);
   const currentTask = useSelector(selectCurrentTask);
-  // get current task's column name
-  // const currentColumn = useSelector((state) =>
-  //   state.board.columns.find((column) => column.id === currentTask?.columnId),
-  // );
 
-  const { control } = useForm({
-    defaultValues: {
-      columnId: "",
-    },
-    mode: "onBlur",
-  });
+  const columnName = currentBoard?.columns.find(
+    (column) => column.id === currentTask?.columnId,
+  )?.name;
+
+  const completedSubtaskCount = currentTask?.subtasks.filter(
+    (subtask) => subtask.completed,
+  ).length;
 
   const handleClose = () => {
     dispatch(toggleViewTaskModal());
     dispatch(clearCurrentTask());
   };
-
-  useEffect(() => {
-    setCompletedSubtaskCount(
-      currentTask?.subtasks.filter((subtask) => subtask.completed).length,
-    );
-  }, [currentTask?.subtasks]);
-
-  // if (error) return <p>Error</p>;
-
-  // if (isLoading) return <p>Loading...</p>;
 
   return (
     <div className="w-full space-y-6">
@@ -65,16 +47,12 @@ const ViewTask: React.FC = () => {
 
         <ul className="flex w-full flex-col gap-4">
           {currentTask?.subtasks?.map((subtask) => (
-            <Subtask
-              key={subtask.id}
-              subtask={subtask}
-              updateCount={setCompletedSubtaskCount}
-            />
+            <Subtask key={subtask.id} subtask={subtask} />
           ))}
         </ul>
         <div className="flex w-full flex-col gap-4">
           <span className="text-body-md text-slate">Current Status</span>
-          <Select control={control} name="columnId" disabled />
+          <input type="text" value={columnName} disabled />
         </div>
       </div>
     </div>
