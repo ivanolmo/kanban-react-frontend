@@ -6,6 +6,7 @@ import MenuIcon from "~/components/svg/MenuIcon";
 import XIcon from "~/components/svg/XIcon";
 import {
   toggleDeleteTaskModal,
+  toggleEditTaskModal,
   toggleViewTaskModal,
   toggleViewTaskSubmenu,
 } from "~/store/uiSlice";
@@ -22,6 +23,11 @@ const ViewTaskSubmenu: React.FC = () => {
   const handleDelete = () => {
     dispatch(toggleViewTaskModal());
     dispatch(toggleDeleteTaskModal());
+  };
+
+  const handleEdit = () => {
+    dispatch(toggleViewTaskModal());
+    dispatch(toggleEditTaskModal());
   };
 
   useEffect(() => {
@@ -62,7 +68,7 @@ const ViewTaskSubmenu: React.FC = () => {
             className={`group flex cursor-pointer items-center justify-between text-slate transition hover:text-gunmetal-700 dark:hover:text-white ${
               boards ? !boards?.length && "hidden" : null
             }`}
-            // onClick={() => dispatch(toggleEditBoardModal())}
+            onClick={() => handleEdit()}
           >
             Edit Task
             <EditIcon className="h-6 w-6 fill-white stroke-slate transition group-hover:stroke-gunmetal-700 dark:fill-transparent dark:group-hover:stroke-white" />
