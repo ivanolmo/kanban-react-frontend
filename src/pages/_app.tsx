@@ -1,20 +1,23 @@
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import type { AppType } from "next/app";
-import { Provider as StoreProvider } from "react-redux";
+import { Provider } from "react-redux";
 
-import { store } from "~/store/store";
+import { setupStore } from "~/store";
+
 import "~/styles/globals.scss";
+
+const store = setupStore();
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <StoreProvider store={store}>
+    <Provider store={store}>
       <SessionProvider>
         <ThemeProvider attribute="class">
           <Component {...pageProps} />
         </ThemeProvider>
       </SessionProvider>
-    </StoreProvider>
+    </Provider>
   );
 };
 
