@@ -23,7 +23,6 @@ export type Task = {
   columnId: string;
   title: string;
   description: string;
-  completed: boolean;
   subtasks: Subtask[];
   createdAt: Date;
   updatedAt: Date;
