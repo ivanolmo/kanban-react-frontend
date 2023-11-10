@@ -16,6 +16,8 @@ export const selectCurrentModal = (state: RootState): ModalType | null => {
 };
 
 export const selectShowSidebar = (state: RootState) => state.ui.showSidebar;
+export const selectShowMobileSidebar = (state: RootState) =>
+  state.ui.showMobileSidebar;
 export const selectShowHeaderMenu = (state: RootState) =>
   state.ui.showHeaderMenu;
 export const selectShowViewTaskSubmenu = (state: RootState) =>
