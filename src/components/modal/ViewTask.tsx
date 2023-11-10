@@ -16,14 +16,10 @@ const ViewTask: React.FC = () => {
   >(0);
   const dispatch = useDispatch();
   const currentTask = useSelector(selectCurrentTask);
-
-  // const { mutate, error, isLoading } = trpc.useMutation(["tasks.move-task"], {
-  //   onSuccess: () => {
-  //     // TODO check
-  //     trpcCtx.invalidateQueries(["boards.get-boards"]);
-  //     store.clearSelectedTask();
-  //   },
-  // });
+  // get current task's column name
+  // const currentColumn = useSelector((state) =>
+  //   state.board.columns.find((column) => column.id === currentTask?.columnId),
+  // );
 
   const { control } = useForm({
     defaultValues: {
@@ -32,25 +28,10 @@ const ViewTask: React.FC = () => {
     mode: "onBlur",
   });
 
-  // const handleDelete = () => {
-  //   store.toggleViewTaskModal();
-  //   store.toggleDeleteTaskModal();
-  // };
-
-  // const handleEdit = () => {
-  //   store.toggleViewTaskModal();
-  //   store.toggleEditTaskModal();
-  // };
-
   const handleClose = () => {
     dispatch(toggleViewTaskModal());
     dispatch(clearCurrentTask());
   };
-
-  // mutation to move task to another column
-  // const handleColumnMove = (columnId: string, taskId: string) => {
-  //   mutate({ columnId, taskId });
-  // };
 
   useEffect(() => {
     setCompletedSubtaskCount(
@@ -93,11 +74,7 @@ const ViewTask: React.FC = () => {
         </ul>
         <div className="flex w-full flex-col gap-4">
           <span className="text-body-md text-slate">Current Status</span>
-          <Select
-            control={control}
-            name="columnId"
-            // handleColumnMove={handleColumnMove}
-          />
+          <Select control={control} name="columnId" disabled />
         </div>
       </div>
     </div>
