@@ -7,7 +7,10 @@ type ColumnProps = {
 
 const Column: React.FC<ColumnProps> = ({ column }) => {
   return (
-    <div className="flex w-72 flex-shrink-0 flex-col gap-6">
+    <div
+      className="flex w-72 flex-shrink-0 flex-col gap-6"
+      data-testid="column"
+    >
       <div className="flex items-center gap-3 uppercase text-slate">
         <span
           className="h-4 w-4 flex-shrink-0 rounded-full"
