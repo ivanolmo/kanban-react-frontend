@@ -14,11 +14,10 @@ type SidebarItemProps = {
 const SidebarItem: React.FC<SidebarItemProps> = ({ board }) => {
   const dispatch = useDispatch();
 
-  // Get the currentBoard from the redux store
   const currentBoard = useSelector(selectCurrentBoard);
 
   const handleSelect = () => {
-    // dispatch(toggleMobileSidebar());
+    dispatch(toggleMobileSidebar());
     dispatch(setCurrentBoard(board));
   };
 
