@@ -7,16 +7,11 @@ import {
   type FieldPath,
   type FieldValues,
 } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import CheckIcon from "~/components/svg/CheckIcon";
 import ChevronDownIcon from "~/components/svg/ChevronDownIcon";
-import {
-  selectCurrentBoard,
-  selectCurrentTask,
-  selectShowEditTaskModal,
-} from "~/store/selectors";
-import { toggleEditTaskModal } from "~/store/uiSlice";
+import { selectCurrentBoard, selectCurrentTask } from "~/store/selectors";
 
 type SelectProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -24,27 +19,25 @@ type SelectProps<
 > = {
   name: TName;
   control: Control<TFieldValues>;
-  handleColumnMove?: (columnId: string, taskId: string) => void;
+  disabled?: boolean;
 };
 
 const Select = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->(
-  props: SelectProps<TFieldValues, TName>,
-): JSX.Element => {
-  const dispatch = useDispatch();
+>({
+  name,
+  control,
+  disabled = false,
+}: SelectProps<TFieldValues, TName>): JSX.Element => {
   const currentBoard = useSelector(selectCurrentBoard);
   const currentTask = useSelector(selectCurrentTask);
-  const showEditTaskModal = useSelector(selectShowEditTaskModal);
 
   const {
     field: { value, onChange },
-  } = useController(props);
+  } = useController({ name, control });
 
-  const { handleColumnMove } = props;
-
-  // on mount set default select value to todo if new task, or current column if viewing task
+  // on mount set default select value to todo if new task, or the current column if viewing task
   useEffect(() => {
     if (!currentTask) {
       onChange(currentBoard?.columns[0]);
@@ -58,29 +51,22 @@ const Select = <
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentBoard?.columns, currentTask]);
 
-  // this fires if existing task and user changes column
-  useEffect(() => {
-    if (
-      currentTask &&
-      !showEditTaskModal &&
-      Object.keys(value).length &&
-      value.id !== currentTask?.columnId
-    ) {
-      handleColumnMove && handleColumnMove(value.id as string, currentTask?.id);
-      dispatch(toggleEditTaskModal());
-    }
-  }, [currentTask, dispatch, handleColumnMove, showEditTaskModal, value]);
-
   return (
-    <Listbox value={value} onChange={onChange}>
+    <Listbox value={value} onChange={onChange} disabled={disabled}>
       {({ open }) => (
         <div className="relative">
-          <Listbox.Button className="relative w-full cursor-pointer rounded-md border border-slate/25 px-4 py-2 text-left text-body-lg">
-            <span>{value.name ?? currentBoard?.columns[0]?.name}</span>
+          <Listbox.Button
+            className={clsx(
+              "relative w-full cursor-pointer rounded-md border border-slate/25 px-4 py-2 text-left text-body-lg",
+              disabled && "pointer-events-none",
+            )}
+          >
+            <span>{value.name ?? currentBoard?.columns?.[0]?.name}</span>
             <span
               className={clsx(
                 "absolute right-4 top-4 cursor-pointer transition",
                 open && "rotate-180",
+                disabled && "invisible",
               )}
             >
               <ChevronDownIcon className="stroke-violet-700" />
