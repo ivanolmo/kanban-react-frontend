@@ -59,9 +59,30 @@ export type CreateTaskInput = {
   };
 };
 
+export type EditTaskInput = {
+  id: string;
+  columnId: string;
+  task: {
+    title: string;
+    description: string;
+    subtasks: { title: string }[];
+  };
+};
+
 export type FormData = {
   email: string;
   password: string;
+};
+
+// request types
+export type EditTaskRequest = {
+  id: string;
+  task: {
+    title: string;
+    description: string;
+    subtasks: { title: string }[];
+    columnId: string;
+  };
 };
 
 // API response types
