@@ -9,6 +9,7 @@ export const selectCurrentModal = (state: RootState): ModalType | null => {
   if (uiState.showEditBoardModal) return ModalType.EditBoard;
   if (uiState.showViewTaskModal) return ModalType.ViewTask;
   if (uiState.showAddTaskModal) return ModalType.AddTask;
+  if (uiState.showEditTaskModal) return ModalType.EditTask;
   if (uiState.showDeleteTaskModal) return ModalType.DeleteTask;
 
   return null;

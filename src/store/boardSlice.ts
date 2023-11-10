@@ -102,7 +102,7 @@ const boardSlice = createSlice({
           return board;
         });
 
-        // update currentBoard
+        // update currentBoard for a ui update
         if (state.currentBoard) {
           // if the task's column is in the currentBoard, add the task to the column
           if (
@@ -123,6 +123,50 @@ const boardSlice = createSlice({
               }),
             };
           }
+        }
+      },
+    );
+    builder.addMatcher(
+      api.endpoints.editTask.matchFulfilled,
+      (state, action) => {
+        const updatedTask = action.payload;
+
+        // update boards array
+        state.boards = state.boards.map((board) => {
+          return {
+            ...board,
+            columns: board.columns.map((column) => {
+              // remove the task from its old column
+              let tasks = column.tasks.filter(
+                (task) => task.id !== updatedTask.id,
+              );
+
+              // add the task to the new column
+              if (column.id === updatedTask.columnId) {
+                tasks = [...tasks, updatedTask];
+              }
+
+              return { ...column, tasks };
+            }),
+          };
+        });
+
+        // update currentBoard for a ui update
+        if (state.currentBoard) {
+          state.currentBoard = {
+            ...state.currentBoard,
+            columns: state.currentBoard.columns.map((column) => {
+              let tasks = column.tasks.filter(
+                (task) => task.id !== updatedTask.id,
+              );
+
+              if (column.id === updatedTask.columnId) {
+                tasks = [...tasks, updatedTask];
+              }
+
+              return { ...column, tasks };
+            }),
+          };
         }
       },
     );

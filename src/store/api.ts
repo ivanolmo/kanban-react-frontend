@@ -14,8 +14,9 @@ import type {
   Board,
   Task,
   CreateBoardInput,
-  EditBoardInput,
+  EditTaskRequest,
   CreateTaskInput,
+  EditBoardInput,
 } from "~/types";
 
 // base query function
@@ -93,6 +94,15 @@ export const api = createApi({
       transformResponse: (response: ApiTaskResponse) => response.data,
       invalidatesTags: ["Boards"],
     }),
+    editTask: builder.mutation<Task, EditTaskRequest>({
+      query: ({ id, ...body }) => ({
+        url: `tasks/${id}`,
+        method: "PUT",
+        body,
+      }),
+      transformResponse: (response: ApiTaskResponse) => response.data,
+      invalidatesTags: ["Boards"],
+    }),
     deleteTask: builder.mutation<void, string>({
       query: (id) => ({
         url: `tasks/${id}`,
@@ -109,5 +119,6 @@ export const {
   useEditBoardMutation,
   useDeleteBoardMutation,
   useAddTaskMutation,
+  useEditTaskMutation,
   useDeleteTaskMutation,
 } = api;
