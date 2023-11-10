@@ -6,6 +6,7 @@ import { Provider as StoreProvider } from "react-redux";
 
 import type { AppStore, RootState } from "~/store";
 import { setupStore } from "~/store";
+import type { Board, Column, Task, Subtask } from "~/types";
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
@@ -35,5 +36,52 @@ export function renderWithProviders(
     ...render(ui, { wrapper: Wrapper, ...renderOptions }),
   };
 }
+
+// factory functions for creating test data
+export const createTestBoard = (id: string): Board => {
+  return {
+    id,
+    name: "Test Board Name",
+    columns: [createTestColumn("1"), createTestColumn("2")],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    userId: "1",
+  };
+};
+
+export const createTestColumn = (id: string): Column => {
+  return {
+    id,
+    name: "Todo",
+    color: "#ff0000",
+    tasks: [createTestTask("1"), createTestTask("2")],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    boardId: "1",
+  };
+};
+
+export const createTestTask = (id: string): Task => {
+  return {
+    id,
+    title: "Test Task Title",
+    description: "Test Task Description",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    columnId: "1",
+    subtasks: [createTestSubtask("1"), createTestSubtask("2")],
+  };
+};
+
+export const createTestSubtask = (id: string): Subtask => {
+  return {
+    id,
+    title: "Test Subtask Title",
+    completed: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    taskId: "1",
+  };
+};
 
 export * from "@testing-library/react";
