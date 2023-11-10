@@ -11,12 +11,14 @@ import type {
   ApiBoardResponse,
   ApiBoardsResponse,
   ApiTaskResponse,
+  ApiSubtaskResponse,
   Board,
   Task,
   CreateBoardInput,
   EditTaskRequest,
   CreateTaskInput,
   EditBoardInput,
+  Subtask,
 } from "~/types";
 
 // base query function
@@ -110,6 +112,14 @@ export const api = createApi({
       }),
       invalidatesTags: ["Boards"],
     }),
+    toggleSubtask: builder.mutation<Subtask, string>({
+      query: (id) => ({
+        url: `subtasks/${id}`,
+        method: "PUT",
+      }),
+      transformResponse: (response: ApiSubtaskResponse) => response.data,
+      invalidatesTags: ["Boards"],
+    }),
   }),
 });
 
@@ -121,4 +131,5 @@ export const {
   useAddTaskMutation,
   useEditTaskMutation,
   useDeleteTaskMutation,
+  useToggleSubtaskMutation,
 } = api;

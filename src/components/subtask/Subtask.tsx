@@ -1,46 +1,35 @@
-import { useState } from "react";
 import clsx from "clsx";
+
+import CheckIcon from "~/components/svg/CheckIcon";
+import { useToggleSubtaskMutation } from "~/store/api";
 import { Subtask } from "~/types";
-import CheckIcon from "../svg/CheckIcon";
 
 type SubtaskItemProps = {
-  key: string;
   subtask: Subtask;
-  updateCount: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-const Subtask = (props: SubtaskItemProps): JSX.Element => {
-  const [completed, setCompleted] = useState(props.subtask?.completed);
+const Subtask = ({ subtask }: SubtaskItemProps): JSX.Element => {
+  const [toggleSubtask, { isLoading, error, data }] =
+    useToggleSubtaskMutation();
 
-  // const { mutate, error, isLoading } = trpc.useMutation(
-  //   ["tasks.complete-subtask"],
-  //   {
-  //     onSuccess: () => {
-  //       // TODO maybe just invalidate the column?
-  //       trpcCtx.invalidateQueries(["boards.get-boards"]);
-  //       setCompleted(true);
-  //     },
-  //   },
-  // );
+  const handleToggle = async () => {
+    try {
+      await toggleSubtask(subtask.id).unwrap();
+    } catch (err) {
+      console.log("err -> ", err);
+    }
+  };
 
-  // const handleClick = () => {
-  //   if (!completed) {
-  //     props.updateCount((prev) => (prev as number) + 1);
-  //     mutate({
-  //       taskId: store.selectedTask?.id as string,
-  //       subtaskId: props.subtask.id,
-  //     });
-  //   } else {
-  //     // do nothing
-  //   }
-  // };
+  if (error) return <p>Error</p>;
+
+  if (isLoading) return <p>Updating subtask...</p>;
 
   return (
     <li
       className="flex cursor-pointer items-center gap-4 rounded-md bg-violet-50 py-4 pl-3 pr-6 hover:bg-violet-700/25 dark:bg-zinc dark:hover:bg-violet-700/25"
-      // onClick={() => handleClick()}
+      onClick={() => handleToggle()}
     >
-      {completed ? (
+      {subtask.completed ? (
         <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-sm bg-violet-700">
           <CheckIcon className="stroke-white" />
         </div>
@@ -51,12 +40,12 @@ const Subtask = (props: SubtaskItemProps): JSX.Element => {
       <span
         className={clsx(
           "text-body-md",
-          completed
+          subtask.completed
             ? "text-slate line-through dark:text-white/50"
             : "text-black dark:text-white",
         )}
       >
-        {props.subtask?.title}
+        {subtask.title}
       </span>
     </li>
   );

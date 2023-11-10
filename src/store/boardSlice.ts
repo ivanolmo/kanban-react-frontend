@@ -82,29 +82,8 @@ const boardSlice = createSlice({
       (state, action) => {
         const task = action.payload;
 
-        // update boards array
-        state.boards = state.boards.map((board) => {
-          // if the task's column is in the board, add the task to the column
-          if (board.columns.some((column) => column.id === task.columnId)) {
-            return {
-              ...board,
-              columns: board.columns.map((column) => {
-                if (column.id === task.columnId) {
-                  return {
-                    ...column,
-                    tasks: [...column.tasks, task],
-                  };
-                }
-                return column;
-              }),
-            };
-          }
-          return board;
-        });
-
         // update currentBoard for a ui update
         if (state.currentBoard) {
-          // if the task's column is in the currentBoard, add the task to the column
           if (
             state.currentBoard.columns.some(
               (column) => column.id === task.columnId,
@@ -131,26 +110,6 @@ const boardSlice = createSlice({
       (state, action) => {
         const updatedTask = action.payload;
 
-        // update boards array
-        state.boards = state.boards.map((board) => {
-          return {
-            ...board,
-            columns: board.columns.map((column) => {
-              // remove the task from its old column
-              let tasks = column.tasks.filter(
-                (task) => task.id !== updatedTask.id,
-              );
-
-              // add the task to the new column
-              if (column.id === updatedTask.columnId) {
-                tasks = [...tasks, updatedTask];
-              }
-
-              return { ...column, tasks };
-            }),
-          };
-        });
-
         // update currentBoard for a ui update
         if (state.currentBoard) {
           state.currentBoard = {
@@ -175,16 +134,7 @@ const boardSlice = createSlice({
       (state, action) => {
         const taskId = action.meta.arg.originalArgs;
 
-        // update boards array
-        state.boards = state.boards.map((board) => ({
-          ...board,
-          columns: board.columns.map((column) => ({
-            ...column,
-            tasks: column.tasks.filter((task) => task.id !== taskId),
-          })),
-        }));
-
-        // update currentBoard
+        // update currentBoard for a ui update
         if (state.currentBoard) {
           state.currentBoard = {
             ...state.currentBoard,
@@ -192,6 +142,38 @@ const boardSlice = createSlice({
               ...column,
               tasks: column.tasks.filter((task) => task.id !== taskId),
             })),
+          };
+        }
+      },
+    );
+    builder.addMatcher(
+      api.endpoints.toggleSubtask.matchFulfilled,
+      (state, action) => {
+        const updatedSubtask = action.payload;
+
+        // update currentBoard for a ui update of subtask count
+        if (state.currentBoard) {
+          state.currentBoard = {
+            ...state.currentBoard,
+            columns: state.currentBoard.columns.map((column) => ({
+              ...column,
+              tasks: column.tasks.map((task) => ({
+                ...task,
+                subtasks: task.subtasks.map((subtask) =>
+                  subtask.id === updatedSubtask.id ? updatedSubtask : subtask,
+                ),
+              })),
+            })),
+          };
+        }
+
+        // update the currentTask for a ui update
+        if (state.currentTask) {
+          state.currentTask = {
+            ...state.currentTask,
+            subtasks: state.currentTask.subtasks.map((subtask) =>
+              subtask.id === updatedSubtask.id ? updatedSubtask : subtask,
+            ),
           };
         }
       },
