@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 type UIState = {
   showSidebar: boolean;
   showMobileSidebar: boolean;
-  showSubmenu: boolean;
+  showHeaderMenu: boolean;
+  showViewTaskSubmenu: boolean;
   showAddBoardModal: boolean;
   showEditBoardModal: boolean;
   showDeleteBoardModal: boolean;
@@ -16,7 +17,8 @@ type UIState = {
 const initialState: UIState = {
   showSidebar: false,
   showMobileSidebar: false,
-  showSubmenu: false,
+  showHeaderMenu: false,
+  showViewTaskSubmenu: false,
   showAddBoardModal: false,
   showEditBoardModal: false,
   showDeleteBoardModal: false,
@@ -36,8 +38,11 @@ const uiSlice = createSlice({
     toggleMobileSidebar(state) {
       state.showMobileSidebar = !state.showMobileSidebar;
     },
-    toggleSubmenu(state) {
-      state.showSubmenu = !state.showSubmenu;
+    toggleHeaderMenu(state) {
+      state.showHeaderMenu = !state.showHeaderMenu;
+    },
+    toggleViewTaskSubmenu(state) {
+      state.showViewTaskSubmenu = !state.showViewTaskSubmenu;
     },
     toggleAddBoardModal(state) {
       state.showAddBoardModal = !state.showAddBoardModal;
@@ -66,7 +71,8 @@ const uiSlice = createSlice({
 export const {
   toggleSidebar,
   toggleMobileSidebar,
-  toggleSubmenu,
+  toggleHeaderMenu,
+  toggleViewTaskSubmenu,
   toggleAddBoardModal,
   toggleEditBoardModal,
   toggleDeleteBoardModal,

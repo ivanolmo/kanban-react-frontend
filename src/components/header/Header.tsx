@@ -1,17 +1,16 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
+import HeaderMenu from "~/components/header/HeaderMenu";
 import AddIcon from "~/components/svg/AddIcon";
 import Logo from "~/components/svg/Logo";
 import Button from "~/components/ui/Button";
-import Submenu from "~/components/ui/Submenu";
-import type { RootState } from "~/store/store";
+import { selectCurrentBoard, selectShowSidebar } from "~/store/selectors";
+import { toggleAddTaskModal } from "~/store/uiSlice";
 
 const Header: React.FC = () => {
-  const showSidebar = useSelector((state: RootState) => state.ui.showSidebar);
-  const showSubmenu = useSelector((state: RootState) => state.ui.showSubmenu);
-  const currentBoard = useSelector(
-    (state: RootState) => state.board.currentBoard,
-  );
+  const dispatch = useDispatch();
+  const showSidebar = useSelector(selectShowSidebar);
+  const currentBoard = useSelector(selectCurrentBoard);
 
   return (
     <header className="flex h-16 items-center bg-white dark:bg-gunmetal-800 md:h-20 lg:h-24">
@@ -41,18 +40,13 @@ const Header: React.FC = () => {
               variant="primary"
               size="lg"
               disabled={!currentBoard?.columns.length}
-              // onClick={() => store.toggleAddTaskModal()}
+              onClick={() => dispatch(toggleAddTaskModal())}
             >
               <AddIcon className="fill-white" />
               <span className="hidden md:inline">Add New Task</span>
             </Button>
           </div>
-          <Submenu
-            showMenu={showSubmenu}
-            // handleDelete={handleDelete}
-            // handleEdit={handleEdit}
-            withSignOut
-          />
+          <HeaderMenu />
         </div>
       </div>
     </header>

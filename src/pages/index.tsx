@@ -1,33 +1,45 @@
-import { signIn, useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import type { NextPage } from "next/types";
-import ScrollContainer from "react-indiana-drag-scroll";
 import { useDispatch, useSelector } from "react-redux";
 
-import AddColumn from "~/components/column/AddColumn";
-import Column from "~/components/column/Column";
+import NoBoardOrEmptyBoard from "~/components/board/NoBoardOrEmptyBoard";
+import ColumnScrollContainer from "~/components/column/ColumnScrollContainer";
 import Header from "~/components/header/Header";
+import CurrentModal from "~/components/modal/CurrentModal";
 import Sidebar from "~/components/sidebar/Sidebar";
+import SidebarToggle from "~/components/sidebar/SidebarToggle";
 import Button from "~/components/ui/Button";
 import { useGetBoardsQuery } from "~/store/api";
-import { toggleSidebar } from "~/store/uiSlice";
-import type { RootState } from "~/store/store";
-import OpenSidebarIcon from "~/components/svg/OpenSidebarIcon";
-import clsx from "clsx";
+import { clearCurrentBoard, setCurrentBoard } from "~/store/boardSlice";
+import { selectCurrentBoard, selectShowSidebar } from "~/store/selectors";
 
 const Home: NextPage = () => {
   const { data: session, status: sessionStatus } = useSession();
-  console.log("session -> ", session);
-
+  const { data: boards, isLoading, isError } = useGetBoardsQuery();
   const dispatch = useDispatch();
-  const queryResult = useGetBoardsQuery();
 
-  const currentBoard = useSelector(
-    (state: RootState) => state.board.currentBoard,
-  );
-  const showSidebar = useSelector((state: RootState) => state.ui.showSidebar);
+  const currentBoard = useSelector(selectCurrentBoard);
+  const showSidebar = useSelector(selectShowSidebar);
 
-  // console.log("boards -> ", boards);
+  // sets the first board as the current board when the app loads
+  useEffect(() => {
+    // check if 'boards' is an array and has at least one element
+    if (Array.isArray(boards) && boards.length > 0) {
+      // if 'currentBoard' is not set, dispatch the first board
+      if (!currentBoard) {
+        const firstBoard = boards[0];
+        // make sure that 'firstBoard' is not undefined before dispatching.
+        if (firstBoard) {
+          dispatch(setCurrentBoard(firstBoard));
+        }
+      }
+    } else {
+      // if 'boards' is not an array or has no elements, clear the current board
+      dispatch(clearCurrentBoard());
+    }
+  }, [boards, currentBoard, dispatch]);
 
   if (sessionStatus === "loading") {
     return <div>Loading session...</div>;
@@ -55,12 +67,17 @@ const Home: NextPage = () => {
     );
   }
 
-  if (queryResult.isLoading) {
+  if (isLoading) {
     return <div>Loading boards...</div>;
   }
 
-  if (queryResult.isError) {
-    return <div>Error loading boards</div>;
+  if (isError) {
+    return (
+      <div>
+        <span>Error</span>
+        <button onClick={() => signOut()}>Sign Out</button>
+      </div>
+    );
   }
 
   return (
@@ -75,29 +92,14 @@ const Home: NextPage = () => {
           >
             <Sidebar />
           </div>
-          <ScrollContainer
-            className={clsx(
-              "flex gap-6 px-4 py-6 duration-300 ease-in-out md:px-6",
-              showSidebar ? "ml-64" : "ml-0",
-            )}
-            buttons={[0, 1]}
-            vertical={true}
-          >
-            {currentBoard?.columns.map((column) => (
-              <Column key={column.id} column={column} />
-            ))}
-            <AddColumn />
-          </ScrollContainer>
-        </div>
-        <div
-          className={clsx(
-            "absolute bottom-8 left-0 hidden cursor-pointer items-center justify-center rounded-r-full bg-violet-700 p-5 transition hover:bg-violet-400 md:flex",
-            showSidebar ? "-translate-x-full" : "translate-x-0",
+          {boards?.length === 0 || currentBoard?.columns.length === 0 ? (
+            <NoBoardOrEmptyBoard />
+          ) : (
+            <ColumnScrollContainer />
           )}
-          onClick={() => dispatch(toggleSidebar())}
-        >
-          <OpenSidebarIcon />
         </div>
+        <SidebarToggle />
+        <CurrentModal />
       </main>
     </>
   );

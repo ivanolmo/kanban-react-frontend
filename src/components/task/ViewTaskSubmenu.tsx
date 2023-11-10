@@ -1,28 +1,34 @@
-import { signOut } from "next-auth/react";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import EditIcon from "~/components/svg/EditIcon";
 import MenuIcon from "~/components/svg/MenuIcon";
-import SignoutIcon from "~/components/svg/SignoutIcon";
 import XIcon from "~/components/svg/XIcon";
-import { toggleSubmenu } from "~/store/uiSlice";
-import type { RootState } from "~/store/store";
+import {
+  toggleDeleteTaskModal,
+  toggleEditTaskModal,
+  toggleViewTaskModal,
+  toggleViewTaskSubmenu,
+} from "~/store/uiSlice";
+import { selectBoards, selectShowViewTaskSubmenu } from "~/store/selectors";
 
-type SubmenuProps = {
-  showMenu: boolean;
-  handleDelete?: () => void;
-  handleEdit?: () => void;
-  withSignOut?: boolean;
-};
+const ViewTaskSubmenu: React.FC = () => {
+  const dispatch = useDispatch();
+  const boards = useSelector(selectBoards);
+  const showViewTaskSubmenu = useSelector(selectShowViewTaskSubmenu);
 
-const Submenu: React.FC<SubmenuProps> = (props) => {
   const submenuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLDivElement | null>(null);
 
-  const dispatch = useDispatch();
+  const handleDelete = () => {
+    dispatch(toggleViewTaskModal());
+    dispatch(toggleDeleteTaskModal());
+  };
 
-  const boards = useSelector((state: RootState) => state.board.boards);
+  const handleEdit = () => {
+    dispatch(toggleViewTaskModal());
+    dispatch(toggleEditTaskModal());
+  };
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -32,7 +38,7 @@ const Submenu: React.FC<SubmenuProps> = (props) => {
         !submenuRef.current.contains(e.target as Node) &&
         !buttonRef?.current?.contains(e.target as Node)
       ) {
-        dispatch(toggleSubmenu());
+        dispatch(toggleViewTaskSubmenu());
       }
     };
 
@@ -45,52 +51,41 @@ const Submenu: React.FC<SubmenuProps> = (props) => {
 
   return (
     <div
-      className="relative cursor-pointer px-4"
-      onClick={() => dispatch(toggleSubmenu())}
+      className="relative z-50 cursor-pointer px-4"
+      onClick={() => dispatch(toggleViewTaskSubmenu())}
     >
       <div ref={buttonRef}>
-        <MenuIcon className={`transition ${props.showMenu && "rotate-90"}`} />
+        <MenuIcon
+          className={`transition ${showViewTaskSubmenu && "rotate-90"}`}
+        />
       </div>
-      {props.showMenu && (
+      {showViewTaskSubmenu && (
         <div
-          className="shadow-x absolute right-0 top-12 flex w-48 flex-col gap-6 rounded-xl bg-white p-4 dark:bg-zinc lg:right-1"
+          className="shadow-x absolute right-0 top-6 flex w-48 flex-col gap-6 rounded-xl bg-white p-4 dark:bg-zinc"
           ref={submenuRef}
         >
           <span
             className={`group flex cursor-pointer items-center justify-between text-slate transition hover:text-gunmetal-700 dark:hover:text-white ${
               boards ? !boards?.length && "hidden" : null
             }`}
-            // onClick={() => props.handleEdit()}
+            onClick={() => handleEdit()}
           >
-            {`Edit ${boards ? "Board" : "Task"}`}
+            Edit Task
             <EditIcon className="h-6 w-6 fill-white stroke-slate transition group-hover:stroke-gunmetal-700 dark:fill-transparent dark:group-hover:stroke-white" />
           </span>
           <span
             className={`group flex cursor-pointer items-center justify-between text-red-600 transition hover:text-red-900 dark:hover:text-red-400 ${
               boards ? !boards?.length && "hidden" : null
             }`}
-            // onClick={() => props.handleDelete()}
+            onClick={() => handleDelete()}
           >
-            {`Delete ${boards ? "Board" : "Task"}`}
+            Delete Task
             <XIcon className="h-6 w-6 stroke-red-600 transition group-hover:stroke-red-900 dark:group-hover:stroke-red-400" />
           </span>
-          {props.withSignOut && (
-            <span
-              className="group flex cursor-pointer items-center justify-between text-red-600 transition hover:text-red-900 dark:hover:text-red-400"
-              onClick={() =>
-                signOut({
-                  callbackUrl: `${window.location.origin}`,
-                })
-              }
-            >
-              Sign Out
-              <SignoutIcon className="h-6 w-6 fill-transparent stroke-red-600 transition group-hover:stroke-red-900 dark:group-hover:stroke-red-400" />
-            </span>
-          )}
         </div>
       )}
     </div>
   );
 };
 
-export default Submenu;
+export default ViewTaskSubmenu;

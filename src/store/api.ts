@@ -7,7 +7,17 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { getSession } from "next-auth/react";
 
-import type { ApiBoardResponse } from "~/types";
+import type {
+  ApiBoardResponse,
+  ApiBoardsResponse,
+  ApiTaskResponse,
+  Board,
+  Task,
+  CreateBoardInput,
+  EditTaskRequest,
+  CreateTaskInput,
+  EditBoardInput,
+} from "~/types";
 
 // base query function
 const baseQuery = fetchBaseQuery({
@@ -43,12 +53,72 @@ const baseQueryWithAuth: BaseQueryFn<
 // create the API slice
 export const api = createApi({
   baseQuery: baseQueryWithAuth,
-  tagTypes: ["Board"],
+  tagTypes: ["Boards"],
   endpoints: (builder) => ({
-    getBoards: builder.query<ApiBoardResponse, void>({
+    getBoards: builder.query<Board[], void>({
       query: () => "boards",
+      transformResponse: (response: ApiBoardsResponse) => response.data,
+      providesTags: ["Boards"],
+    }),
+    createBoard: builder.mutation<Board, CreateBoardInput>({
+      query: (body) => ({
+        url: "boards",
+        method: "POST",
+        body,
+      }),
+      transformResponse: (response: ApiBoardResponse) => response.data,
+      invalidatesTags: ["Boards"],
+    }),
+    editBoard: builder.mutation<Board, EditBoardInput>({
+      query: ({ id, ...body }) => ({
+        url: `boards/${id}`,
+        method: "PUT",
+        body,
+      }),
+      transformResponse: (response: ApiBoardResponse) => response.data,
+      invalidatesTags: ["Boards"],
+    }),
+    deleteBoard: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `boards/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Boards"],
+    }),
+    addTask: builder.mutation<Task, CreateTaskInput>({
+      query: (body) => ({
+        url: "tasks",
+        method: "POST",
+        body,
+      }),
+      transformResponse: (response: ApiTaskResponse) => response.data,
+      invalidatesTags: ["Boards"],
+    }),
+    editTask: builder.mutation<Task, EditTaskRequest>({
+      query: ({ id, ...body }) => ({
+        url: `tasks/${id}`,
+        method: "PUT",
+        body,
+      }),
+      transformResponse: (response: ApiTaskResponse) => response.data,
+      invalidatesTags: ["Boards"],
+    }),
+    deleteTask: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `tasks/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Boards"],
     }),
   }),
 });
 
-export const { useGetBoardsQuery } = api;
+export const {
+  useGetBoardsQuery,
+  useCreateBoardMutation,
+  useEditBoardMutation,
+  useDeleteBoardMutation,
+  useAddTaskMutation,
+  useEditTaskMutation,
+  useDeleteTaskMutation,
+} = api;
