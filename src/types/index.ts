@@ -104,6 +104,10 @@ export type ApiTaskResponse = ApiBaseResponse & {
   data: Task;
 };
 
+export type ApiSubtaskResponse = ApiBaseResponse & {
+  data: Subtask;
+};
+
 export type ApiErrorResponse = ApiBaseResponse & {
   error: string;
 };
