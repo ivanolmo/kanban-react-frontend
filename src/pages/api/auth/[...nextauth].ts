@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { AuthErrorResponse, AuthSuccessResponse } from "~/types";
 
 type AuthResponse = {
   data: {
@@ -41,17 +42,23 @@ export default NextAuth({
           },
         );
 
-        const response = (await res.json()) as AuthResponse;
+        const response = (await res.json()) as
+          | AuthSuccessResponse
+          | AuthErrorResponse;
 
         if (res.ok) {
+          const success = response as AuthSuccessResponse;
+
           const user = {
-            id: response.data.user_id,
-            email: response.data.email,
-            access_token: response.data.access_token,
+            id: success.data.user_id,
+            email: success.data.email,
+            access_token: success.data.access_token,
           };
+
           return user;
         } else {
-          const error = response as ErrorResponse;
+          const error = response as AuthErrorResponse;
+
           throw new Error(error?.message || "Authorization failed");
         }
       },

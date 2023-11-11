@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/router";
 import { Controller, useFormContext } from "react-hook-form";
 import clsx from "clsx";
 
@@ -17,9 +15,6 @@ const SigninForm: React.FC<SigninFormProps> = ({
   setError,
   resetError,
 }) => {
-  const [shouldRedirect, setShouldRedirect] = useState(false);
-  const router = useRouter();
-
   const {
     handleSubmit,
     control,
@@ -28,17 +23,20 @@ const SigninForm: React.FC<SigninFormProps> = ({
 
   const onSubmit = async (data: FormData) => {
     try {
-      const res = await signIn("credentials", {
-        email: data.email,
-        password: data.password,
-        redirect: false,
-      });
+      const res = await signIn(
+        "credentials",
+        {
+          email: data.email,
+          password: data.password,
+          redirect: false,
+        },
+        { callbackUrl: "/boards" },
+      );
 
       if (res?.error) {
         setError(res.error);
       } else {
         resetError();
-        setShouldRedirect(true);
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -48,13 +46,6 @@ const SigninForm: React.FC<SigninFormProps> = ({
       }
     }
   };
-
-  // a useEffect was required to redirect and avoid a "abort fetching component" useRouter error
-  useEffect(() => {
-    if (shouldRedirect) {
-      void router.push("/");
-    }
-  }, [shouldRedirect, router]);
 
   return (
     <div className="selection:bg-violet-700 selection:text-white">
@@ -132,7 +123,7 @@ const SigninForm: React.FC<SigninFormProps> = ({
 
                 <button
                   type="submit"
-                  className="block w-full px-8 py-4 mt-10 font-semibold text-center text-white uppercase transition-colors duration-300 ease-in-out rounded-full cursor-pointer focus:ring-indigo-500 bg-violet-700 hover:bg-violet-800 focus:outline-none focus:ring focus:ring-opacity-80 focus:ring-offset-2"
+                  className="focus:ring-indigo-500 mt-10 block w-full cursor-pointer rounded-full bg-violet-700 px-8 py-4 text-center font-semibold uppercase text-white transition-colors duration-300 ease-in-out hover:bg-violet-800 focus:outline-none focus:ring focus:ring-opacity-80 focus:ring-offset-2"
                 >
                   Sign In
                 </button>
