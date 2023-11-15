@@ -11,7 +11,7 @@ import type { CreateBoardInput } from "~/types";
 import { getRandColor } from "~/utils/getRandColor";
 
 const AddBoard = () => {
-  const [createBoard, { isLoading, error, data }] = useCreateBoardMutation();
+  const [createBoard, { isLoading, error }] = useCreateBoardMutation();
   const dispatch = useDispatch();
 
   const {
@@ -22,7 +22,7 @@ const AddBoard = () => {
   } = useForm<CreateBoardInput>({
     defaultValues: {
       name: "",
-      columns: [{ name: "Todo" }, { name: "Doing" }],
+      columns: [{ name: "Todo" }, { name: "Doing" }, { name: "Done" }],
     },
     mode: "onBlur",
   });
