@@ -50,7 +50,7 @@ const HeaderMenu: React.FC = () => {
       </div>
       {showSubmenu && (
         <div
-          className="shadow-x absolute right-0 top-12 flex w-48 flex-col gap-6 rounded-xl bg-white p-4 dark:bg-zinc lg:right-1"
+          className="absolute right-0 top-12 flex w-48 flex-col gap-6 rounded-xl bg-white p-4 shadow-xl shadow-gradient dark:bg-zinc lg:right-1"
           ref={submenuRef}
         >
           <span
