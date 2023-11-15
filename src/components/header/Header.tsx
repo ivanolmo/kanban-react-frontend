@@ -5,9 +5,10 @@ import HeaderMenu from "~/components/header/HeaderMenu";
 import SidebarMobile from "~/components/sidebar/MobileSidebar";
 import AddIcon from "~/components/svg/AddIcon";
 import Logo from "~/components/svg/Logo";
+import SearchIcon from "~/components/svg/SearchIcon";
 import Button from "~/components/ui/Button";
 import { selectCurrentBoard, selectShowSidebar } from "~/store/selectors";
-import { toggleAddTaskModal } from "~/store/uiSlice";
+import { toggleAddTaskModal, toggleSearch } from "~/store/uiSlice";
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -35,9 +36,12 @@ const Header: React.FC = () => {
           {currentBoard?.name ?? "No Boards"}
         </h1>
         <div className="flex items-center gap-1 md:gap-2.5">
-          <div>
+          <div className="flex gap-4">
+            <Button size="lg" onClick={() => dispatch(toggleSearch())}>
+              <SearchIcon className="fill-white" />
+              <span className="hidden md:inline">Search</span>
+            </Button>
             <Button
-              variant="primary"
               size="lg"
               disabled={!currentBoard?.columns.length}
               onClick={() => dispatch(toggleAddTaskModal())}
