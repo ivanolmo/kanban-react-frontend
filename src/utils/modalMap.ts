@@ -4,6 +4,7 @@ import DeleteBoard from "~/components/modal/DeleteBoard";
 import DeleteTask from "~/components/modal/DeleteTask";
 import EditBoard from "~/components/modal/EditBoard";
 import EditTask from "~/components/modal/EditTask";
+import Search from "~/components/modal/search/Search";
 import ViewTask from "~/components/modal/ViewTask";
 import { ModalType } from "~/utils/constants";
 
@@ -15,4 +16,5 @@ export const MODAL_COMPONENTS: Record<ModalType, React.ComponentType> = {
   [ModalType.AddTask]: AddTask,
   [ModalType.EditTask]: EditTask,
   [ModalType.DeleteTask]: DeleteTask,
+  [ModalType.Search]: Search,
 };

@@ -12,6 +12,7 @@ type UIState = {
   showAddTaskModal: boolean;
   showEditTaskModal: boolean;
   showDeleteTaskModal: boolean;
+  showSearch: boolean;
 };
 
 const initialState: UIState = {
@@ -26,6 +27,7 @@ const initialState: UIState = {
   showAddTaskModal: false,
   showEditTaskModal: false,
   showDeleteTaskModal: false,
+  showSearch: false,
 };
 
 const uiSlice = createSlice({
@@ -65,6 +67,9 @@ const uiSlice = createSlice({
     toggleEditTaskModal(state) {
       state.showEditTaskModal = !state.showEditTaskModal;
     },
+    toggleSearch(state) {
+      state.showSearch = !state.showSearch;
+    },
   },
 });
 
@@ -80,6 +85,7 @@ export const {
   toggleAddTaskModal,
   toggleDeleteTaskModal,
   toggleEditTaskModal,
+  toggleSearch,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;
