@@ -74,9 +74,12 @@ const Select = <
           </Listbox.Button>
           <Transition
             as={Fragment}
-            leave="transition ease-in-out duration-100"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
+            enter="transition ease-out duration-300"
+            enterFrom="transform opacity-0 -translate-y-10"
+            enterTo="transform opacity-100 translate-y-0"
+            leave="transition ease-in duration-200"
+            leaveFrom="transform opacity-100 translate-y-0"
+            leaveTo="transform opacity-0 -translate-y-10"
           >
             <Listbox.Options className="absolute w-full overflow-auto rounded-md bg-white text-body-lg shadow-xl dark:bg-zinc">
               {currentBoard?.columns.map((column) => {

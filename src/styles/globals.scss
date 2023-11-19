@@ -94,13 +94,52 @@
   font-weight: bold;
 }
 
+/* table styling */
+thead > tr {
+  border: none;
+}
+
+tbody {
+  > tr {
+    @apply border-x border-slate/25 bg-white transition ease-in-out dark:bg-gunmetal-800;
+
+    &:nth-child(even) {
+      @apply bg-slate/25;
+    }
+
+    &:first-child {
+      @apply border-t border-slate/25;
+    }
+
+    &:last-child {
+      @apply rounded-b-xl border-b border-slate/25;
+    }
+
+    &:hover {
+      @apply cursor-pointer bg-slate/50;
+    }
+  }
+}
+
+[data-subtask-completed="true"] {
+  > span {
+    @apply inline-flex items-center rounded-md bg-green-400/10 px-2 py-1 font-medium text-green-700 line-through ring-1 ring-inset ring-green-500/20 dark:bg-green-500/10 dark:text-green-500;
+  }
+}
+
+[data-subtask-completed="false"] {
+  > span {
+    @apply inline-flex items-center rounded-md bg-red-400/10 px-2 py-1 font-medium text-red-500 ring-1 ring-inset ring-red-500/20 dark:bg-red-500/10;
+  }
+}
+
 /* theme switcher styling */
 .theme-label:before {
   content: "";
   animation-name: reverse;
-  animation-duration: 350ms;
+  animation-duration: 150ms;
   animation-fill-mode: forwards;
-  transition: all 350ms ease-in;
+  transition: all 150ms ease-in;
   @apply absolute left-0.5 top-0.5 h-3.5 w-3.5 rounded-full bg-white;
 }
 
@@ -114,13 +153,13 @@
 
     &:before {
       animation-name: switch;
-      animation-duration: 350ms;
+      animation-duration: 150ms;
       animation-fill-mode: forwards;
       @apply bg-white;
     }
 
     &:after {
-      transition-delay: 350ms;
+      transition-delay: 150ms;
       @apply opacity-100;
     }
   }
