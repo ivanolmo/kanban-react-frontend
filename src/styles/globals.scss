@@ -94,6 +94,45 @@
   font-weight: bold;
 }
 
+/* table styling */
+thead > tr {
+  border: none;
+}
+
+tbody {
+  > tr {
+    @apply border-x border-slate/25 bg-white transition ease-in-out dark:bg-gunmetal-800;
+
+    &:nth-child(even) {
+      @apply bg-slate/25;
+    }
+
+    &:first-child {
+      @apply border-t border-slate/25;
+    }
+
+    &:last-child {
+      @apply rounded-b-xl border-b border-slate/25;
+    }
+
+    &:hover {
+      @apply cursor-pointer bg-slate/50;
+    }
+  }
+}
+
+[data-subtask-completed="true"] {
+  > span {
+    @apply dark:bg-green-500/10 ring-green-500/20 text-green-700 dark:text-green-500 bg-green-400/10 inline-flex items-center rounded-md px-2 py-1 font-medium line-through ring-1 ring-inset;
+  }
+}
+
+[data-subtask-completed="false"] {
+  > span {
+    @apply dark:bg-red-500/10 ring-red-500/20 text-red-500 inline-flex items-center rounded-md bg-red-400/10 px-2 py-1 font-medium ring-1 ring-inset;
+  }
+}
+
 /* theme switcher styling */
 .theme-label:before {
   content: "";
