@@ -4,12 +4,14 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
 import HeaderMenu from "~/components/header/HeaderMenu";
-import SidebarMobile from "~/components/sidebar/MobileSidebar";
+import MobileSidebar from "~/components/sidebar/MobileSidebar";
 import AddIcon from "~/components/svg/AddIcon";
 import BoardIcon from "~/components/svg/BoardIcon";
 import Logo from "~/components/svg/Logo";
 import SearchIcon from "~/components/svg/SearchIcon";
 import Button from "~/components/ui/Button";
+import Loader from "~/components/ui/Loader";
+import { useGetBoardsQuery } from "~/store/api";
 import { selectCurrentBoard, selectShowSidebar } from "~/store/selectors";
 import { toggleAddTaskModal, toggleSearch } from "~/store/uiSlice";
 
@@ -19,8 +21,9 @@ type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({ report, boardName }) => {
-  const dispatch = useDispatch();
   const router = useRouter();
+  const { isLoading } = useGetBoardsQuery();
+  const dispatch = useDispatch();
   const showSidebar = useSelector(selectShowSidebar);
   const currentBoard = useSelector(selectCurrentBoard);
 
@@ -42,13 +45,17 @@ const Header: React.FC<HeaderProps> = ({ report, boardName }) => {
         </Link>
       </div>
       <div className="flex w-full flex-1 items-center justify-between pl-4 md:pl-6 md:pr-2">
-        {!report && <SidebarMobile />}
+        {!report && <MobileSidebar />}
         <h1
           className={clsx("truncate capitalize md:block", !report && "hidden")}
         >
-          {report
-            ? `${boardName ?? "No Board"} Report Generated`
-            : currentBoard?.name ?? "No Boards"}
+          {report ? (
+            `${boardName ?? "No Board"} Report Generated`
+          ) : isLoading ? (
+            <Loader size={10} color="#635fc7" />
+          ) : (
+            currentBoard?.name ?? "No Boards"
+          )}
         </h1>
         <div className="flex items-center gap-1 md:gap-2.5">
           {report ? (

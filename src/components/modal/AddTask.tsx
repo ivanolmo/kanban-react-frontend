@@ -4,13 +4,14 @@ import { useDispatch } from "react-redux";
 import AddIcon from "~/components/svg/AddIcon";
 import XIcon from "~/components/svg/XIcon";
 import Button from "~/components/ui/Button";
+import Loader from "~/components/ui/Loader";
 import Select from "~/components/ui/Select";
 import { useAddTaskMutation } from "~/store/api";
 import { toggleAddTaskModal } from "~/store/uiSlice";
 import type { CreateTaskInput } from "~/types";
 
 const AddTask: React.FC = () => {
-  const [addTask, { isLoading, error, data }] = useAddTaskMutation();
+  const [addTask, { isLoading, error }] = useAddTaskMutation();
   const dispatch = useDispatch();
 
   const {
@@ -56,7 +57,8 @@ const AddTask: React.FC = () => {
 
   if (error) return <p>Error</p>;
 
-  if (isLoading) return <p>Adding task...</p>;
+  if (isLoading)
+    return <Loader message="Creating Task..." color="#635fc7" size={16} />;
 
   return (
     <div className="w-full space-y-6">

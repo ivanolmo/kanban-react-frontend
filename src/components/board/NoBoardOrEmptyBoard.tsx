@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
+import AddIcon from "~/components/svg/AddIcon";
+import Button from "~/components/ui/Button";
 import { selectBoards, selectCurrentBoard } from "~/store/selectors";
-import Button from "../ui/Button";
-import AddIcon from "../svg/AddIcon";
 import { toggleAddBoardModal, toggleEditBoardModal } from "~/store/uiSlice";
 
 const NoBoardOrEmptyBoard = () => {

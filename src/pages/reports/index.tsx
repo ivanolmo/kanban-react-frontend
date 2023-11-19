@@ -1,4 +1,5 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
+import { getSession, type GetSessionParams } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -15,8 +16,9 @@ import {
 
 const Report: NextPage = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const [selectedBoardId, setSelectedBoardId] = useState("");
+
+  const dispatch = useDispatch();
   const { data: boards, isLoading, isError } = useGetBoardsQuery();
 
   const currentBoard = boards?.find((board) => board.id === selectedBoardId);
@@ -60,3 +62,22 @@ const Report: NextPage = () => {
 };
 
 export default Report;
+
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetSessionParams,
+) => {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/auth",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

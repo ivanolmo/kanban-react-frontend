@@ -1,5 +1,5 @@
 import { useWindowSize } from "@uidotdev/usehooks";
-import { type GetSessionParams, getSession } from "next-auth/react";
+import { getSession, type GetSessionParams } from "next-auth/react";
 import type { GetServerSideProps, NextPage } from "next/types";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import Header from "~/components/header/Header";
 import CurrentModal from "~/components/modal/CurrentModal";
 import Sidebar from "~/components/sidebar/Sidebar";
 import SidebarToggle from "~/components/sidebar/SidebarToggle";
+import Loader from "~/components/ui/Loader";
 import { useGetBoardsQuery } from "~/store/api";
 import { clearCurrentBoard, setCurrentBoard } from "~/store/boardSlice";
 import {
@@ -20,9 +21,9 @@ import {
 import { toggleMobileSidebar, toggleSidebar } from "~/store/uiSlice";
 
 const Boards: NextPage = () => {
-  const { data: boards, isLoading, isError } = useGetBoardsQuery();
   const size = useWindowSize();
 
+  const { data: boards, isLoading, isError } = useGetBoardsQuery();
   const dispatch = useDispatch();
   const currentBoard = useSelector(selectCurrentBoard);
   const showSidebar = useSelector(selectShowSidebar);
@@ -57,10 +58,6 @@ const Boards: NextPage = () => {
     }
   }, [boards, currentBoard, dispatch]);
 
-  if (isLoading) {
-    return <div>Loading boards...</div>;
-  }
-
   return (
     <>
       <Header />
@@ -73,7 +70,9 @@ const Boards: NextPage = () => {
           >
             <Sidebar />
           </div>
-          {boards?.length === 0 || currentBoard?.columns.length === 0 ? (
+          {isLoading ? (
+            <Loader message="Getting Your Data..." color="#635fc7" size={24} />
+          ) : boards?.length === 0 || currentBoard?.columns.length === 0 ? (
             <NoBoardOrEmptyBoard />
           ) : (
             <ColumnScrollContainer />

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "~/components/svg/AddIcon";
 import XIcon from "~/components/svg/XIcon";
 import Button from "~/components/ui/Button";
+import Loader from "~/components/ui/Loader";
 import { useEditBoardMutation } from "~/store/api";
 import { selectCurrentBoard } from "~/store/selectors";
 import { toggleEditBoardModal } from "~/store/uiSlice";
@@ -13,9 +14,9 @@ import { getRandColor } from "~/utils/getRandColor";
 
 const EditBoard = () => {
   const [columnsToDelete, setColumnsToDelete] = useState<string[]>([]);
-  const [editBoard, { isLoading, error, data }] = useEditBoardMutation();
-  const dispatch = useDispatch();
 
+  const [editBoard, { isLoading, error }] = useEditBoardMutation();
+  const dispatch = useDispatch();
   const currentBoard = useSelector(selectCurrentBoard);
 
   const {
@@ -57,7 +58,8 @@ const EditBoard = () => {
 
   if (error) return <div>Error</div>;
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading)
+    return <Loader message="Updating Board..." color="#635fc7" size={16} />;
 
   return (
     <div className="w-full space-y-6">

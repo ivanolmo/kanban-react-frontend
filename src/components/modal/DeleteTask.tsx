@@ -1,15 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 
 import Button from "~/components/ui/Button";
+import Loader from "~/components/ui/Loader";
 import { useDeleteTaskMutation } from "~/store/api";
 import { clearCurrentTask } from "~/store/boardSlice";
 import { selectCurrentTask } from "~/store/selectors";
 import { toggleDeleteTaskModal } from "~/store/uiSlice";
 
 const DeleteTask: React.FC = () => {
-  const [deleteTask, { isLoading, error, data }] = useDeleteTaskMutation();
+  const [deleteTask, { isLoading, error }] = useDeleteTaskMutation();
   const dispatch = useDispatch();
-
   const currentTask = useSelector(selectCurrentTask);
 
   const handleDelete = async () => {
@@ -24,7 +24,8 @@ const DeleteTask: React.FC = () => {
 
   if (error) return <p>Error</p>;
 
-  if (isLoading) return <p>Deleting task...</p>;
+  if (isLoading)
+    return <Loader message="Deleting Task..." color="#635fc7" size={16} />;
 
   return (
     <div className="z-[99999] flex flex-col gap-6">

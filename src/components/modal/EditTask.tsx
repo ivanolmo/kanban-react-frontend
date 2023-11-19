@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "~/components/svg/AddIcon";
 import XIcon from "~/components/svg/XIcon";
 import Button from "~/components/ui/Button";
+import Loader from "~/components/ui/Loader";
 import Select from "~/components/ui/Select";
 import { useEditTaskMutation } from "~/store/api";
 import { clearCurrentTask } from "~/store/boardSlice";
@@ -13,7 +14,7 @@ import { toggleEditTaskModal } from "~/store/uiSlice";
 import type { EditTaskInput, EditTaskRequest } from "~/types";
 
 const EditTask: React.FC = () => {
-  const [editTask, { isLoading, error, data }] = useEditTaskMutation();
+  const [editTask, { isLoading, error }] = useEditTaskMutation();
   const dispatch = useDispatch();
   const currentTask = useSelector(selectCurrentTask);
 
@@ -92,7 +93,8 @@ const EditTask: React.FC = () => {
 
   if (error) return <p>Error</p>;
 
-  if (isLoading) return <p>Updating task...</p>;
+  if (isLoading)
+    return <Loader message="Updating Task..." color="#635fc7" size={16} />;
 
   return (
     <div className="w-full space-y-6">

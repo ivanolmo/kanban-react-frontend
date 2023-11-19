@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 
 import Button from "~/components/ui/Button";
+import Loader from "~/components/ui/Loader";
+import { useDeleteBoardMutation } from "~/store/api";
 import { selectCurrentBoard } from "~/store/selectors";
 import { toggleDeleteBoardModal } from "~/store/uiSlice";
-import { useDeleteBoardMutation } from "~/store/api";
 
 const DeleteBoard = () => {
   const [deleteBoard, { isLoading, error }] = useDeleteBoardMutation();
@@ -21,7 +22,8 @@ const DeleteBoard = () => {
 
   if (error) return <p>Error</p>;
 
-  if (isLoading) return <p>Deleting...</p>;
+  if (isLoading)
+    return <Loader message="Deleting Board..." color="#635fc7" size={16} />;
 
   return (
     <div className="flex flex-col gap-6">
