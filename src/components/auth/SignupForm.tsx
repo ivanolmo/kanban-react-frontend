@@ -81,6 +81,9 @@ const SignupForm: React.FC<SignupFormProps> = ({
         <div className="flex-1 p-8">
           <div className="mx-auto overflow-hidden">
             <div className="p-8">
+              <p className="font-bold text-violet-700 md:hidden">
+                Are you a new user?
+              </p>
               <h1 className="text-[3rem] font-bold text-violet-700">
                 Create account
               </h1>
@@ -152,7 +155,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
 
                 <button
                   type="submit"
-                  className="block w-full px-8 py-4 mt-10 font-semibold text-center text-white uppercase transition-colors duration-300 ease-in-out rounded-full cursor-pointer focus:ring-indigo-500 bg-violet-700 hover:bg-violet-800 focus:outline-none focus:ring focus:ring-opacity-80 focus:ring-offset-2"
+                  className="focus:ring-indigo-500 mt-10 block w-full cursor-pointer rounded-full bg-violet-700 px-8 py-4 text-center font-semibold uppercase text-white transition-colors duration-300 ease-in-out hover:bg-violet-800 focus:outline-none focus:ring focus:ring-opacity-80 focus:ring-offset-2"
                 >
                   Sign Up
                 </button>

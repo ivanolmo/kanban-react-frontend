@@ -20,7 +20,7 @@ const AuthForm: NextPage = () => {
   }
 
   return (
-    <main className="flex h-screen w-screen flex-col items-center justify-center">
+    <main className="h-screen w-screen flex-col items-center justify-center md:flex">
       <AuthPage />
     </main>
   );
