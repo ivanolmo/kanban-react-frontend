@@ -1,20 +1,32 @@
 import { signOut } from "next-auth/react";
+import { useTheme } from "next-themes";
+import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import DarkThemeIcon from "~/components/svg/DarkThemeIcon";
 import EditIcon from "~/components/svg/EditIcon";
+import LightThemeIcon from "~/components/svg/LightThemeIcon";
 import MenuIcon from "~/components/svg/MenuIcon";
+import ReportsIcon from "~/components/svg/ReportsIcon";
 import SignoutIcon from "~/components/svg/SignoutIcon";
 import XIcon from "~/components/svg/XIcon";
+import { selectBoards, selectShowHeaderMenu } from "~/store/selectors";
 import {
   toggleDeleteBoardModal,
   toggleEditBoardModal,
   toggleHeaderMenu,
 } from "~/store/uiSlice";
-import { selectBoards, selectShowHeaderMenu } from "~/store/selectors";
 
-const HeaderMenu: React.FC = () => {
+type HeaderMenuProps = {
+  report?: boolean;
+};
+
+const HeaderMenu: React.FC<HeaderMenuProps> = ({ report }) => {
+  const router = useRouter();
   const dispatch = useDispatch();
+  const { theme, setTheme } = useTheme();
+
   const boards = useSelector(selectBoards);
   const showSubmenu = useSelector(selectShowHeaderMenu);
 
@@ -53,24 +65,51 @@ const HeaderMenu: React.FC = () => {
           className="absolute right-0 top-12 flex w-48 flex-col gap-6 rounded-xl bg-white p-4 shadow-xl shadow-gradient dark:bg-zinc lg:right-1"
           ref={submenuRef}
         >
-          <span
-            className={`group flex cursor-pointer items-center justify-between text-slate transition hover:text-gunmetal-700 dark:hover:text-white ${
-              boards ? !boards?.length && "hidden" : null
-            }`}
-            onClick={() => dispatch(toggleEditBoardModal())}
-          >
-            Edit Board
-            <EditIcon className="h-6 w-6 fill-white stroke-slate transition group-hover:stroke-gunmetal-700 dark:fill-transparent dark:group-hover:stroke-white" />
-          </span>
-          <span
-            className={`group flex cursor-pointer items-center justify-between text-red-600 transition hover:text-red-900 dark:hover:text-red-400 ${
-              boards ? !boards?.length && "hidden" : null
-            }`}
-            onClick={() => dispatch(toggleDeleteBoardModal())}
-          >
-            Delete Board
-            <XIcon className="h-6 w-6 stroke-red-600 transition group-hover:stroke-red-900 dark:group-hover:stroke-red-400" />
-          </span>
+          {!report ? (
+            <>
+              <span
+                className={`group flex cursor-pointer items-center justify-between text-slate transition hover:text-gunmetal-700 dark:hover:text-white ${
+                  boards ? !boards?.length && "hidden" : null
+                }`}
+                onClick={() => dispatch(toggleEditBoardModal())}
+              >
+                Edit Board
+                <EditIcon className="h-6 w-6 fill-white stroke-slate transition group-hover:stroke-gunmetal-700 dark:fill-transparent dark:group-hover:stroke-white" />
+              </span>
+              <span
+                className={`group flex cursor-pointer items-center justify-between text-red-600 transition hover:text-red-900 dark:hover:text-red-400 ${
+                  boards ? !boards?.length && "hidden" : null
+                }`}
+                onClick={() => dispatch(toggleDeleteBoardModal())}
+              >
+                Delete Board
+                <XIcon className="h-6 w-6 stroke-red-600 transition group-hover:stroke-red-900 dark:group-hover:stroke-red-400" />
+              </span>
+              <span
+                className={`group flex cursor-pointer items-center justify-between text-slate transition hover:text-gunmetal-700 dark:hover:text-white ${
+                  boards ? !boards?.length && "hidden" : null
+                }`}
+                onClick={() => router.push("/reports")}
+              >
+                Generate Reports
+                <ReportsIcon className="group fill-slate transition group-hover:fill-gunmetal-700 dark:group-hover:fill-white" />
+              </span>
+            </>
+          ) : (
+            <span
+              className={`group flex cursor-pointer items-center justify-between text-slate transition hover:text-gunmetal-700 dark:hover:text-white ${
+                boards ? !boards?.length && "hidden" : null
+              }`}
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            >
+              Toggle Theme
+              {theme === "dark" ? (
+                <LightThemeIcon className="fill-slate transition duration-500 group-hover:rotate-180 group-hover:scale-125 group-hover:fill-yellow" />
+              ) : (
+                <DarkThemeIcon className="fill-slate transition duration-500 group-hover:rotate-[360deg] group-hover:scale-125 group-hover:fill-blue" />
+              )}
+            </span>
+          )}
           <span
             className="group flex cursor-pointer items-center justify-between text-red-600 transition hover:text-red-900 dark:hover:text-red-400"
             onClick={() =>
