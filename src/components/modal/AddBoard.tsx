@@ -67,7 +67,7 @@ const AddBoard = () => {
         <h2 className="">Add New Board</h2>
         <span
           className="cursor-pointer"
-          onClick={() => dispatch({ type: "ui/toggleAddBoardModal" })}
+          onClick={() => dispatch(toggleAddBoardModal())}
         >
           <XIcon className="h-6 w-6 stroke-red-600" />
         </span>
