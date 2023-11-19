@@ -53,6 +53,9 @@ const SigninForm: React.FC<SigninFormProps> = ({
         <div className="flex-1 p-8">
           <div className="mx-auto overflow-hidden">
             <div className="p-8">
+              <p className="font-bold text-violet-700 md:hidden">
+                Been here before?
+              </p>
               <h1 className="text-[3rem] font-bold text-violet-700">
                 Welcome back!
               </h1>

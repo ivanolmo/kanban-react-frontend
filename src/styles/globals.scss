@@ -83,20 +83,17 @@
 
 @layer utilities {
   .auth-input {
-    @apply placeholder-transparent focus:border-violet-700 focus:outline-none;
-    border: none;
-    border-bottom: 2px solid #d3d3d3;
-    border-radius: 0;
+    @apply rounded-none border-0 border-b-2 border-slate placeholder-transparent focus:border-violet-700 focus:outline-none;
   }
 }
 
 .text-body-md {
-  font-weight: bold;
+  @apply font-bold;
 }
 
 /* table styling */
 thead > tr {
-  border: none;
+  @apply border-none;
 }
 
 tbody {

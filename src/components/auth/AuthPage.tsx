@@ -19,11 +19,11 @@ const AuthPage: React.FC = () => {
     "bg-gradient-to-r from-violet-700 via-violet-900 to-violet-700";
 
   return (
-    <div className="relative w-4/5 overflow-hidden bg-white h-4/5 rounded-3xl">
+    <div className="relative flex flex-col gap-8 rounded-3xl p-8 md:block md:h-4/5 md:w-4/5 md:overflow-hidden md:p-0">
       <div
         id="signin"
-        className={`absolute left-0 top-0 z-20 flex h-full w-1/2 items-center justify-center bg-white transition-all duration-700 ease-in-out ${
-          isAnimated ? "translate-x-full opacity-0" : ""
+        className={`z-20 flex items-center justify-center rounded-3xl bg-white shadow-lg transition-all duration-700 ease-in-out dark:bg-gunmetal-800 md:absolute md:left-0 md:top-0 md:h-full md:w-1/2 md:rounded-none md:shadow-none ${
+          isAnimated ? "md:translate-x-full md:opacity-0" : ""
         }`}
       >
         <FormProvider {...signinFormMethods}>
@@ -37,13 +37,13 @@ const AuthPage: React.FC = () => {
 
       <div
         id="signup"
-        className={`absolute left-0 top-0 flex h-full w-1/2 items-center justify-center transition-all duration-700 ease-in-out ${
+        className={`flex items-center justify-center rounded-3xl bg-white shadow-lg transition-all duration-700 ease-in-out dark:bg-gunmetal-800 md:absolute md:left-0 md:top-0 md:h-full md:w-1/2 md:rounded-none md:shadow-none ${
           isAnimated
-            ? "animate-show z-50 translate-x-full opacity-100"
-            : "z-10 opacity-0"
+            ? "md:animate-show md:z-50 md:translate-x-full md:opacity-100"
+            : "md:z-10 md:opacity-0"
         }`}
       >
-        <div className="flex items-center justify-center w-full h-full">
+        <div className="flex h-full w-full items-center justify-center">
           <FormProvider {...signupFormMethods}>
             <SignupForm
               error={error}
@@ -56,7 +56,7 @@ const AuthPage: React.FC = () => {
 
       <div
         id="overlay-container"
-        className={`absolute left-1/2 top-0 z-100 h-full w-1/2 overflow-hidden transition-transform duration-700 ease-in-out ${
+        className={`absolute left-1/2 top-0 z-100 hidden h-full w-1/2 overflow-hidden transition-transform duration-700 ease-in-out md:block ${
           isAnimated ? "-translate-x-full" : ""
         }`}
       >
