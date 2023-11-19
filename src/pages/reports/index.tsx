@@ -50,10 +50,10 @@ const Report: NextPage = () => {
           <p>Loading</p>
         </div>
       ) : (
-        <>
+        <div className="mx-4">
           <BoardSelector onBoardSelect={handleBoardSelect} />
           <BoardsTable data={transformedData} handleClick={handleClick} />
-        </>
+        </div>
       )}
     </main>
   );
