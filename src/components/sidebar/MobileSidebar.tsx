@@ -59,7 +59,9 @@ const SidebarMobile: React.FC = () => {
         onClick={() => dispatch(toggleMobileSidebar())}
         ref={buttonRef}
       >
-        <h2 className="capitalize">{currentBoard?.name ?? "No Boards"}</h2>
+        <h2 className="max-w-[8rem] capitalize">
+          {currentBoard?.name ?? "No Boards"}
+        </h2>
         <div className="mt-1 cursor-pointer">
           <ChevronDownIcon
             className={clsx(

@@ -123,13 +123,13 @@ tbody {
 
 [data-subtask-completed="true"] {
   > span {
-    @apply dark:bg-green-500/10 ring-green-500/20 text-green-700 dark:text-green-500 bg-green-400/10 inline-flex items-center rounded-md px-2 py-1 font-medium line-through ring-1 ring-inset;
+    @apply inline-flex items-center rounded-md bg-green-400/10 px-2 py-1 font-medium text-green-700 line-through ring-1 ring-inset ring-green-500/20 dark:bg-green-500/10 dark:text-green-500;
   }
 }
 
 [data-subtask-completed="false"] {
   > span {
-    @apply dark:bg-red-500/10 ring-red-500/20 text-red-500 inline-flex items-center rounded-md bg-red-400/10 px-2 py-1 font-medium ring-1 ring-inset;
+    @apply inline-flex items-center rounded-md bg-red-400/10 px-2 py-1 font-medium text-red-500 ring-1 ring-inset ring-red-500/20 dark:bg-red-500/10;
   }
 }
 
@@ -137,9 +137,9 @@ tbody {
 .theme-label:before {
   content: "";
   animation-name: reverse;
-  animation-duration: 350ms;
+  animation-duration: 150ms;
   animation-fill-mode: forwards;
-  transition: all 350ms ease-in;
+  transition: all 150ms ease-in;
   @apply absolute left-0.5 top-0.5 h-3.5 w-3.5 rounded-full bg-white;
 }
 
@@ -153,13 +153,13 @@ tbody {
 
     &:before {
       animation-name: switch;
-      animation-duration: 350ms;
+      animation-duration: 150ms;
       animation-fill-mode: forwards;
       @apply bg-white;
     }
 
     &:after {
-      transition-delay: 350ms;
+      transition-delay: 150ms;
       @apply opacity-100;
     }
   }
