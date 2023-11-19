@@ -9,6 +9,8 @@ import AddIcon from "~/components/svg/AddIcon";
 import BoardIcon from "~/components/svg/BoardIcon";
 import ChevronDownIcon from "~/components/svg/ChevronDownIcon";
 import LogoMobile from "~/components/svg/LogoMobile";
+import Loader from "~/components/ui/Loader";
+import { useGetBoardsQuery } from "~/store/api";
 import {
   selectBoards,
   selectCurrentBoard,
@@ -16,9 +18,9 @@ import {
 } from "~/store/selectors";
 import { toggleAddBoardModal, toggleMobileSidebar } from "~/store/uiSlice";
 
-const SidebarMobile: React.FC = () => {
+const MobileSidebar: React.FC = () => {
+  const { isLoading } = useGetBoardsQuery();
   const dispatch = useDispatch();
-
   const boards = useSelector(selectBoards);
   const currentBoard = useSelector(selectCurrentBoard);
   const showMobileSidebar = useSelector(selectShowMobileSidebar);
@@ -51,18 +53,20 @@ const SidebarMobile: React.FC = () => {
 
   return (
     <div className="flex w-fit cursor-pointer items-center gap-4 md:hidden">
-      <div>
-        <LogoMobile />
-      </div>
+      <LogoMobile />
       <div
         className="flex items-center gap-2"
         onClick={() => dispatch(toggleMobileSidebar())}
         ref={buttonRef}
       >
-        <h2 className="max-w-[8rem] capitalize">
-          {currentBoard?.name ?? "No Boards"}
+        <h2 className="w-36 capitalize">
+          {isLoading ? (
+            <Loader size={8} color="#635fc7" />
+          ) : (
+            currentBoard?.name ?? "No Boards"
+          )}
         </h2>
-        <div className="mt-1 cursor-pointer">
+        <div className={clsx("mt-1 cursor-pointer", isLoading && "hidden")}>
           <ChevronDownIcon
             className={clsx(
               "stroke-violet-700 transition",
@@ -111,4 +115,4 @@ const SidebarMobile: React.FC = () => {
   );
 };
 
-export default SidebarMobile;
+export default MobileSidebar;

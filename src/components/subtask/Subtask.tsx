@@ -1,6 +1,7 @@
 import clsx from "clsx";
 
 import CheckIcon from "~/components/svg/CheckIcon";
+import Loader from "~/components/ui/Loader";
 import { useToggleSubtaskMutation } from "~/store/api";
 import { Subtask } from "~/types";
 
@@ -9,8 +10,7 @@ type SubtaskItemProps = {
 };
 
 const Subtask = ({ subtask }: SubtaskItemProps): JSX.Element => {
-  const [toggleSubtask, { isLoading, error, data }] =
-    useToggleSubtaskMutation();
+  const [toggleSubtask, { isLoading, error }] = useToggleSubtaskMutation();
 
   const handleToggle = async () => {
     try {
@@ -21,8 +21,6 @@ const Subtask = ({ subtask }: SubtaskItemProps): JSX.Element => {
   };
 
   if (error) return <p>Error</p>;
-
-  if (isLoading) return <p>Updating subtask...</p>;
 
   return (
     <li
@@ -45,7 +43,7 @@ const Subtask = ({ subtask }: SubtaskItemProps): JSX.Element => {
             : "text-black dark:text-white",
         )}
       >
-        {subtask.title}
+        {isLoading ? <Loader color="#635fc7" size={6} /> : subtask.title}
       </span>
     </li>
   );

@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import AddIcon from "~/components/svg/AddIcon";
 import XIcon from "~/components/svg/XIcon";
 import Button from "~/components/ui/Button";
+import Loader from "~/components/ui/Loader";
 import { useCreateBoardMutation } from "~/store/api";
 import { setCurrentBoard } from "~/store/boardSlice";
 import { toggleAddBoardModal } from "~/store/uiSlice";
@@ -59,7 +60,8 @@ const AddBoard = () => {
 
   if (error) return <p>error</p>;
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading)
+    return <Loader message="Creating Board..." color="#635fc7" size={16} />;
 
   return (
     <div className="w-full space-y-6">
