@@ -1,6 +1,6 @@
-import { getSession, signIn, type GetSessionParams } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
-import type { GetServerSideProps, NextPage } from "next/types";
+import type { NextPage } from "next/types";
 
 import Button from "~/components/ui/Button";
 
@@ -27,22 +27,3 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-
-export const getServerSideProps: GetServerSideProps = async (
-  context: GetSessionParams,
-) => {
-  const session = await getSession(context);
-
-  if (session) {
-    return {
-      redirect: {
-        destination: "/boards",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};

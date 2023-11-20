@@ -28,7 +28,7 @@ const SigninForm: React.FC<SigninFormProps> = ({
         {
           email: data.email,
           password: data.password,
-          redirect: false,
+          redirect: true,
         },
         { callbackUrl: "/boards" },
       );

@@ -49,10 +49,10 @@ const Header: React.FC<HeaderProps> = ({ report, boardName }) => {
         <h1
           className={clsx("truncate capitalize md:block", !report && "hidden")}
         >
-          {report ? (
-            `${boardName ?? "No Board"} Report Generated`
-          ) : isLoading ? (
+          {isLoading ? (
             <Loader size={10} color="#635fc7" />
+          ) : report ? (
+            `${boardName ?? "No Board"} Report Generated`
           ) : (
             currentBoard?.name ?? "No Boards"
           )}

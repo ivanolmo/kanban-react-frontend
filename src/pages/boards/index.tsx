@@ -1,6 +1,5 @@
 import { useWindowSize } from "@uidotdev/usehooks";
-import { getSession, type GetSessionParams } from "next-auth/react";
-import type { GetServerSideProps, NextPage } from "next/types";
+import type { NextPage } from "next/types";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -86,22 +85,3 @@ const Boards: NextPage = () => {
 };
 
 export default Boards;
-
-export const getServerSideProps: GetServerSideProps = async (
-  context: GetSessionParams,
-) => {
-  const session = await getSession(context);
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/auth",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};
