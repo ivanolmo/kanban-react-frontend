@@ -72,16 +72,28 @@ const Header: React.FC<HeaderProps> = ({ report, boardName }) => {
             <>
               <div className="flex min-w-fit gap-4">
                 <Button size="lg" onClick={() => dispatch(toggleSearch())}>
-                  <SearchIcon className="fill-white" />
-                  <span className="hidden md:inline">Search</span>
+                  {isLoading ? (
+                    <Loader size={10} color="#a8a4ff" />
+                  ) : (
+                    <>
+                      <SearchIcon className="fill-white" />
+                      <span className="hidden md:inline">Search</span>
+                    </>
+                  )}
                 </Button>
                 <Button
                   size="lg"
                   disabled={!currentBoard?.columns.length}
                   onClick={() => dispatch(toggleAddTaskModal())}
                 >
-                  <AddIcon className="fill-white" />
-                  <span className="hidden md:inline">Add New Task</span>
+                  {isLoading ? (
+                    <Loader size={10} color="#a8a4ff" />
+                  ) : (
+                    <>
+                      <AddIcon className="fill-white" />
+                      <span className="hidden md:inline">Add New Task</span>
+                    </>
+                  )}
                 </Button>
               </div>
               <HeaderMenu />
