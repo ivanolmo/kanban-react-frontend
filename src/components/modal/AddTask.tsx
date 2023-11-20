@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
@@ -6,13 +7,16 @@ import XIcon from "~/components/svg/XIcon";
 import Button from "~/components/ui/Button";
 import Loader from "~/components/ui/Loader";
 import Select from "~/components/ui/Select";
+import { useHandleError } from "~/hooks/useHandleError";
 import { useAddTaskMutation } from "~/store/api";
 import { toggleAddTaskModal } from "~/store/uiSlice";
 import type { CreateTaskInput } from "~/types";
 
 const AddTask: React.FC = () => {
-  const [addTask, { isLoading, error }] = useAddTaskMutation();
   const dispatch = useDispatch();
+  const [addTask, { isLoading, error }] = useAddTaskMutation();
+
+  const handleError = useHandleError();
 
   const {
     handleSubmit,
@@ -47,15 +51,15 @@ const AddTask: React.FC = () => {
       },
     };
 
-    try {
-      await addTask(cleanedData).unwrap();
-      dispatch(toggleAddTaskModal());
-    } catch (err) {
-      console.log("err -> ", err);
-    }
+    await addTask(cleanedData).unwrap();
+    dispatch(toggleAddTaskModal());
   };
 
-  if (error) return <p>Error</p>;
+  useEffect(() => {
+    if (error) {
+      handleError(error);
+    }
+  }, [dispatch, error, handleError]);
 
   if (isLoading)
     return <Loader message="Creating Task..." color="#635fc7" size={16} />;

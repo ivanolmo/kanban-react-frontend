@@ -10,6 +10,7 @@ import CurrentModal from "~/components/modal/CurrentModal";
 import Sidebar from "~/components/sidebar/Sidebar";
 import SidebarToggle from "~/components/sidebar/SidebarToggle";
 import Loader from "~/components/ui/Loader";
+import { useHandleError } from "~/hooks/useHandleError";
 import { useGetBoardsQuery } from "~/store/api";
 import { clearCurrentBoard, setCurrentBoard } from "~/store/boardSlice";
 import {
@@ -20,13 +21,14 @@ import {
 import { toggleMobileSidebar, toggleSidebar } from "~/store/uiSlice";
 
 const Boards: NextPage = () => {
-  const size = useWindowSize();
-
-  const { data: boards, isLoading, isError } = useGetBoardsQuery();
   const dispatch = useDispatch();
+  const { data: boards, isLoading, error } = useGetBoardsQuery();
   const currentBoard = useSelector(selectCurrentBoard);
   const showSidebar = useSelector(selectShowSidebar);
   const showMobileSidebar = useSelector(selectShowMobileSidebar);
+
+  const size = useWindowSize();
+  const handleError = useHandleError();
 
   // closes mobile or regular sidebar on media query
   useEffect(() => {
@@ -56,6 +58,12 @@ const Boards: NextPage = () => {
       dispatch(clearCurrentBoard());
     }
   }, [boards, currentBoard, dispatch]);
+
+  useEffect(() => {
+    if (error) {
+      handleError(error);
+    }
+  }, [dispatch, error, handleError]);
 
   return (
     <>

@@ -11,6 +11,7 @@ export const selectCurrentModal = (state: RootState): ModalType | null => {
   if (uiState.showAddTaskModal) return ModalType.AddTask;
   if (uiState.showEditTaskModal) return ModalType.EditTask;
   if (uiState.showDeleteTaskModal) return ModalType.DeleteTask;
+  if (uiState.showErrorModal) return ModalType.Error;
   if (uiState.showSearch) return ModalType.Search;
 
   return null;
@@ -30,3 +31,4 @@ export const selectCurrentTask = (state: RootState) => state.board.currentTask;
 export const selectCurrentBoard = (state: RootState) =>
   state.board.currentBoard;
 export const selectBoards = (state: RootState) => state.board.boards;
+export const selectErrorMessage = (state: RootState) => state.ui.errorMessage;

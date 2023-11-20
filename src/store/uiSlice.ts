@@ -12,6 +12,8 @@ type UIState = {
   showAddTaskModal: boolean;
   showEditTaskModal: boolean;
   showDeleteTaskModal: boolean;
+  showErrorModal: boolean;
+  errorMessage: string | null;
   showSearch: boolean;
 };
 
@@ -27,6 +29,8 @@ const initialState: UIState = {
   showAddTaskModal: false,
   showEditTaskModal: false,
   showDeleteTaskModal: false,
+  showErrorModal: false,
+  errorMessage: null,
   showSearch: false,
 };
 
@@ -67,8 +71,28 @@ const uiSlice = createSlice({
     toggleEditTaskModal(state) {
       state.showEditTaskModal = !state.showEditTaskModal;
     },
+    toggleErrorModal(state) {
+      state.showErrorModal = !state.showErrorModal;
+    },
+    setError(state, action: { payload: string }) {
+      state.showErrorModal = true;
+      state.errorMessage = action.payload;
+    },
+    clearError(state) {
+      state.showErrorModal = false;
+      state.errorMessage = null;
+    },
     toggleSearch(state) {
       state.showSearch = !state.showSearch;
+    },
+    resetModals(state) {
+      state.showAddBoardModal = false;
+      state.showEditBoardModal = false;
+      state.showDeleteBoardModal = false;
+      state.showViewTaskModal = false;
+      state.showAddTaskModal = false;
+      state.showDeleteTaskModal = false;
+      state.showEditTaskModal = false;
     },
   },
 });
@@ -85,7 +109,11 @@ export const {
   toggleAddTaskModal,
   toggleDeleteTaskModal,
   toggleEditTaskModal,
+  toggleErrorModal,
+  setError,
+  clearError,
   toggleSearch,
+  resetModals,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

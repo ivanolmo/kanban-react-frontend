@@ -6,6 +6,7 @@ export enum ModalType {
   AddTask = "showAddTaskModal",
   EditTask = "showEditTaskModal",
   DeleteTask = "showDeleteTaskModal",
+  Error = "showErrorModal",
   Search = "showSearchModal",
 }
 
