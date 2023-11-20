@@ -1,21 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { AuthErrorResponse, AuthSuccessResponse } from "~/types";
-
-type AuthResponse = {
-  data: {
-    user_id: string;
-    email: string;
-    access_token: string;
-  };
-  success: boolean;
-  message: string;
-  status: string;
-};
-
-type ErrorResponse = AuthResponse & {
-  error: string;
-};
+import type { AuthErrorResponse, AuthSuccessResponse } from "~/types";
 
 export default NextAuth({
   providers: [
