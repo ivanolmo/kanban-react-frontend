@@ -1,7 +1,9 @@
 import clsx from "clsx";
+import { useEffect } from "react";
 
 import CheckIcon from "~/components/svg/CheckIcon";
 import Loader from "~/components/ui/Loader";
+import { useHandleError } from "~/hooks/useHandleError";
 import { useToggleSubtaskMutation } from "~/store/api";
 import { Subtask } from "~/types";
 
@@ -9,18 +11,20 @@ type SubtaskItemProps = {
   subtask: Subtask;
 };
 
-const Subtask = ({ subtask }: SubtaskItemProps): JSX.Element => {
+const Subtask: React.FC<SubtaskItemProps> = ({ subtask }) => {
   const [toggleSubtask, { isLoading, error }] = useToggleSubtaskMutation();
 
+  const handleError = useHandleError();
+
   const handleToggle = async () => {
-    try {
-      await toggleSubtask(subtask.id).unwrap();
-    } catch (err) {
-      console.log("err -> ", err);
-    }
+    await toggleSubtask(subtask.id).unwrap();
   };
 
-  if (error) return <p>Error</p>;
+  useEffect(() => {
+    if (error) {
+      handleError(error);
+    }
+  }, [error, handleError]);
 
   return (
     <li
@@ -34,7 +38,6 @@ const Subtask = ({ subtask }: SubtaskItemProps): JSX.Element => {
       ) : (
         <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-sm border border-slate/25 bg-white dark:bg-gunmetal-800" />
       )}
-
       <span
         className={clsx(
           "text-body-md",

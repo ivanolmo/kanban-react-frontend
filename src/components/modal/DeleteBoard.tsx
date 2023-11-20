@@ -1,26 +1,30 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Button from "~/components/ui/Button";
 import Loader from "~/components/ui/Loader";
+import { useHandleError } from "~/hooks/useHandleError";
 import { useDeleteBoardMutation } from "~/store/api";
 import { selectCurrentBoard } from "~/store/selectors";
 import { toggleDeleteBoardModal } from "~/store/uiSlice";
 
-const DeleteBoard = () => {
-  const [deleteBoard, { isLoading, error }] = useDeleteBoardMutation();
+const DeleteBoard: React.FC = () => {
   const dispatch = useDispatch();
+  const [deleteBoard, { isLoading, error }] = useDeleteBoardMutation();
   const currentBoard = useSelector(selectCurrentBoard);
 
+  const handleError = useHandleError();
+
   const handleDelete = async () => {
-    try {
-      await deleteBoard(currentBoard!.id);
-      dispatch(toggleDeleteBoardModal());
-    } catch (err) {
-      console.log("err -> ", err);
-    }
+    await deleteBoard(currentBoard!.id);
+    dispatch(toggleDeleteBoardModal());
   };
 
-  if (error) return <p>Error</p>;
+  useEffect(() => {
+    if (error) {
+      handleError(error);
+    }
+  }, [dispatch, error, handleError]);
 
   if (isLoading)
     return <Loader message="Deleting Board..." color="#635fc7" size={16} />;

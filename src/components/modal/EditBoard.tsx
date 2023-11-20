@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -6,18 +6,21 @@ import AddIcon from "~/components/svg/AddIcon";
 import XIcon from "~/components/svg/XIcon";
 import Button from "~/components/ui/Button";
 import Loader from "~/components/ui/Loader";
+import { useHandleError } from "~/hooks/useHandleError";
 import { useEditBoardMutation } from "~/store/api";
 import { selectCurrentBoard } from "~/store/selectors";
 import { toggleEditBoardModal } from "~/store/uiSlice";
 import type { EditBoardInput } from "~/types";
 import { getRandColor } from "~/utils/getRandColor";
 
-const EditBoard = () => {
+const EditBoard: React.FC = () => {
   const [columnsToDelete, setColumnsToDelete] = useState<string[]>([]);
 
-  const [editBoard, { isLoading, error }] = useEditBoardMutation();
   const dispatch = useDispatch();
+  const [editBoard, { isLoading, error }] = useEditBoardMutation();
   const currentBoard = useSelector(selectCurrentBoard);
+
+  const handleError = useHandleError();
 
   const {
     handleSubmit,
@@ -48,15 +51,15 @@ const EditBoard = () => {
       })),
     };
 
-    try {
-      await editBoard(dataWithColumnColors).unwrap();
-      dispatch(toggleEditBoardModal());
-    } catch (err) {
-      console.log("err -> ", err);
-    }
+    await editBoard(dataWithColumnColors).unwrap();
+    dispatch(toggleEditBoardModal());
   };
 
-  if (error) return <div>Error</div>;
+  useEffect(() => {
+    if (error) {
+      handleError(error);
+    }
+  }, [dispatch, error, handleError]);
 
   if (isLoading)
     return <Loader message="Updating Board..." color="#635fc7" size={16} />;

@@ -1,28 +1,32 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Button from "~/components/ui/Button";
 import Loader from "~/components/ui/Loader";
+import { useHandleError } from "~/hooks/useHandleError";
 import { useDeleteTaskMutation } from "~/store/api";
 import { clearCurrentTask } from "~/store/boardSlice";
 import { selectCurrentTask } from "~/store/selectors";
 import { toggleDeleteTaskModal } from "~/store/uiSlice";
 
 const DeleteTask: React.FC = () => {
-  const [deleteTask, { isLoading, error }] = useDeleteTaskMutation();
   const dispatch = useDispatch();
+  const [deleteTask, { isLoading, error }] = useDeleteTaskMutation();
   const currentTask = useSelector(selectCurrentTask);
 
+  const handleError = useHandleError();
+
   const handleDelete = async () => {
-    try {
-      await deleteTask(currentTask!.id).unwrap();
-      dispatch(toggleDeleteTaskModal());
-      dispatch(clearCurrentTask());
-    } catch (err) {
-      console.log("err -> ", err);
-    }
+    await deleteTask(currentTask!.id).unwrap();
+    dispatch(toggleDeleteTaskModal());
+    dispatch(clearCurrentTask());
   };
 
-  if (error) return <p>Error</p>;
+  useEffect(() => {
+    if (error) {
+      handleError(error);
+    }
+  }, [dispatch, error, handleError]);
 
   if (isLoading)
     return <Loader message="Deleting Task..." color="#635fc7" size={16} />;

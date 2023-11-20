@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
@@ -5,15 +6,18 @@ import AddIcon from "~/components/svg/AddIcon";
 import XIcon from "~/components/svg/XIcon";
 import Button from "~/components/ui/Button";
 import Loader from "~/components/ui/Loader";
+import { useHandleError } from "~/hooks/useHandleError";
 import { useCreateBoardMutation } from "~/store/api";
 import { setCurrentBoard } from "~/store/boardSlice";
 import { toggleAddBoardModal } from "~/store/uiSlice";
 import type { CreateBoardInput } from "~/types";
 import { getRandColor } from "~/utils/getRandColor";
 
-const AddBoard = () => {
-  const [createBoard, { isLoading, error }] = useCreateBoardMutation();
+const AddBoard: React.FC = () => {
   const dispatch = useDispatch();
+  const [createBoard, { isLoading, error }] = useCreateBoardMutation();
+
+  const handleError = useHandleError();
 
   const {
     handleSubmit,
@@ -49,16 +53,16 @@ const AddBoard = () => {
       })),
     };
 
-    try {
-      const newBoard = await createBoard(dataWithColumnColors).unwrap();
-      dispatch(toggleAddBoardModal());
-      dispatch(setCurrentBoard(newBoard));
-    } catch (err) {
-      console.log("err -> ", err);
-    }
+    const newBoard = await createBoard(dataWithColumnColors).unwrap();
+    dispatch(toggleAddBoardModal());
+    dispatch(setCurrentBoard(newBoard));
   };
 
-  if (error) return <p>error</p>;
+  useEffect(() => {
+    if (error) {
+      handleError(error);
+    }
+  }, [dispatch, error, handleError]);
 
   if (isLoading)
     return <Loader message="Creating Board..." color="#635fc7" size={16} />;
@@ -92,7 +96,7 @@ const AddBoard = () => {
             className={`border-slate/25 ${errors?.name && "border-red-600"}`}
           />
           {errors.name && errors.name.type === "required" && (
-            <span className="text-body-sm absolute right-4 top-10 text-red-600">
+            <span className="absolute right-4 top-9 text-sm text-red-600">
               Can&apos;t be empty
             </span>
           )}
@@ -130,7 +134,7 @@ const AddBoard = () => {
                   <XIcon className="h-6 w-6 stroke-red-600" />
                 </button>
                 {errors?.columns?.[index] && (
-                  <span className="text-body-sm absolute right-10 top-4 text-red-600">
+                  <span className="absolute right-10 top-3 text-sm text-red-600">
                     Can&apos;t be empty
                   </span>
                 )}

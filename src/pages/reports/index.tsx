@@ -1,12 +1,13 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import Header from "~/components/header/Header";
 import BoardSelector from "~/components/report/BoardSelector";
 import BoardsTable from "~/components/report/BoardsTable";
 import Loader from "~/components/ui/Loader";
+import { useHandleError } from "~/hooks/useHandleError";
 import { useGetBoardsQuery } from "~/store/api";
 import { setCurrentBoard } from "~/store/boardSlice";
 import {
@@ -19,9 +20,10 @@ const Report: NextPage = () => {
   const [selectedBoardId, setSelectedBoardId] = useState("");
 
   const dispatch = useDispatch();
-  const { data: boards, isLoading, isError } = useGetBoardsQuery();
-
+  const { data: boards, isLoading, error } = useGetBoardsQuery();
   const currentBoard = boards?.find((board) => board.id === selectedBoardId);
+
+  const handleError = useHandleError();
 
   const transformedData: TransformedData = useMemo(
     () => transformData(boards!, selectedBoardId),
@@ -40,9 +42,11 @@ const Report: NextPage = () => {
     void router.push("/boards");
   };
 
-  if (isError) {
-    return <div>There was an error fetching the boards</div>;
-  }
+  useEffect(() => {
+    if (error) {
+      handleError(error);
+    }
+  }, [dispatch, error, handleError]);
 
   return (
     <main>

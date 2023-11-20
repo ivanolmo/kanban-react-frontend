@@ -7,6 +7,7 @@ import XIcon from "~/components/svg/XIcon";
 import Button from "~/components/ui/Button";
 import Loader from "~/components/ui/Loader";
 import Select from "~/components/ui/Select";
+import { useHandleError } from "~/hooks/useHandleError";
 import { useEditTaskMutation } from "~/store/api";
 import { clearCurrentTask } from "~/store/boardSlice";
 import { selectCurrentTask } from "~/store/selectors";
@@ -14,9 +15,11 @@ import { toggleEditTaskModal } from "~/store/uiSlice";
 import type { EditTaskInput, EditTaskRequest } from "~/types";
 
 const EditTask: React.FC = () => {
-  const [editTask, { isLoading, error }] = useEditTaskMutation();
   const dispatch = useDispatch();
+  const [editTask, { isLoading, error }] = useEditTaskMutation();
   const currentTask = useSelector(selectCurrentTask);
+
+  const handleError = useHandleError();
 
   const {
     handleSubmit,
@@ -67,12 +70,8 @@ const EditTask: React.FC = () => {
       },
     };
 
-    try {
-      await editTask(cleanedData).unwrap();
-      dispatch(toggleEditTaskModal());
-    } catch (err) {
-      console.log("err -> ", err);
-    }
+    await editTask(cleanedData).unwrap();
+    dispatch(toggleEditTaskModal());
   };
 
   const handleClose = () => {
@@ -91,7 +90,11 @@ const EditTask: React.FC = () => {
     });
   }, [reset, currentTask]);
 
-  if (error) return <p>Error</p>;
+  useEffect(() => {
+    if (error) {
+      handleError(error);
+    }
+  }, [dispatch, error, handleError]);
 
   if (isLoading)
     return <Loader message="Updating Task..." color="#635fc7" size={16} />;

@@ -4,7 +4,7 @@ import Button from "~/components/ui/Button";
 import { selectErrorMessage } from "~/store/selectors";
 import { clearError } from "~/store/uiSlice";
 
-const ErrorModal = () => {
+const ErrorModal: React.FC = () => {
   const dispatch = useDispatch();
   const errorMessage = useSelector(selectErrorMessage);
 
