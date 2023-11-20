@@ -85,6 +85,15 @@ const uiSlice = createSlice({
     toggleSearch(state) {
       state.showSearch = !state.showSearch;
     },
+    resetModals(state) {
+      state.showAddBoardModal = false;
+      state.showEditBoardModal = false;
+      state.showDeleteBoardModal = false;
+      state.showViewTaskModal = false;
+      state.showAddTaskModal = false;
+      state.showDeleteTaskModal = false;
+      state.showEditTaskModal = false;
+    },
   },
 });
 
@@ -104,6 +113,7 @@ export const {
   setError,
   clearError,
   toggleSearch,
+  resetModals,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;
