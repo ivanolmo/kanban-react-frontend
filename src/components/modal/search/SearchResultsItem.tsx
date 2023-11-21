@@ -1,12 +1,16 @@
 import { useDispatch } from "react-redux";
 
 import BoardIcon from "~/components/svg/BoardIcon";
+import ColumnIcon from "~/components/svg/ColumnIcon";
+import SubtaskIcon from "~/components/svg/SubtaskIcon";
+import TaskIcon from "~/components/svg/TaskIcon";
 import { setCurrentBoard } from "~/store/boardSlice";
 import { toggleSearch } from "~/store/uiSlice";
-import type { Board } from "~/types";
+import { getSearchContext } from "~/utils/getSearchContext";
+import type { SearchResult } from "~/types";
 
 type SearchResultsItemProps = {
-  result: Board;
+  result: SearchResult;
   searchTerm: string;
 };
 
@@ -18,40 +22,10 @@ const SearchResultsItem: React.FC<SearchResultsItemProps> = ({
 
   const handleSelect = () => {
     dispatch(toggleSearch());
-    dispatch(setCurrentBoard(result));
+    dispatch(setCurrentBoard(result.board));
   };
 
-  const getSearchContext = () => {
-    for (const column of result.columns) {
-      if (column.name.includes(searchTerm)) {
-        return { location: `Column: ${column.name}`, preview: column.name };
-      }
-
-      for (const task of column.tasks) {
-        if (
-          task.title.includes(searchTerm) ||
-          task.description.includes(searchTerm)
-        ) {
-          return {
-            location: `Task: '${task.title}' in Column: '${column.name}'`,
-            preview: task.description.substring(0, 40) + "...",
-          };
-        }
-
-        for (const subtask of task.subtasks) {
-          if (subtask.title.includes(searchTerm)) {
-            return {
-              location: `Subtask: '${subtask.title}' in Task: '${task.title}'`,
-              preview: subtask.title,
-            };
-          }
-        }
-      }
-    }
-    return { location: "", preview: "" };
-  };
-
-  const { location, preview } = getSearchContext();
+  const { location, preview } = getSearchContext(result, searchTerm);
 
   return (
     <li
@@ -59,8 +33,15 @@ const SearchResultsItem: React.FC<SearchResultsItemProps> = ({
       onClick={() => handleSelect()}
     >
       <div className="flex items-center justify-between">
-        <span className="text-lg font-bold">Board: {result?.name}</span>
-        <BoardIcon className="dark:fill-white" />
+        <span className="text-lg font-bold">{`${result.type}: ${
+          "name" in result.item ? result.item.name : result.item.title
+        }`}</span>
+        {result.type === "Board" && <BoardIcon className="dark:fill-white" />}
+        {result.type === "Column" && <ColumnIcon className="dark:text-white" />}
+        {result.type === "Task" && <TaskIcon className="dark:text-white" />}
+        {result.type === "Subtask" && (
+          <SubtaskIcon className="dark:fill-white" />
+        )}
       </div>
       {location && (
         <p className="flex flex-col">
