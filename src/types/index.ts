@@ -123,3 +123,10 @@ export type AuthSuccessResponse = ApiBaseResponse & {
 export type AuthErrorResponse = ApiBaseResponse & {
   error: string;
 };
+
+// Search types
+export type SearchResult = {
+  type: "Board" | "Column" | "Task" | "Subtask";
+  item: Board | Column | Task | Subtask;
+  board: Board;
+};
