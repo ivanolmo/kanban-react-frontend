@@ -6,12 +6,12 @@ import SearchResultsItem from "~/components/modal/search/SearchResultsItem";
 import XIcon from "~/components/svg/XIcon";
 import { selectBoards } from "~/store/selectors";
 import { toggleSearch } from "~/store/uiSlice";
-import type { Board } from "~/types";
+import type { SearchResult } from "~/types";
 import { searchBoards } from "~/utils/searchBoards";
 
 const Search: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [results, setResults] = useState<Board[]>([]);
+  const [results, setResults] = useState<SearchResult[]>([]);
 
   const dispatch = useDispatch();
   const boards = useSelector(selectBoards);
@@ -25,7 +25,7 @@ const Search: React.FC = () => {
   }, [debouncedSearchTerm, boards]);
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-fit space-y-6">
       <div className="flex w-full items-center justify-between">
         <h2>Search</h2>
         <span
@@ -48,15 +48,17 @@ const Search: React.FC = () => {
         />
       </div>
       {results.length > 0 && (
-        <ul className="space-y-6">
-          {results.map((result) => (
-            <SearchResultsItem
-              key={result.id}
-              result={result}
-              searchTerm={searchTerm}
-            />
-          ))}
-        </ul>
+        <div className="no-scrollbar max-h-[400px] overflow-x-visible overflow-y-scroll p-2">
+          <ul className="space-y-6">
+            {results.map((result) => (
+              <SearchResultsItem
+                key={result.item.id}
+                result={result}
+                searchTerm={searchTerm}
+              />
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );
