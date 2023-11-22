@@ -11,7 +11,10 @@ type LoaderProps = {
 
 const Loader: React.FC<LoaderProps> = (props) => {
   return (
-    <div className="m-auto flex flex-col items-center gap-6">
+    <div
+      className="m-auto flex flex-col items-center gap-6"
+      data-testid="loader-container"
+    >
       <p className={clsx(props.message ? "" : "hidden")}>{props.message}</p>
       <PulseLoader {...props} />
     </div>
