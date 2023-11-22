@@ -1,11 +1,11 @@
+import { clearError, initialUIState } from "~/store/uiSlice";
 import {
   act,
   fireEvent,
   renderWithProviders,
-  waitFor,
   screen,
+  waitFor,
 } from "~/utils/testUtils";
-import { clearError, initialUIState } from "~/store/uiSlice";
 
 import ErrorModal from "~/components/modal/error/ErrorModal";
 

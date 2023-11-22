@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
+import Header from "~/components/header/Header";
 import {
   createTestBoard,
   renderWithProviders,
   screen,
 } from "~/utils/testUtils";
-import Header from "~/components/header/Header";
 
 jest.mock("next/router", () => ({
   useRouter: jest.fn(),

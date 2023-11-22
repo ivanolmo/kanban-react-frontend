@@ -1,6 +1,7 @@
-import { renderWithProviders } from "~/utils/testUtils";
-import ColumnScrollContainer from "./ColumnScrollContainer";
-import { createTestBoard } from "~/utils/testUtils";
+import ColumnScrollContainer from "~/components/column/ColumnScrollContainer";
+import { initialBoardState } from "~/store/boardSlice";
+import { initialUIState } from "~/store/uiSlice";
+import { createTestBoard, renderWithProviders } from "~/utils/testUtils";
 
 describe("ColumnScrollContainer", () => {
   const testBoard = createTestBoard("1"); // has 2 columns
@@ -14,26 +15,13 @@ describe("ColumnScrollContainer", () => {
   test("has correct classes when sidebar is open", () => {
     const preloadedState = {
       board: {
+        ...initialBoardState,
         boards: [testBoard],
-        error: null,
         currentBoard: testBoard,
-        currentTask: null,
       },
       ui: {
+        ...initialUIState,
         showSidebar: true,
-        showMobileSidebar: false,
-        showHeaderMenu: false,
-        showViewTaskSubmenu: false,
-        showAddBoardModal: false,
-        showEditBoardModal: false,
-        showDeleteBoardModal: false,
-        showViewTaskModal: false,
-        showAddTaskModal: false,
-        showEditTaskModal: false,
-        showDeleteTaskModal: false,
-        showErrorModal: false,
-        errorMessage: null,
-        showSearch: false,
       },
     };
 
@@ -47,10 +35,9 @@ describe("ColumnScrollContainer", () => {
   test("renders the correct number of Column components", () => {
     const preloadedState = {
       board: {
+        ...initialBoardState,
         boards: [testBoard],
-        error: null,
         currentBoard: testBoard,
-        currentTask: null,
       },
     };
 
