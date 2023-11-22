@@ -10,7 +10,7 @@ type BoardState = {
   currentTask: Task | null;
 };
 
-const initialState: BoardState = {
+export const initialBoardState: BoardState = {
   boards: [],
   error: null as ApiErrorResponse | null,
   currentBoard: null,
@@ -19,7 +19,7 @@ const initialState: BoardState = {
 
 const boardSlice = createSlice({
   name: "board",
-  initialState,
+  initialState: initialBoardState,
   reducers: {
     setBoards(state, action: PayloadAction<Array<Board>>) {
       state.boards = action.payload;
