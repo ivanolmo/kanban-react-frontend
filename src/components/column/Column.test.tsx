@@ -7,7 +7,7 @@ describe("Column", () => {
   test("renders the column component", () => {
     const { getByText } = renderWithProviders(<Column column={testColumn} />);
 
-    const heading = getByText(/Todo/i);
+    const heading = getByText(/Test Column Name/i);
 
     expect(heading).toBeInTheDocument();
   });
@@ -19,6 +19,6 @@ describe("Column", () => {
 
     const tasks = getAllByTestId("task");
 
-    expect(tasks).toHaveLength(2);
+    expect(tasks).toHaveLength(1);
   });
 });

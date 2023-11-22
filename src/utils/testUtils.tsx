@@ -42,7 +42,7 @@ export const createTestBoard = (id: string): Board => {
   return {
     id,
     name: "Test Board Name",
-    columns: [createTestColumn("1"), createTestColumn("2")],
+    columns: [createTestColumn("1")],
     createdAt: new Date(),
     updatedAt: new Date(),
     userId: "1",
@@ -52,9 +52,9 @@ export const createTestBoard = (id: string): Board => {
 export const createTestColumn = (id: string): Column => {
   return {
     id,
-    name: "Todo",
+    name: "Test Column Name",
     color: "#ff0000",
-    tasks: [createTestTask("1"), createTestTask("2")],
+    tasks: [createTestTask("1")],
     createdAt: new Date(),
     updatedAt: new Date(),
     boardId: "1",
@@ -69,7 +69,7 @@ export const createTestTask = (id: string): Task => {
     createdAt: new Date(),
     updatedAt: new Date(),
     columnId: "1",
-    subtasks: [createTestSubtask("1"), createTestSubtask("2")],
+    subtasks: [createTestSubtask("1")],
   };
 };
 
