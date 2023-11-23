@@ -27,5 +27,6 @@ jobs:
       - run: echo "NEXT_PUBLIC_API_BASE_URL is ${{ secrets.NEXT_PUBLIC_API_BASE_URL != '' }}"
       - run: npm test
         env:
+          SKIP_ENV_VALIDATION: true
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           NEXT_PUBLIC_API_BASE_URL: ${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
