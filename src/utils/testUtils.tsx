@@ -37,6 +37,19 @@ export function renderWithProviders(
   };
 }
 
+// simple wrapper for testing hooks
+export function renderHookWithMockDispatch() {
+  const store = setupStore();
+  const mockDispatch = jest.fn();
+  store.dispatch = mockDispatch;
+
+  const Wrapper = ({ children }: PropsWithChildren<unknown>): JSX.Element => {
+    return <StoreProvider store={store}>{children}</StoreProvider>;
+  };
+
+  return { store, mockDispatch, Wrapper };
+}
+
 // factory functions for creating test data
 export const createTestBoard = (id: string): Board => {
   return {
