@@ -3,6 +3,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import clsx from "clsx";
 
 import type { FormData } from "~/types";
+import { useRouter } from "next/router";
 
 type SigninFormProps = {
   error: string;
@@ -15,6 +16,8 @@ const SigninForm: React.FC<SigninFormProps> = ({
   setError,
   resetError,
 }) => {
+  const router = useRouter();
+
   const {
     handleSubmit,
     control,
@@ -23,20 +26,17 @@ const SigninForm: React.FC<SigninFormProps> = ({
 
   const onSubmit = async (data: FormData) => {
     try {
-      const res = await signIn(
-        "credentials",
-        {
-          email: data.email,
-          password: data.password,
-          redirect: true,
-        },
-        { callbackUrl: "/boards" },
-      );
+      const res = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
 
       if (res?.error) {
         setError(res.error);
-      } else {
+      } else if (res?.ok) {
         resetError();
+        void router.push("/boards");
       }
     } catch (error) {
       if (error instanceof Error) {
