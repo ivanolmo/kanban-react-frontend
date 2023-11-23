@@ -20,7 +20,8 @@
     "paths": {
       "~/*": ["./src/*"]
     },
-    "plugins": [{ "name": "next" }]
+    "plugins": [{ "name": "next" }],
+    "types": ["@testing-library/jest-dom"]
   },
   "include": [
     ".eslintrc.cjs",
@@ -29,7 +30,8 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "jest.polyfills.js"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "cypress.config.ts", "cypress"]
 }

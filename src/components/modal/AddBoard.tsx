@@ -150,7 +150,7 @@ const AddBoard: React.FC = () => {
           <AddIcon className="fill-violet-700" />
           <span>Add New Column</span>
         </Button>
-        <Button type="submit" wide>
+        <Button type="submit" wide id="add-board-btn">
           <span>Create New Board</span>
         </Button>
       </form>

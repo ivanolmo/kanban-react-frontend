@@ -23,6 +23,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
   const {
     handleSubmit,
     control,
+    watch,
     formState: { errors },
   } = useFormContext<FormData>();
 
@@ -88,13 +89,19 @@ const SignupForm: React.FC<SignupFormProps> = ({
                 Create account
               </h1>
 
-              <form className="mt-12" onSubmit={handleSubmit(onSubmit)}>
+              <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
                 <div className="relative">
                   <Controller
                     name="email"
                     control={control}
                     defaultValue=""
-                    rules={{ required: "Email is required" }}
+                    rules={{
+                      required: "Email is required",
+                      pattern: {
+                        value: /\S+@\S+\.\S+/,
+                        message: "Invalid email address",
+                      },
+                    }}
                     render={({ field }) => (
                       <input
                         {...field}
@@ -126,7 +133,13 @@ const SignupForm: React.FC<SignupFormProps> = ({
                     name="password"
                     control={control}
                     defaultValue=""
-                    rules={{ required: "Password is required" }}
+                    rules={{
+                      required: "Password is required",
+                      minLength: {
+                        value: 4,
+                        message: "Password must be at least 4 characters long",
+                      },
+                    }}
                     render={({ field }) => (
                       <input
                         {...field}
@@ -153,6 +166,43 @@ const SignupForm: React.FC<SignupFormProps> = ({
                   </p>
                 </div>
 
+                <div className="relative mt-6">
+                  <Controller
+                    name="confirmPassword"
+                    control={control}
+                    defaultValue=""
+                    rules={{
+                      required: "Password confirmation is required",
+                      validate: (value) =>
+                        value === watch("password") ||
+                        "The passwords do not match",
+                    }}
+                    render={({ field }) => (
+                      <input
+                        {...field}
+                        id="signup-password-confirmation"
+                        type="password"
+                        className="auth-input peer"
+                        placeholder="Confirm Password"
+                      />
+                    )}
+                  />
+                  <label
+                    htmlFor="signup-password-confirmation"
+                    className="peer-placeholder-shown:text-gray-400 absolute -top-3.5 left-0 text-sm text-slate transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-md peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-slate"
+                  >
+                    Confirm Password
+                  </label>
+                  <p
+                    className={clsx(
+                      "mt-2 h-5 text-sm text-red-900 transition-opacity duration-300",
+                      errors.confirmPassword ? "opacity-100" : "opacity-0",
+                    )}
+                  >
+                    {errors?.confirmPassword?.message}
+                  </p>
+                </div>
+
                 <button
                   type="submit"
                   className="focus:ring-indigo-500 mt-10 block w-full cursor-pointer rounded-full bg-violet-700 px-8 py-4 text-center font-semibold uppercase text-white transition-colors duration-300 ease-in-out hover:bg-violet-800 focus:outline-none focus:ring focus:ring-opacity-80 focus:ring-offset-2"
@@ -161,6 +211,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
                 </button>
               </form>
               <div
+                id="signup-error"
                 className={clsx(
                   "mt-4 h-5 text-center text-red-900 transition-opacity duration-300",
                   error ? "opacity-100" : "opacity-0",

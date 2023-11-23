@@ -17,7 +17,7 @@ type UIState = {
   showSearch: boolean;
 };
 
-const initialState: UIState = {
+export const initialUIState: UIState = {
   showSidebar: false,
   showMobileSidebar: false,
   showHeaderMenu: false,
@@ -36,7 +36,7 @@ const initialState: UIState = {
 
 const uiSlice = createSlice({
   name: "ui",
-  initialState,
+  initialState: initialUIState,
   reducers: {
     toggleSidebar(state) {
       state.showSidebar = !state.showSidebar;
