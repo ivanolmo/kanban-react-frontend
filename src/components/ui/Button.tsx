@@ -1,5 +1,6 @@
 type ButtonProps = {
   children: React.ReactNode;
+  id?: string;
   onClick?: () => void;
   type?: "button" | "submit";
   variant?: string;
@@ -11,6 +12,7 @@ type ButtonProps = {
 
 const Button: React.FC<ButtonProps> = ({
   children,
+  id,
   onClick,
   type = "button",
   variant = "primary",
@@ -22,8 +24,9 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
+      id={id}
       type={type}
-      className={`btn text-md group flex items-center justify-center gap-1 ${variant} ${size} ${
+      className={`btn group flex items-center justify-center gap-1 text-md ${variant} ${size} ${
         wide ? "wide" : ""
       } ${disabled ? "disabled" : ""} ${hidden ? "hidden" : ""}`}
       disabled={disabled}
