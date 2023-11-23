@@ -1,4 +1,4 @@
-import type { RootState } from "~/store/store";
+import type { RootState } from "~/store";
 import { ModalType } from "~/utils/constants";
 
 export const selectCurrentModal = (state: RootState): ModalType | null => {

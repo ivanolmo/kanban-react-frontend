@@ -47,10 +47,13 @@ const Header: React.FC<HeaderProps> = ({ report, boardName }) => {
       <div className="flex w-full flex-1 items-center justify-between pl-4 md:pl-6 md:pr-2">
         {!report && <MobileSidebar />}
         <h1
-          className={clsx("truncate capitalize md:block", !report && "hidden")}
+          className={clsx(
+            "truncate capitalize md:block",
+            !report ? "hidden md:block" : "",
+          )}
         >
           {isLoading ? (
-            <Loader size={10} color="#635fc7" />
+            <Loader size={10} color="#635fc7" data-testid="header-loader" />
           ) : report ? (
             `${boardName ?? "No Board"} Report Generated`
           ) : (

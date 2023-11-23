@@ -23,7 +23,6 @@ export type Task = {
   columnId: string;
   title: string;
   description: string;
-  completed: boolean;
   subtasks: Subtask[];
   createdAt: Date;
   updatedAt: Date;
@@ -72,6 +71,7 @@ export type EditTaskInput = {
 export type FormData = {
   email: string;
   password: string;
+  confirmPassword?: string;
 };
 
 // request types

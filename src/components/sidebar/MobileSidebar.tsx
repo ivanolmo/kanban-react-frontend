@@ -61,7 +61,11 @@ const MobileSidebar: React.FC = () => {
       >
         <h2 className="w-36 capitalize">
           {isLoading ? (
-            <Loader size={8} color="#635fc7" />
+            <Loader
+              size={8}
+              color="#635fc7"
+              data-testid="mobile-sidebar-loader"
+            />
           ) : (
             currentBoard?.name ?? "No Boards"
           )}
@@ -83,9 +87,9 @@ const MobileSidebar: React.FC = () => {
           >
             <div className="flex flex-col bg-white text-slate dark:bg-gunmetal-800">
               <div>
-                <h4 className="p-4 uppercase">
+                <span className="block p-4 text-sm font-bold uppercase tracking-[2.4px]">
                   All Boards ({boards?.length ?? 0})
-                </h4>
+                </span>
                 <ul className="pr-2">
                   {boards?.map((board) => (
                     <SidebarItem key={board.id} board={board} />
