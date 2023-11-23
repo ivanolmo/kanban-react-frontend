@@ -1,28 +1,34 @@
-# Create T3 App
+<strong>**DO NOT DISTRIBUTE OR PUBLICLY POST SOLUTIONS TO THESE LABS. MAKE ALL FORKS OF THIS REPOSITORY WITH SOLUTION CODE PRIVATE. PLEASE REFER TO THE STUDENT CODE OF CONDUCT AND ETHICAL EXPECTATIONS FOR COLLEGE OF INFORMATION TECHNOLOGY STUDENTS FOR SPECIFICS. **</strong>
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+# WESTERN GOVERNOR UNIVERSITY
 
-## What's next? How do I make an app with this?
+## D424 – SOFTWARE ENGINEERING CAPSTONE
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Welcome to Software Engineering Capstone! This is an opportunity for students to develop full stack software engineering documentation and applications. They will execute documentation, unit testing, revision of software applications, and deploy software applications with scripts and containers on a cloud platform.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+FOR SPECIFIC TASK INSTRUCTIONS AND REQUIREMENTS FOR THIS ASSESSMENT, PLEASE REFER TO THE COURSE PAGE.
+BASIC INSTRUCTIONS
+For this assessment, you will deploy your developed full stack software product to a web service of your choice.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## SUPPLEMENTAL RESOURCES
 
-## Learn More
+1. How to clone a project to IntelliJ using Git?
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+> Ensure that you have Git installed on your system and that IntelliJ is installed using [Toolbox](https://www.jetbrains.com/toolbox-app/). Make sure that you are using version 2022.3.2. Once this has been confirmed, click the clone button and use the 'IntelliJ IDEA (HTTPS)' button. This will open IntelliJ with a prompt to clone the proejct. Save it in a safe location for the directory and press clone. IntelliJ will prompt you for your credentials. Enter in your WGU Credentials and the project will be cloned onto your local machine.
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+2. How to create a branch and start Development?
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+- GitLab method
 
-## How do I deploy this?
+  > Press the '+' button located near your branch name. In the dropdown list, press the 'New branch' button. This will allow you to create a name for your branch. Once the branch has been named, you can select 'Create Branch' to push the branch to your repository.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+- IntelliJ method
+  > In IntelliJ, Go to the 'Git' button on the top toolbar. Select the new branch option and create a name for the branch. Make sure checkout branch is selected and press create. You can now add a commit message and push the new branch to the local repo.
+
+## SUPPORT
+
+If you need additional support, please navigate to the course page and reach out to your course instructor.
+
+## FUTURE USE
+
+Take this opportunity to create or add to a simple resume portfolio to highlight and showcase your work for future use in career search, experience, and education!
