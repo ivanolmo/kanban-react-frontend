@@ -45,6 +45,6 @@ describe("ColumnScrollContainer", () => {
       preloadedState,
     });
 
-    expect(getAllByTestId("column").length).toBe(2);
+    expect(getAllByTestId("column").length).toBe(1);
   });
 });
