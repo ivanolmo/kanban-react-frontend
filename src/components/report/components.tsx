@@ -56,7 +56,11 @@ const TableHead = forwardRef<
   >
     <div className="flex items-center justify-center gap-2.5">
       {typeof children === "string" ? (
-        <span className="truncate">{children}</span>
+        <span
+          className={clsx("truncate", isSorted ? "scale-110 underline" : "")}
+        >
+          {children}
+        </span>
       ) : (
         children
       )}
