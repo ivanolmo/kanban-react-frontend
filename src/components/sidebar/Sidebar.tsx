@@ -25,11 +25,11 @@ const Sidebar: React.FC = () => {
             {boards?.map((board) => (
               <SidebarItem key={board.id} board={board} />
             ))}
-            <li className="mr-4 cursor-pointer rounded-r-full px-6 py-4 transition hover:bg-violet-700/10 dark:hover:bg-white">
-              <div
-                className="flex items-center gap-3 text-md font-bold"
-                onClick={() => dispatch(toggleAddBoardModal())}
-              >
+            <li
+              className="mr-4 cursor-pointer rounded-r-full px-6 py-4 transition hover:bg-violet-700/10 dark:hover:bg-white"
+              onClick={() => dispatch(toggleAddBoardModal())}
+            >
+              <div className="flex items-center gap-3 text-md font-bold">
                 <BoardIcon className="fill-violet-700" />
                 <span className="flex items-center gap-1 text-violet-700">
                   <AddIcon className="fill-violet-700" />
