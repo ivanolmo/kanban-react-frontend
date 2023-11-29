@@ -128,7 +128,6 @@ const EditBoard: React.FC = () => {
                   {...register(`columns.${index}.name`, {
                     required: true,
                   })}
-                  disabled={field.name !== ""}
                   placeholder="e.g. Todo, Doing, Done"
                   className={`border-slate/25 ${
                     errors?.columns?.[index] && "border-red-600"
