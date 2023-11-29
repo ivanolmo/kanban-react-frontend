@@ -5,7 +5,7 @@ import CheckIcon from "~/components/svg/CheckIcon";
 import Loader from "~/components/ui/Loader";
 import { useHandleError } from "~/hooks/useHandleError";
 import { useToggleSubtaskMutation } from "~/store/api";
-import { Subtask } from "~/types";
+import { type Subtask } from "~/types";
 
 type SubtaskItemProps = {
   subtask: Subtask;

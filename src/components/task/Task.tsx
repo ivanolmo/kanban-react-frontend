@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { setCurrentTask } from "~/store/boardSlice";
 import { toggleViewTaskModal } from "~/store/uiSlice";
-import { Task } from "~/types";
+import { type Task } from "~/types";
 
 type TaskProps = {
   task: Task;
