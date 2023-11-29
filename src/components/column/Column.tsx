@@ -1,5 +1,5 @@
 import Task from "~/components/task/Task";
-import { Column } from "~/types";
+import { type Column } from "~/types";
 
 type ColumnProps = {
   column: Column;
