@@ -27,6 +27,11 @@ const Header: React.FC<HeaderProps> = ({ report, boardName }) => {
   const showSidebar = useSelector(selectShowSidebar);
   const currentBoard = useSelector(selectCurrentBoard);
 
+  const searchDisabled = !currentBoard?.columns.some(
+    (column) => column.tasks.length > 0,
+  );
+  const addTaskDisabled = !currentBoard?.columns.length;
+
   return (
     <header className="flex h-16 items-center bg-white dark:bg-gunmetal-800 md:h-20 lg:h-24">
       <div
@@ -74,7 +79,11 @@ const Header: React.FC<HeaderProps> = ({ report, boardName }) => {
           ) : (
             <>
               <div className="flex min-w-fit gap-4">
-                <Button size="lg" onClick={() => dispatch(toggleSearch())}>
+                <Button
+                  size="lg"
+                  disabled={searchDisabled}
+                  onClick={() => dispatch(toggleSearch())}
+                >
                   {isLoading ? (
                     <Loader size={10} color="#a8a4ff" />
                   ) : (
@@ -86,7 +95,7 @@ const Header: React.FC<HeaderProps> = ({ report, boardName }) => {
                 </Button>
                 <Button
                   size="lg"
-                  disabled={!currentBoard?.columns.length}
+                  disabled={addTaskDisabled}
                   onClick={() => dispatch(toggleAddTaskModal())}
                 >
                   {isLoading ? (
