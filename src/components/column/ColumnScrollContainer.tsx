@@ -1,6 +1,7 @@
-import { useSelector } from "react-redux";
-import ScrollContainer from "react-indiana-drag-scroll";
 import clsx from "clsx";
+import ScrollContainer from "react-indiana-drag-scroll";
+import { useSelector } from "react-redux";
+
 import AddColumn from "~/components/column/AddColumn";
 import Column from "~/components/column/Column";
 import { selectCurrentBoard, selectShowSidebar } from "~/store/selectors";
@@ -18,9 +19,13 @@ const ColumnScrollContainer: React.FC = () => {
       buttons={[0, 1]}
       vertical={true}
     >
-      {currentBoard?.columns.map((column) => (
-        <Column key={column.id} column={column} />
-      ))}
+      {currentBoard?.columns
+        ?.slice()
+        .sort(
+          (a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+        )
+        .map((column) => <Column key={column.id} column={column} />)}
       <AddColumn />
     </ScrollContainer>
   );
