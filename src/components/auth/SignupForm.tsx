@@ -38,17 +38,17 @@ const SignupForm: React.FC<SignupFormProps> = ({
         },
       );
 
-      const response = (await res.json()) as
+      const responseData = (await res.json()) as
         | AuthSuccessResponse
         | AuthErrorResponse;
 
-      if (!response.success) {
-        setError(response.message);
+      if (!responseData.success) {
+        setError(responseData.message);
         return;
       }
 
       const signInResponse = await signIn("credentials", {
-        email: data.email,
+        email: data.email.toLowerCase(),
         password: data.password,
         redirect: false,
       });
@@ -69,7 +69,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
     }
   };
 
-  // a useEffect was required to redirect and avoid a "abort fetchiing component" useRouter error
+  // a useEffect was required to redirect and avoid a "abort fetching component" useRouter error
   useEffect(() => {
     if (shouldRedirect) {
       void router.push("/");

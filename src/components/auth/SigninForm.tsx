@@ -27,7 +27,7 @@ const SigninForm: React.FC<SigninFormProps> = ({
   const onSubmit = async (data: FormData) => {
     try {
       const res = await signIn("credentials", {
-        email: data.email,
+        email: data.email.toLowerCase(),
         password: data.password,
         redirect: false,
       });
