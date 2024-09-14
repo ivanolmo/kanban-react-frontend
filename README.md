@@ -1,4 +1,4 @@
-# Next.js, Redux Toolkit, SWR, Tailwind CSS Kanban Task Manager Frontend
+# Next.js, Redux Toolkit, RTK-Query, Tailwind Kanban Task Manager Frontend
 
 [![Vercel](https://vercelbadge.vercel.app/api/ivanolmo/kanban-react-frontend)](https://kanban-react-frontend.vercel.app/)
 
